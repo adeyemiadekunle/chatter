@@ -9,7 +9,7 @@ import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settin
 
 const Profile = () => {
 
-    const { isAuth, GoogleSignIn, GoogleSignOut } = useFirebaseContext();
+    const { GoogleSignOut } = useFirebaseContext();
    
     return (
         <Menu>
@@ -29,7 +29,7 @@ const Profile = () => {
                 <MenuItem py={4}><Icon as={CollectionsBookmarkOutlined} /> <Text pl={2}>My Bookmarks</Text></MenuItem>
                 <MenuItem py={4}><Icon as={Settings} /><Text pl={2}>Account Settings</Text></MenuItem>
                 <MenuDivider m={0} />
-                {isAuth ? <MenuItem py={4} onClick={GoogleSignOut}> <Icon  as={LogoutOutlined} /> <Text pl={3}>Log Out</Text>T</MenuItem> : <MenuItem py={4} onClick={GoogleSignIn}>Sign In</MenuItem>}
+                <MenuItem py={4} onClick={GoogleSignOut}> <Icon  as={LogoutOutlined} /> <Text pl={3}>Log Out</Text></MenuItem>
             </MenuList>
         </Menu>
 

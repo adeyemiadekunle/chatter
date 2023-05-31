@@ -2,8 +2,8 @@ import { createBrowserRouter, createRoutesFromElements, Route } from 'react-rout
 import { Layout } from '../components';
 import Home from '../pages/Homepage';
 import Profile from '../pages/Profile';
-import Register from '../pages/Register';
-import Draft from '../pages/draft/index';
+import Onboarding from '../pages/Onboarding';
+import NewArticle from '../pages/new/index';
 
 
 export const router = createBrowserRouter(
@@ -13,8 +13,8 @@ export const router = createBrowserRouter(
                 <Route index element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
             </Route>
-            <Route path="/register" element={<Register />} />
-            <Route path="/draft/:draftId" element={<Draft />} />
+            <Route path="/onboard" element={<Onboarding />} />
+            <Route path="/new/:newId" element={<NewArticle />} />
         </Route>
 
     )
