@@ -8,12 +8,14 @@ import Testimonial from '../assets/Testimonial_Image.png'
 import Getstarted1 from '../assets/getstarted1.png'
 import Getstarted2 from '../assets/getstarted2.png'
 import Getstarted3 from '../assets/getstarted3.png'
+import { Header } from '../components'
 
 const LandingPage = () => {
 
 
   return (
     <>
+    <Header/>
     <Box>
          <Box mx={0} height={'600px'} bgImage={Herobg} bgSize={'cover'} bgRepeat={'no-repeat'}>
           <Box height={'600px'} bgColor={'blackAlpha.700'} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
@@ -21,7 +23,7 @@ const LandingPage = () => {
                 <Heading as='h1' pb={'25px'} fontSize={'56px'} lineHeight={'82px'} fontWeight={700}>Welcome to Chatter: A Haven for Text <br /> Based Content</Heading>
                 <Text  fontSize={'20px'} pb={'25px'} fontWeight={600}>Unleash the Power of Words, Connect with Like-minded Readers <br /> and Writers </Text>
                 <Button bg={'#543EE0'} borderColor={'#543EE0'} width={150} p={6} ml={0}
-                 _hover={{ bg: 'white', borderColor: '#543EE0', color: 'black'}}
+                 _hover={{ bg: 'white', border:' 1px solid #543EE0', color: 'black'}}
                  transition={'all .3s ease-in-out'}
             >Get Started</Button>
             </Box>
@@ -92,7 +94,7 @@ const LandingPage = () => {
               Andrew Campbell, <span style={{fontSize: '18px'}} > Software Developer at Apple</span>
             </Text>
             <Button mt={'38px'} ml={0} bg={'#543EE0'} color={'white'} 
-             _hover={{ bg: 'white', borderColor: '#543EE0', color: 'black'}}
+             _hover={{ bg: 'white', border:' 1px solid #543EE0', color: 'black'}}
              transition={'all .3s ease-in-out'}
             >
               Join Chatter
@@ -122,7 +124,7 @@ const LandingPage = () => {
                 Share people your great ideas, and also read write-ups based on your interests. connect with people of same interests and goals  
             </Text>
             <Button mt={'36px'} ml={0} bg={'#543EE0'} color={'white'}  width={'150px'}
-             _hover={{ bg: 'white', borderColor: '#543EE0', color: 'black'}}
+             _hover={{ bg: 'white', border:' 1px solid #543EE0', color: 'black'}}
              transition={'all .3s ease-in-out'}
             >
               Get started

@@ -6,7 +6,7 @@ const Sidebar = () => {
     const bg = useColorModeValue('white', '#0F172A')
     const color = useColorModeValue('#0F172A', 'white')
   return (
-    <Box bg={bg} color={color} minH={'100vh'} mt={5} ml={4} borderRadius={'8px'} border={'1px solid #E2E8F0'}>
+    <Box bg={bg} color={color} minH={'100vh'} mt={5} ml={4} borderRadius={'8px'}  className='selected-div'>
       <VStack mt={4} mb={4} >
         <Box px={12} py={4}>
           <List spacing={5} pl={3}>
