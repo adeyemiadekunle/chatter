@@ -1,88 +1,65 @@
-import { EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import useArticleManagement from '../../hooks/useArticleManagement';
-import { useState, useEffect } from 'react';
+import EditorComponent from "../../components/RichEditor/new";
+import {
+  Box,
+  Flex,
+  useDisclosure,
+  Text,
+  CloseButton,
+  Link,
+  IconButton,
+  Divider
+} from "@chakra-ui/react";
+import { NavLink } from "react-router-dom";
+import { ArrowBackOutlined } from "@mui/icons-material";
 
-type ArticleType = {
-  content: string;
-  title: string;
-  id: string;
-  // Add other properties as needed
-};
 
-
-
-const MyEditor = ({ article, onSave }: { article: ArticleType, onSave: (content: any) => void }) => {
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: article?.content,
-    onUpdate: ({ editor }) => {
-      const content = editor.getJSON();
-      // Update the draftArticle with the new content
-      onSave(content);
-    },
-  });
+const NewArticle = () => {
+  const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <div>
-      <EditorContent editor={editor} />
-    </div>
+    <>
+      <Flex minH={"100vh"}>
+        
+        <Box
+          w={{ base: isOpen ? '100%': '0' , md: isOpen ? "300px" : '0'  }}
+          position="fixed"
+          overflow="hidden"
+          h={"100vh"}
+          border={{base:'none', md: ' 1px solid grey' }}
+       
+        >
+          <Box mb={4} >
+          <CloseButton hideFrom='md' size='lg' onClick={onToggle} ml={'auto'}/>
+          </Box>
+          <Box  mb={3}>
+            <Link as={NavLink} to='/feed/personalize' px={3} >
+              <IconButton
+                aria-label="Go Back"
+                icon={<ArrowBackOutlined />}
+                size="lg"
+              />
+            </Link>
+            <Divider mt={3}/>
+          </Box>
+          <Box px={3} py={2}>
+            <Text fontSize={'18px'} fontWeight={600} >New Article</Text>
+          </Box>
+          
+            
+        </Box>
+
+        <Box
+          flex={isOpen ? 1 : "none"}
+          ml={isOpen ? "300px" : "0"}
+          w={"100%"}
+          overflowY="auto"
+          display={{base: isOpen ? 'none': 'block', md: 'block'}}
+        >
+          <EditorComponent IsOpen={isOpen} onToggle={onToggle} />
+        </Box>
+      </Flex>
+    </>
   );
 };
 
-const DraftComponent = () => {
-
-  const [isSaving, setIsSaving] = useState(false);
-  const [timerId, setTimerId] = useState<number | null>(null);
-
-  const {
-    draftArticle,
-    draftArticles,
-    saveDraftArticle,
-    openDraftArticle,
-  } = useArticleManagement();
-
-
-  // Auto-save draft every second
-  useEffect(() => {
-    const autoSaveDraft = async () => {
-      setIsSaving(true);
-      await saveDraftArticle();
-      setIsSaving(false);
-    };
-
-    if (draftArticle.id && !timerId) {
-      const id = setInterval(autoSaveDraft, 1000);
-      setTimerId(id as unknown as number);
-      console.log('saved')
-    }
-
-    return () => {
-      if (timerId) {
-        clearInterval(timerId as unknown as NodeJS.Timeout);
-        setTimerId(() => null);
-      }
-    };
-  }, [draftArticle.id, saveDraftArticle, timerId]);
-
-
-
-  return (
-    <div>
-      {/* <button onClick={createDraftArticle}>Create Draft</button> */}
-
-      <ul>
-        {draftArticles.map(draftArticle => ( // Update this line
-          <li key={draftArticle.id} onClick={() => openDraftArticle(draftArticle.id)}>
-            {draftArticle.title}
-          </li>
-        ))}
-      </ul>
-
-      <MyEditor article={draftArticle} onSave={saveDraftArticle} />
-      {isSaving && <p>Saving draft...</p>}
-    </div>
-  );
-};
-
-export default DraftComponent; 
+export default NewArticle;

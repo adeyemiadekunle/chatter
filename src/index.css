@@ -12,91 +12,10 @@ body {
   min-height: 100vh;
 }
 
-
-/* Tiptap Editor Styles */
-
-.ProseMirror > * + * {
-  margin-top: 0.75em;
-
+a {
+  text-decoration: none !important;
 }
 
-.ProseMirror ul,
-.ProseMirror ol {
-  padding: 0 1rem;
-}
-
-.ProseMirror h1,
-.ProseMirror h2,
-.ProseMirror h3,
-.ProseMirror h4,
-.ProseMirror h5,
-.ProseMirror h6 {
-  line-height: 1.1;
-}
-
-.ProseMirror code {
-  background-color: rgba(97, 97, 97, 0.1);
-  color: #616161;
-}
-
-.ProseMirror pre {
-  background: #0d0d0d;
-  color: #fff;
-  font-family: 'JetBrainsMono', monospace;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-}
-
-.ProseMirror pre code {
-  color: inherit;
-  padding: 0;
-  background: none;
-  font-size: 0.8rem;
-}
-
-.ProseMirror img {
-  max-width: 100%;
-  height: auto;
-}
-
-.ProseMirror blockquote {
-  padding-left: 1rem;
-  border-left: 2px solid rgba(13, 13, 13, 0.1);
-}
-
-.ProseMirror hr {
-  border: none;
-  border-top: 2px solid rgba(13, 13, 13, 0.1);
-  margin: 2rem 0;
-}
-
-.ProseMirror p.is-editor-empty:first-child::before {
-  color: #adb5bd;
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
-}
-
-
-
-
-/* My Styling  */
-
-.ProseMirror {
-  border: 1px solid green;
-  min-height: 100vh;
-  padding: 1rem;
-  max-width: 80%;
-  margin: 0 auto;
-}
-.editor_container {
-  max-width : 1200px;
-  margin: 0 auto;
-  height: 100%;
-  overflow: hidden;
-  border: 1px solid red;
-}
 
 .Menu_Container {
   max-width: 80%;
@@ -104,10 +23,176 @@ body {
 
 }
 
-/* button {
-  border: 1px solid grey;
-  margin: 0 0.5rem;
-  margin-top: 0.5rem;
-} */
 
 
+/* Editor styling */
+
+
+.ce-block__content {
+  max-width: 1000px;
+  margin: 0 ;
+}
+
+.ce-toolbar__actions{
+  margin: 0;
+  max-width: 800px;
+  margin-left: -50px;
+}
+
+.ce-toolbar__content {
+  max-width: 800px;
+  margin: 0 ;
+}
+
+.ce-block__content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+ce-block__content h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.ce-block__content h3 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.ce-block__content h4 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.ce-block__content h5 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.ce-block__content h6 {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.ce-block__content p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+
+/* Media Queries */
+
+@media screen and (max-width: 650px) {
+
+  .ce-block__content h1  {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .ce-block__content h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .ce-block__content h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .ce-block__content h4 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .ce-block__content h5 {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .ce-block__content h6 {
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .ce-block__content p {
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .ce-toolbar__actions{
+    margin: 0;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-left: -30px;
+  }
+
+  #editor {
+    width: 100%;
+  }
+
+  .ce-toolbar {
+    position: absolute;
+    left: 0px;
+    top: 50px;
+    -webkit-transition: opacity 0.1s ease;
+    transition: opacity 0.1s ease;
+    will-change: opacity, top;
+ 
+  }
+    
+  .ce-popover__items {
+    display: flex;
+    /* flex-direction: column; */
+  }
+
+  .ce-popover__item-label {
+    display: none;
+  }
+
+  
+ }

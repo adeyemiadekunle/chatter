@@ -10,7 +10,7 @@ import {
   Heading,
   Flex
 } from "@chakra-ui/react";
-import { BookmarkAddOutlined, FavoriteBorderOutlined, AnalyticsOutlined,BookmarkAddedOutlined, ForumOutlined} from '@mui/icons-material'
+import { BookmarkAddOutlined, FavoriteBorderOutlined, AnalyticsOutlined, BookmarkAddedOutlined, ForumOutlined} from '@mui/icons-material'
 
 import Join_Now from '../assets/join_now.jpg'
 import AvatarImage from '../assets/getstarted1.png'
@@ -18,7 +18,7 @@ import AvatarImage from '../assets/getstarted1.png'
 const ArticleCard = () => {
   return (
     <Box  m={0}>
-      <Box w={'90%'} p={5}>
+      <Box w={{base: '100%', md: '90%'}} p={5}>
         <Box>
           <HStack spacing={3}>
             <Avatar src={AvatarImage} size={'lg'}></Avatar>
@@ -43,7 +43,7 @@ const ArticleCard = () => {
             </Image>
         </Box>
         <Box>
-            <HStack justifyContent={'space-between'} mt={1}>
+            <HStack justifyContent={'space-between'} mt={1} wrap={{base: 'wrap-reverse', md: 'nowrap' }} gap={{base: '10px'}}>
                 <HStack>
                     <Flex w={'40px'} h={'40px'} borderRadius={'60px'} justifyContent={'center'} alignItems={'center'}
                     _hover={{ bg: 'gray.100', cursor: 'pointer', color: 'blue.500' }}
@@ -52,9 +52,11 @@ const ArticleCard = () => {
                     <Flex gap={2}>
                        <Button variant='outline' size='sm' fontSize={'14px'} color='gray.600' >JavaScript</Button>
                        <Button variant='outline' size='sm' fontSize={'14px'} color='gray.600' >CSS</Button>
+
+
                     </Flex>
                 </HStack>
-                <HStack>
+                <HStack >
                     <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                     _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
                     >

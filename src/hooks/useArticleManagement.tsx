@@ -162,9 +162,9 @@ const saveDraftArticle = async () => {
         authorId: user.uid,
         authorName: user.displayName,
         authorProfileImage: user.photoURL,
-        likes: 0,
-        comments: 0,
-        views: 0,
+        likes: [],
+        comments: [],
+        views: [],
       };
 
       await setDoc(newArticleRef, newArticleData);

@@ -1,6 +1,6 @@
 import {Box, useColorModeValue} from '@chakra-ui/react'
 import {VStack, Heading, Text, List, ListIcon, ListItem, Icon, Divider} from '@chakra-ui/react'
-import { ExploreOffOutlined, TrendingUpOutlined, EditNoteOutlined, BookmarkAddedOutlined, PublishedWithChangesOutlined, AnalyticsOutlined, PermIdentityOutlined, NotificationsNoneOutlined, Settings, LogoutOutlined } from '@mui/icons-material'
+import { TrendingUpOutlined, EditNoteOutlined, BookmarkAddedOutlined, PublishedWithChangesOutlined, AnalyticsOutlined, PermIdentityOutlined, NotificationsNoneOutlined, Settings, LogoutOutlined } from '@mui/icons-material'
 
 const Sidebar = () => {
     const bg = useColorModeValue('white', '#0F172A')
@@ -10,10 +10,10 @@ const Sidebar = () => {
       <VStack mt={4} mb={4} >
         <Box px={12} py={4}>
           <List spacing={5} pl={3}>
-            <ListItem display={'flex'}>
+            {/* <ListItem display={'flex'}>
               <ListIcon as={ExploreOffOutlined} fontSize={'xlg'}  />
              <Text>Explore</Text>
-            </ListItem>
+            </ListItem> */}
             <ListItem display={'flex'}>
               <ListIcon as={BookmarkAddedOutlined} fontSize={'xlg'} />
              <Text>Bookmarks</Text>
@@ -46,8 +46,8 @@ const Sidebar = () => {
             <Text>Web Development</Text>
           </VStack>  
         </Box>
-          <Divider/>
-        <Box  px={12} py={4}>
+          <Divider />
+        <Box  px={12} py={4} >
           <Heading as='h3' fontSize={'18px'} pb={5} textAlign={'left'} >Personal</Heading>
           <List spacing={5} pl={3}>
             <ListItem display={'flex'}>
