@@ -66,9 +66,7 @@ const Sidebar = () => {
               <ListIcon as={LogoutOutlined} fontSize={'xlg'} />
              <Text> Log Out</Text>
             </ListItem>
-          
           </List>
-
         </Box>
 
       </VStack>

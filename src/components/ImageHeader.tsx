@@ -5,12 +5,12 @@ import {
   uploadBytes,
   getDownloadURL,
   StorageReference,
+  deleteObject,
 } from "firebase/storage";
 import { app } from "../utils/firebase";
 import { Button, Icon } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
-import { Box, VStack,  } from "@chakra-ui/react";
-import { ImageOutlined } from "@mui/icons-material";
+import { Box, VStack, Image  } from "@chakra-ui/react";
+import { ImageOutlined, DeleteOutlined } from "@mui/icons-material";
 
 interface ImageUploaderProps {
   imageUrl: string;
@@ -22,7 +22,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   setImageUrl,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const location = useLocation();
+  const [isHovered, setIsHovered] = useState(false);
+
 
   const handleImageUpload = async (): Promise<void> => {
     const fileInput = document.createElement("input");
@@ -42,7 +43,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           setIsLoading(true); // Set loading state to true
           await uploadBytes(storageRef, file);
           const downloadUrl = await getDownloadURL(storageRef);
-          localStorage.setItem("uploadedImageUrl", downloadUrl);
           setImageUrl(downloadUrl);
           setIsLoading(false); // Set loading state to false
         } catch (error) {
@@ -53,28 +53,37 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     });
   };
 
-  useEffect(() => {
-    const storedImageUrl = localStorage.getItem("uploadedImageUrl");
-    if (storedImageUrl) {
-      setImageUrl(storedImageUrl);
+  const handleDeleteImage = async (): Promise<void> => {
+    if (imageUrl) {
+      const storage = getStorage(app);
+      const imageRef: StorageReference = ref(storage, imageUrl);
+
+      try {
+        await deleteObject(imageRef);
+        setImageUrl(""); // Clear the imageUrl state
+        // You can also delete the image reference from Firestore if necessary
+        // const imageDocRef = doc(db, "images", imageId);
+        // await deleteDoc(imageDocRef);
+      } catch (error) {
+        console.error("Error deleting image:", error);
+      }
     }
-  }, [setImageUrl]);
+  };
 
-  useEffect(() => {
-    const handleRemoveLocalStorage = (): void => {
-      localStorage.removeItem("uploadedImageUrl");
-    };
 
-    handleRemoveLocalStorage();
-    return () => {
-      handleRemoveLocalStorage();
-    };
-  }, [location]);
 
   return (
-    <Box minH={"100px"}>
+    <Box
+     minH={"100px"}
+     position='relative'
+     onMouseEnter={() => setIsHovered(true)}
+     onMouseLeave={() => setIsHovered(false)}
+     maxW={'800px'}
+     >
+
+
       {!imageUrl && (
-        <VStack h={"100px"} justifyContent={"center"} alignItems={"left"}>
+        <VStack h={"100px"} justifyContent={"center"} alignItems={"left"}  >
           <Button
             isLoading={isLoading}
             loadingText='Uploading'
@@ -89,7 +98,31 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           </Button>
         </VStack>
       )}
-      {imageUrl && <img src={imageUrl} alt="Uploaded" />}
+
+      {imageUrl && imageUrl && (
+        <>
+          <Box 
+          position={'relative'}
+          display='inline-block'
+          zIndex='0'
+          >
+            <Image src={imageUrl} alt="Uploaded"  htmlHeight='100%' htmlWidth='100%' fit='cover'  />
+            {isHovered && (
+                  <Button
+                    position="absolute"
+                    top="5px"
+                    right="5px"
+                    size="sm"
+                    variant="outline"
+                    colorScheme="red"
+                    onClick={handleDeleteImage}
+                  >
+                    <Icon as={DeleteOutlined} />
+                  </Button>
+                )}
+          </Box>
+      </>)}
+
     </Box>
   );
 };

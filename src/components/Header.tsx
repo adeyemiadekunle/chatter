@@ -1,4 +1,5 @@
 // Note: Header component
+import {useState, useEffect} from 'react'
 import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure } from '@chakra-ui/react'
 import { MoonIcon, SunIcon, BellIcon, SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
 import { useColorMode, useColorModeValue } from '@chakra-ui/react'
@@ -6,6 +7,7 @@ import { useFirebaseContext } from '../context'
 import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined} from '@mui/icons-material'
 import { NavLink, useNavigate } from 'react-router-dom'
 import MobileSidebar from './MobileSidebar'
+import { createDraft, fetchUserData, UserData } from '../utils/helperFunctions'
 
 
 const Profile = () => {
@@ -22,15 +24,33 @@ const Profile = () => {
         }
     };
    
+
+ //  User Data
+const [userData, setUserData] = useState({} as UserData);
+
+useEffect(() => {
+    const fetchUser = async () => {
+        const data = await fetchUserData();
+        if (data !== null) {
+            setUserData(data);
+        }
+    };
+
+    fetchUser();
+}, []);
+
+  console.log(userData);
+
+
     return (
         <Menu>
-            <MenuButton role='profile' as={Avatar} size='sm' cursor={'pointer'} />
+            <MenuButton role='profile' as={Avatar} src={userData.photoURL} size='sm' cursor={'pointer'} />
             <MenuList width={'300px'} p={0} >
                 <MenuItem >
                     <HStack py={3} spacing={6}>
-                        <Avatar  />
+                        <Avatar src={userData.photoURL}  />
                         <VStack alignItems={'start'} fontWeight={'500'} fontSize={'16px'} spacing={0} >
-                            <Text>Adeyemi Adekunle</Text>
+                            <Text>{userData.displayName}</Text>
                             <Text color={'grey'}>@adeyemidev</Text>
                         </VStack>
                     </HStack>
@@ -56,10 +76,23 @@ const Header = () => {
     const bg = useColorModeValue('white', '#0F172A')
     const color = useColorModeValue('#0F172A', 'white')
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const navigate = useNavigate()
+
 
     const handleToggleColorMode = () => {
         toggleColorMode();
     };
+     
+    const handleCreateDraft = () => {
+       
+        createDraft( (draftId) => {
+          navigate(`/draft/${draftId}`);
+        });
+      };
+
+
+      
+
    
     return (
         <Box px={{base: '3', md: '8'}} py={{base: '3', md: '5'}} bg={bg} color={color}  className='header'  display={'flex'} flexDir={'column'} alignItems={'center'} >
@@ -79,7 +112,7 @@ const Header = () => {
                     </InputGroup>
                 </HStack>
                 <HStack spacing={2} >
-                    <Link as={NavLink}  to='/new' hideBelow='md' >
+                    <Link  onClick={handleCreateDraft} hideBelow='md' >
                         <Button  bg={'#543EE0'} borderColor={'#543EE0'} color={'white'}
                         _hover={{ bg: 'white', border: '#543EE0', color: 'black'}}
                         transition={'all .3s ease-in-out'}

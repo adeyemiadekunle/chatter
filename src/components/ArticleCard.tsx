@@ -11,11 +11,22 @@ import {
   Flex
 } from "@chakra-ui/react";
 import { BookmarkAddOutlined, FavoriteBorderOutlined, AnalyticsOutlined, BookmarkAddedOutlined, ForumOutlined} from '@mui/icons-material'
+import { HeaderOutput, ParagraphOutput } from 'editorjs-react-renderer'
+import { FormattedDate } from '../utils/FormatDate'
 
-import Join_Now from '../assets/join_now.jpg'
-import AvatarImage from '../assets/getstarted1.png'
+ type ArticleCardProps = {
+  displayName: string;
+  Title: any;
+  Paragraph: any;
+  tags: string[];
+  HeaderImage: string;
+  AvatarImage: string;
+  PublishDate: string;
+};
 
-const ArticleCard = () => {
+
+const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarImage, PublishDate}: ArticleCardProps ) => {
+
   return (
     <Box  m={0}>
       <Box w={{base: '100%', md: '90%'}} p={5}>
@@ -23,23 +34,22 @@ const ArticleCard = () => {
           <HStack spacing={3}>
             <Avatar src={AvatarImage} size={'lg'}></Avatar>
             <Box>
-              <Heading fontSize={'16px'} fontWeight={'700'}> Grace Ikpang</Heading>
-              <Flex gap={2} fontSize={'14px'} pt={2}><Text>Product Designer</Text>  <Text>May 25th, 2023</Text></Flex>
+              <Heading fontSize={'16px'} fontWeight={'700'}>{displayName}</Heading>
+              <Flex gap={2} fontSize={'14px'} pt={2}><Text>Product Designer</Text> <Text>{FormattedDate(PublishDate)} </Text></Flex>
             </Box>
           </HStack>
         </Box>
         <Box> 
-        <Heading as='h3' fontSize={'24px'} fontWeight={'700'} pt={2}  pb={2}>Starting out as a Product Designer</Heading>
+        <Heading as='h3' fontSize={'28px'} fontWeight={'700'} pt={2}  pb={2}>
+          <HeaderOutput data={Title} />
+        </Heading>
         <Text>10 Min Read</Text>
         <Text pt={2}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
-          consequatur! Sunt dolorem cupiditate obcaecati ipsam sit neque
-          officia. Amet,  ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
-          consequatur! Sunt dolorem cupiditate obcaecati ipsam sit neque.
+          <ParagraphOutput data={Paragraph} />
         </Text>
         </Box>
         <Box mt={2}>
-            <Image src={Join_Now} h={'250px'} w={'100%'} borderRadius={'5px'}  >
+            <Image src={HeaderImage}  h={{base:'200px', md: '250px' }} w={'100%'} borderRadius={'5px'}  objectFit='cover' >
             </Image>
         </Box>
         <Box>
@@ -50,10 +60,9 @@ const ArticleCard = () => {
                     ><Icon as={BookmarkAddOutlined} color={'gray.700'} fontSize={'28px'}/>
                     </Flex>
                     <Flex gap={2}>
-                       <Button variant='outline' size='sm' fontSize={'14px'} color='gray.600' >JavaScript</Button>
-                       <Button variant='outline' size='sm' fontSize={'14px'} color='gray.600' >CSS</Button>
-
-
+                       {tags.map((tag: string) => (
+                           <Button key={tag} variant={'outline'} borderRadius={'15px'} colorScheme={'blue'} size={'sm'}>{tag}</Button>
+                        ))}
                     </Flex>
                 </HStack>
                 <HStack >

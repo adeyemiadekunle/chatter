@@ -2,9 +2,8 @@ import {
   Box,
   HStack,
   VStack,
-  Stack,
+  Icon,
   Text,
-  Avatar,
   Center,
   Image,
   Flex,
@@ -24,8 +23,11 @@ import Testimonial from "../assets/Testimonial_Image.png";
 import Getstarted1 from "../assets/getstarted1.png";
 import Getstarted2 from "../assets/getstarted2.png";
 import Getstarted3 from "../assets/getstarted3.png";
+import { useFirebaseContext } from "../context";
+import { CreateOutlined } from "@mui/icons-material";
 
 const Header = () => {
+  const { isAuth} = useFirebaseContext();
   return (
     <>
       <Box px={12} py={4}>
@@ -39,12 +41,32 @@ const Header = () => {
             fontWeight={700}
             color={"white"}
           >
-            {" "}
             Chatter
           </Box>
-          <HStack spacing={8}>
-           <Link as={NavLink} to='/feed' > <Button color={'#543EE0'}>My Feed</Button></Link>
-            <Box>Write</Box>
+          <HStack spacing={10}>
+            { isAuth ? <Link as={NavLink} to='/feed' > <Button color={'#543EE0'}>My Feed</Button></Link> : 
+             <Link as={NavLink} to='/onboard' > <Button color={'#543EE0'}>My Feed</Button></Link> }
+            {  isAuth ?  
+            <Link as={NavLink}  to='/feed' hideBelow='md' >
+                <Button  bg={'#543EE0'} borderColor={'#543EE0'} color={'white'}
+                _hover={{ bg: 'white', border: '#543EE0', color: 'black'}}
+                transition={'all .3s ease-in-out'}
+                  >
+                <Icon as={CreateOutlined} ></Icon>
+                    <Text pl={2}>Create Post </Text>
+                </Button>
+            </Link>
+              : 
+            <Link as={NavLink}  to='/onboard' hideBelow='md' >
+              <Button  bg={'#543EE0'} borderColor={'#543EE0'} color={'white'}
+              _hover={{ bg: 'white', border: '#543EE0', color: 'black'}}
+              transition={'all .3s ease-in-out'}
+              >
+              <Icon as={CreateOutlined} ></Icon>
+              <Text pl={2}>Create Post </Text>
+              </Button>
+            </Link> }
+           
           </HStack>
           <HStack spacing={8} justifyContent={"center"} alignItems={"center"}>
             <Link as={NavLink} to="/onboard">
@@ -56,7 +78,6 @@ const Header = () => {
                 transition={"all .3s ease-in-out"}
                 _hover={{ color: "white", bg: "#543EE0" }}
               >
-                {" "}
                 Log In
               </Button>
             </Link>

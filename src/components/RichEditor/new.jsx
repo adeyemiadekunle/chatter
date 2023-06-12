@@ -5,13 +5,27 @@ import {
   Flex,
   HStack,
   useDisclosure,
-  IconButton
-
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import { ViewSidebarOutlined } from "@mui/icons-material";
 // editorjs
 import EditorJS from "@editorjs/editorjs";
-import { EDITOR_JS_TOOLS } from "./constant";
+import Undo from 'editorjs-undo';
+import Embed from '@editorjs/embed'
+import Header from '@editorjs/header'
+import InlineCode from '@editorjs/inline-code'
+import Quote from '@editorjs/quote'
+import Marker from '@editorjs/marker'
+import CheckList from '@editorjs/checklist'
+import Raw from '@editorjs/raw'
+import Table from '@editorjs/table'
+import List from '@editorjs/list'
+import Paragraph from '@editorjs/paragraph'
+import editorjsCodeflask from '@calumk/editorjs-codeflask';
+import ImageToolsConfig from './ImageToolsConfig'
+
+
 import { createDraft, publishArticle } from "../../utils/helperFunctions";
 import { useLocation } from "react-router-dom";
 import ImageHeader from "../ImageHeader";
@@ -60,12 +74,32 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
       holder: "editorjs",
       onReady: () => {
         ejInstance.current = editor;
+        new Undo({ editor });
         loadSavedContent(); // Load saved content from local storage
       },
       placeholder: "Let`s write an awesome article!",
       data: DEFAULT_INITIAL_DATA,
       onChange: handleEditorChange,
-      tools: EDITOR_JS_TOOLS,
+      tools: {
+        header: {
+          class: Header,
+          inlineToolbar: true,
+        },
+        text: {
+          class: Paragraph,
+          inlineToolbar: true,
+        },
+        embed: Embed,
+        inlineCode: InlineCode,
+        quote: Quote,
+        marker: Marker,
+        checklist: CheckList,
+        raw: Raw,
+        code : editorjsCodeflask,            
+        table: Table,
+        list: List,
+        image: ImageToolsConfig,
+      },
       inlineToolbar: true,
     });
   };
@@ -76,13 +110,13 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
     saveContentToLocalStorage(content); // Save content to local storage
   };
 
-  //  save drafts
-  const handleCreateDraft = async () => {
-    const image = imageUrl;
-    const tags = selectedTags;
-    const content = await getEditorContent();
-    createDraft(image, tags, content);
-  };
+  // //  save drafts
+  // const handleCreateDraft = async () => {
+  //   const image = imageUrl;
+  //   const tags = selectedTags;
+  //   const content = await getEditorContent();
+  //   createDraft(image, tags, content);
+  // };
 
   // publish article
   const handlePublish = async () => {
@@ -119,16 +153,7 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
     };
   }, []);
 
-  // Remove the content from local storage when the user navigates away from the page
-  useEffect(() => {
-    const handleRemoveLocalStorage = () => {
-      localStorage.removeItem("editorContent");
-    };
-    handleRemoveLocalStorage();
-    return () => {
-      handleRemoveLocalStorage();
-    };
-  }, [location]);
+  
 
   const setImageUrl = (imageUrl) => {
     dispatch({ type: "SET_IMAGE_URL", payload: imageUrl });
@@ -140,10 +165,12 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
 
   return (
     <>
-      <Box height={"800px"}>
-        <HStack justifyContent={"space-between"} mt={2} p={3} mb={3}>
+      <Box minH={"100vh"} pb={'200px'} >
+        <HStack justifyContent={"space-between"} mt={2} p={3} mb={3}  >
           <Box>
-            <IconButton  aria-label="Open Sidebar" onClick={onToggle} icon={<ViewSidebarOutlined/>}/>
+            <Tooltip label="Toggle Sidebar" aria-label="Open Sidebar" hideBelow='md' hasArrow>
+              <IconButton  aria-label="Open Sidebar" onClick={onToggle} icon={<ViewSidebarOutlined/>}/>
+            </Tooltip>
           </Box>
           <HStack spacing={8}>
             <Button onClick={handleCreateDraft}>Save</Button>
@@ -152,7 +179,8 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
             </Button>
           </HStack>
         </HStack>
-        <Box px={{base: '30px', md: '100px'}} >
+
+        <Box px={{base: '30px', md: '100px'}} border={'1px solid red'} >
           <Flex flexDir={"column"}  >
             <ImageHeader imageUrl={imageUrl} setImageUrl={setImageUrl} />
             <Box id="editorjs" ></Box>

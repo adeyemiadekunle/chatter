@@ -45,14 +45,14 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
                     .then((docSnap) => {
                         if (docSnap.exists()) {
                             // User document already exists
-                            console.log('User document already exists with ID:', user.uid);
-                        } else {
+                                                    } else {
                             // User document does not exist, create a new one
                             const newUser = {
                                 displayName: user.displayName || null,
                                 email: user.email || null,
                                 photoURL: user.photoURL || null,
                                 emailVerified: user.emailVerified,
+                                userRole: 'noRole'
                             };
 
                             setDoc(userDocRef, newUser)
@@ -141,6 +141,7 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
             email: user.email,
             photoURL: user.photoURL,
             emailVerified: user.emailVerified,
+            userRole: 'noRole'
             
           };
           await setDoc(userDocRef, newUser);

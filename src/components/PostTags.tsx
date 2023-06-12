@@ -1,44 +1,55 @@
-import { useState, useRef, ChangeEvent } from 'react';
-import { Tag, TagLabel, TagCloseButton, Input, VStack, HStack, List, ListItem } from '@chakra-ui/react';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
+import {getDocs, collection} from "firebase/firestore";
+import { db } from '../utils/firebase';
+import { Tag, TagLabel, TagCloseButton, Input, VStack, HStack, List, ListItem, Image, Text } from '@chakra-ui/react';
 
-
-const availableTags: string[] = ['JavaScript', 'TypeScript', 'React', 'AI', 'Health', 'AWS', 'Google'];
 
 type PostTagsProps = {
   selectedTags: string[];
   setSelectedTags: (tags: string[]) => void;
 };
 
+type TagData = {
+  id: string;
+  name: string;
+  image: string;
+};
+
 const PostTags: React.FC<PostTagsProps> = ({ selectedTags, setSelectedTags }) => {
+
   const [searchValue, setSearchValue] = useState<string>('');
-  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
+  const [availableTags, setAvailableTags] = useState<TagData[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const filteredTags: string[] = availableTags.filter((tag) =>
-    tag.toLowerCase().includes(searchValue.toLowerCase())
-  );
 
-  const handleTagSelect = (tag: string): void => {
-    setSelectedTags([...selectedTags, tag]);
-    setSearchValue('');
-    setIsInputFocused(true);
-    inputRef.current?.focus();
-  };
+  useEffect(() => {
+    // Fetch the tags from Firestore
+    const fetchTags = async () => {
+      const querySnapshot = await getDocs(collection(db, "tags"));
+      const tagsData: TagData[] = querySnapshot.docs.map((doc) => doc.data() as TagData);
+      setAvailableTags(tagsData);
+    };
 
-  const handleTagDeselect = (tag: string): void => {
-    setSelectedTags(selectedTags.filter((selectedTag) => selectedTag !== tag));
-  };
+    fetchTags();
+  }, []);
+
+
+ const handleTagSelect = (tag: TagData): void => {
+  const tagName = tag.name;
+  if (!selectedTags.includes(tagName)) {
+    setSelectedTags([...selectedTags, tagName]);
+  }
+  setSearchValue('');
+  inputRef.current?.focus();
+};
+
+const handleTagDeselect = (tagName: string): void => {
+  setSelectedTags(selectedTags.filter((selectedTag) => selectedTag !== tagName));
+};
+
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(e.target.value);
-  };
-
-  const handleInputFocus = (): void => {
-    setIsInputFocused(true);
-  };
-
-  const handleInputBlur = (): void => {
-    setIsInputFocused(false);
   };
 
   return (
@@ -59,24 +70,28 @@ const PostTags: React.FC<PostTagsProps> = ({ selectedTags, setSelectedTags }) =>
       <br />
       <Input
         ref={inputRef}
-        placeholder="Add tags"
+        placeholder="Search tags"
         value={searchValue}
         onChange={handleInputChange}
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
         variant='flushed'
       />
-      {(isInputFocused || searchValue !== '') && (
+      {( searchValue !== '') && (
         <List spacing={2} listStyleType="none" border={'1px solid gray.50'} w={'100%'} height={'300px'} overflowY={'scroll'}>
-          {filteredTags.map((tag) => (
+          {availableTags
+            .filter((tag) => tag.name.toLowerCase().includes(searchValue.toLowerCase()))
+            .sort((a, b) => a.name.localeCompare(b.name))
+          .map((tag) => (
             <ListItem
               w={'100%'}
               p={3}
-              key={tag}
+              key={tag.id}
               _hover={{ backgroundColor: 'gray.50', color: 'black', cursor: 'pointer' }}
               onClick={() => handleTagSelect(tag)}
             >
-              {tag}
+              <HStack>
+                <Image src={tag.image} boxSize='30px' ></Image>
+                <Text>{tag.name}</Text>
+              </HStack>
             </ListItem>
           ))}
         </List>
