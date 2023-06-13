@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { auth, onAuthStateChanged, provider, signOut, db, doc, collection, getDoc, setDoc, getRedirectResult, signInWithRedirect, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../utils/firebase';
+import { auth, onAuthStateChanged, provider, signOut, db, doc, collection, getDoc, setDoc, getRedirectResult, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../utils/firebase';
 
 
 interface FirebaseContextProps {
@@ -52,7 +52,12 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
                                 email: user.email || null,
                                 photoURL: user.photoURL || null,
                                 emailVerified: user.emailVerified,
-                                userRole: 'noRole'
+                                userRole: 'noRole',
+                                userName: '',
+                                userBio: '',
+                                userTagline: '',
+                                techStack: [],
+                                location: '',
                             };
 
                             setDoc(userDocRef, newUser)
@@ -79,7 +84,7 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
 
 
     const GoogleSignIn = () => {
-        signInWithRedirect(auth, provider)
+        signInWithPopup(auth, provider)
             .then(() => {
                 setIsLoading(true);
                 // console.log(result);
@@ -141,7 +146,13 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
             email: user.email,
             photoURL: user.photoURL,
             emailVerified: user.emailVerified,
-            userRole: 'noRole'
+            userRole: 'noRole',
+            userName: '',
+            userBio: '',
+            userTagline: '',
+            techStack: [],
+            location: '',
+
             
           };
           await setDoc(userDocRef, newUser);

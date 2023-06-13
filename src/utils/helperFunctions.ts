@@ -1,11 +1,16 @@
 import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where } from "firebase/firestore";
 import { db, auth } from './firebase';
 
-//  User Data
+// Fetch User Data
  export interface UserData {
   displayName: string;
   email: string;
   photoURL: string;
+  userName: string;
+  userBio: string;
+  userTagLine: string;
+  techStack: string[];
+  location: string;
 }
 
 export const fetchUserData = async () => {
@@ -20,12 +25,8 @@ export const fetchUserData = async () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const { displayName, email, photoURL } = docSnap.data() as {
-        displayName: string;
-        email: string;
-        photoURL: string;
-      };
-      return { displayName, email, photoURL };
+      const { displayName, email, photoURL, userName, userBio, userTagLine, techStack, location } = docSnap.data() as UserData;
+      return { displayName, email, photoURL, userName, userBio, userTagLine, techStack, location };
     } else {
       console.log("User not found");
       return null;
@@ -37,6 +38,47 @@ export const fetchUserData = async () => {
 };
 
 
+//  updateUserData
+export const updateUserData = async (userData: UserData) => {
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("User not logged in");
+      return;
+    }
+
+    const docRef = doc(db, "users", user.uid);
+    await setDoc(docRef, userData, { merge: true });
+    console.log("User data updated successfully");
+  } catch (error) {
+    console.error("Error updating user data:", error);
+  }
+};
+
+
+// fetchAllUsers
+export const fetchAllUsers = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    const users: UserData[] = [];
+
+    querySnapshot.forEach((doc) => {
+      const { displayName, email, photoURL, userName, userBio, userTagLine, techStack, location,
+      } = doc.data();
+
+      users.push({ displayName, email, photoURL, userName, userBio, userTagLine, techStack, location,
+      });
+    });
+
+    return users;
+  } catch (error) {
+    console.error('Error fetching all users:', error);
+    return [];
+  }
+};
+
+
+//  createDraft
 const DEFAULT_INITIAL_DATA = {
   time: new Date().getTime(),
   blocks: [
@@ -51,7 +93,6 @@ const DEFAULT_INITIAL_DATA = {
 };
 
 
-//  createDraft
 export const createDraft = async (callback: (arg0: string) => void) => {
   const user = auth.currentUser;
   if (!user) {
@@ -76,6 +117,7 @@ export const createDraft = async (callback: (arg0: string) => void) => {
     console.error("Error saving article:", error);
   }
 };
+
 
 // publishArticle
 export const publishArticle = async (headerImage: string, tags: string[], content: string) => {
@@ -151,6 +193,8 @@ export const publishDraft = async (draftId: string, tags: string[]) => {
   }
 };
 
+
+
 //  fetchDraft
 export const fetchDraft = async (draftId: string) => {
   try {
@@ -192,7 +236,7 @@ export const deleteDraft = async (draftId: string) => {
 
 
 //  Fetch User Drafts
- export interface Draft {
+ export interface Drafts {
   id: string;
   headerImage: string;
   content: {
@@ -205,14 +249,14 @@ export const deleteDraft = async (draftId: string) => {
   };
 }
 
-export const fetchUserDrafts = async (): Promise<Draft[]> => {
+export const fetchUserDrafts = async (): Promise<Drafts[]> => {
   const user = auth.currentUser;
   try {
     const querySnapshot = await getDocs(
       query(collection(db, "drafts"), where("authorId", "==", user?.uid))
     );
 
-    const draftsData: Draft[] = querySnapshot.docs.map((doc) => ({
+    const draftsData: Drafts[] = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       headerImage: doc.data().headerImage || '', // Provide a default value or modify as needed
       content: doc.data().content || {} // Provide a default value or modify as needed
@@ -229,7 +273,7 @@ export const fetchUserDrafts = async (): Promise<Draft[]> => {
 
 // for User Published Articles
 
- export interface Article {
+ export interface UserArticle {
   id: string;
   headerImage: string;
   content: {
@@ -242,14 +286,14 @@ export const fetchUserDrafts = async (): Promise<Draft[]> => {
   };
 }
 
-export const fetchUserArticles = async (): Promise<Article[]> => {
+export const fetchUserArticles = async (): Promise<UserArticle[]> => {
   const user = auth.currentUser;
   try {
     const querySnapshot = await getDocs(
       query(collection(db, "articles"), where("authorId", "==", user?.uid))
     );
 
-    const UserArticleData: Article[] = querySnapshot.docs.map((doc) => ({
+    const UserArticleData: UserArticle[] = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       headerImage: doc.data().headerImage || '', // Provide a default value or modify as needed
       content: doc.data().content || {} // Provide a default value or modify as needed
@@ -278,11 +322,7 @@ export const fetchAuthorData = async (authorId: string) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const { displayName, email, photoURL } = docSnap.data() as {
-        displayName: string;
-        email: string;
-        photoURL: string;
-      };
+      const { displayName, email, photoURL } = docSnap.data() as Author;
       return { displayName, email, photoURL };
     } else {
       console.log("Author not found");
@@ -294,23 +334,35 @@ export const fetchAuthorData = async (authorId: string) => {
   }
 };
 
-//  Fetch Article
+
+
+
+
+// Fetch Article
+interface Article {
+  publishAt: string; 
+  headerImage: string; 
+  tags: string[];
+  content: string; 
+  authorId: string;
+  likes: string[];
+  comments: string[];
+  views: string[];
+}
+
 export const fetchArticle = async (articleId: string) => {
   try {
     const docRef = doc(db, "articles", articleId);
     const docSnap = await getDoc(docRef);
+
     if (docSnap.exists()) {
-      const { 
-        publishAt,
-        headerImage,
-        tags,
-        content,
-        authorId,
-        likes,
-        comments,
-        views,
-       } = docSnap.data() as { publishAt: string, headerImage: string, tags: string[], content: string, authorId: string, likes: string[], comments: string[], views: string[] };
-      return {publishAt, headerImage, tags, content, authorId, likes, comments, views };
+      const {
+        publishAt, headerImage,  tags, content, authorId, likes, comments, views,
+      } = docSnap.data() as Article;
+
+      return {
+        publishAt, headerImage, tags, content, authorId, likes, comments, views,
+      };
     } else {
       console.log("Article not found");
       return null;
@@ -326,7 +378,7 @@ export const fetchArticle = async (articleId: string) => {
 
 // Fetch Articles
 
-export interface Article {
+export interface Articles {
   id: string;
   publishAt: string;
   headerImage: string;
@@ -345,11 +397,11 @@ export interface Article {
   views: string[];
 }
 
-export const fetchArticles = async (): Promise<Article[]> => {
+export const fetchArticles = async (): Promise<Articles[]> => {
   try {
     const querySnapshot = await getDocs(collection(db, "articles"));
 
-    const articlesData: Article[] = querySnapshot.docs.map((doc) => ({
+    const articlesData: Articles[] = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       publishAt: doc.data().publishAt || '', 
       headerImage: doc.data().headerImage || '', 

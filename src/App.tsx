@@ -18,6 +18,7 @@ import Recent from "./components/Recent";
 import { PrivateRoute } from "./utils/PrivateRoute";
 import AdminRoute from "./utils/AdminRoute";
 import AdminPage from "./pages/AdminPage";
+import CreateAccount from "./pages/CreateAccount";
 
 
 const router = createBrowserRouter(
@@ -25,6 +26,8 @@ const router = createBrowserRouter(
     <Route>
       
       <Route path="/" element={<LandingPage />} />
+      <Route path="/onboard" element={<Onboarding />} />
+      <Route path="*" element={<NoMatch />} />
 
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<Layout />}>
@@ -37,17 +40,18 @@ const router = createBrowserRouter(
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Route>
-
-      <Route path="/onboard" element={<Onboarding />} />
+      
       <Route element={<AdminRoute/>} >
         <Route path="/admin" element={<AdminPage />} />
       </Route>
+
       <Route element={<PrivateRoute />}>
         <Route path="/:articleId" element={<ArticlesDetails />} />
         <Route path="/draft/:draftId" element={<Draft />} />
+        <Route path="/onboard/create-account" element={<CreateAccount />} />
       </Route>
 
-      <Route path="*" element={<NoMatch />} />
+     
     </Route>
   )
 );

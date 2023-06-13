@@ -39,9 +39,6 @@ useEffect(() => {
     fetchUser();
 }, []);
 
-  console.log(userData);
-
-
     return (
         <Menu>
             <MenuButton role='profile' as={Avatar} src={userData.photoURL} size='sm' cursor={'pointer'} />
@@ -90,10 +87,6 @@ const Header = () => {
         });
       };
 
-
-      
-
-   
     return (
         <Box px={{base: '3', md: '8'}} py={{base: '3', md: '5'}} bg={bg} color={color}  className='header'  display={'flex'} flexDir={'column'} alignItems={'center'} >
             <HStack spacing={10} justify={'space-between'} bg={bg} maxW={'1280px'} w={'100%'} >
@@ -101,7 +94,7 @@ const Header = () => {
                     <VStack hideFrom='md'>
                         <HamburgerIcon onClick={onOpen} boxSize={'32px'} />
                     </VStack>
-                    <Link as={NavLink} to='/' ><Box fontSize={{base: '22px', md: '28px'}} px={3} py={1} bg={'#543EE0'} fontWeight={700} color={'white'}> Chatter</Box></Link>
+                    <Link as={NavLink} to='/' ><Box fontSize={{base: '22px', md: '28px'}} px={3}  bg={'#543EE0'} fontWeight={700} color={'white'}> Chatter</Box></Link>
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>

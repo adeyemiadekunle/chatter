@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
-  signInWithRedirect,
+  signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
   signOut,
@@ -61,7 +61,7 @@ export {
   onSnapshot,
   auth,
   provider,
-  signInWithRedirect,
+  signInWithPopup,
   getRedirectResult,
   onAuthStateChanged,
   signOut,
