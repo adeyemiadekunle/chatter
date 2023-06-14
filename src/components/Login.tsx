@@ -24,11 +24,20 @@ const Login = () => {
 
   // const  { isOpen, onOpen, onClose } = useDisclosure();
 
+  const handleGoogleSignIn = async () => {
+    try {
+       GoogleSignIn();
+
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+    }
+  };
+  
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
       await signIn(data.email, data.password);
-    } catch (error: any) {
+          } catch (error: any) {
       if (error.code === 'auth/wrong-password') {
         setErrorMessage('Incorrect password');
       } else {
@@ -37,11 +46,13 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if (isAuth && !isLoading) {
-      navigate('/feed');
+  useEffect (() => {
+    if (isAuth && !isLoading){
+      navigate('/feed/recent');
     }
-  }, [isAuth, navigate, isLoading]);
+  }
+  , [isAuth, isLoading, navigate]);
+
 
   return (
     <>
@@ -75,11 +86,11 @@ const Login = () => {
           </FormControl>
 
           <Box pt={5}>
-            <Button w={'100%'} color={'white'} bg={'#543EE0'} type='submit'> Log In</Button>
+            <Button w={'100%'} isLoading={isLoading} color={'white'} bg={'#543EE0'} type='submit'> Log In</Button>
           </Box>
           <Link><Text pt={2} fontSize={'14px'} >Reset forgotten Password</Text></Link>
           <VStack spacing={4} mt={3}>
-            <Button w={'100%'} variant='outline' leftIcon={<Google />} onClick={GoogleSignIn}> Log In with Google</Button>
+            <Button w={'100%'} variant='outline' leftIcon={<Google />}  onClick={handleGoogleSignIn}> Log In with Google</Button>
             <Button w={'100%'} bg={'blackAlpha.900'} color={'white'} variant='outline' leftIcon={<GitHub />} >Log In with GitHub</Button>
           </VStack>
         </FormControl>

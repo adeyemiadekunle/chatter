@@ -22,20 +22,21 @@ import { FormattedDate } from '../utils/FormatDate'
   HeaderImage: string;
   AvatarImage: string;
   PublishDate: string;
+  userTagLine: string
 };
 
 
-const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarImage, PublishDate}: ArticleCardProps ) => {
+const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarImage, PublishDate, userTagLine}: ArticleCardProps ) => {
 
   return (
-    <Box  m={0}>
+    <Box  m={0}  >
       <Box w={{base: '100%', md: '90%'}} p={5}>
         <Box>
           <HStack spacing={3}>
             <Avatar src={AvatarImage} size={'lg'}></Avatar>
             <Box>
               <Heading fontSize={'16px'} fontWeight={'700'}>{displayName}</Heading>
-              <Flex gap={2} fontSize={'14px'} pt={2}><Text>Product Designer</Text> <Text>{FormattedDate(PublishDate)} </Text></Flex>
+              <Flex gap={2} fontSize={'14px'} pt={2}><Text>{userTagLine}</Text> <Text>{FormattedDate(PublishDate)} </Text></Flex>
             </Box>
           </HStack>
         </Box>
@@ -49,7 +50,7 @@ const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarIm
         </Text>
         </Box>
         <Box mt={2}>
-            <Image src={HeaderImage}  h={{base:'200px', md: '250px' }} w={'100%'} borderRadius={'5px'}  objectFit='cover' >
+            <Image src={HeaderImage}  h={{base:'150px', md: '200px' }} w={'100%'} borderRadius={'5px'}  objectFit='cover' >
             </Image>
         </Box>
         <Box>
@@ -85,7 +86,7 @@ const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarIm
             </HStack>
         </Box>
       </Box>
-        <Divider mb={'auto'} pt={7} />
+        <Divider mb={'auto'} pt={1} />
     </Box>
   );
 };

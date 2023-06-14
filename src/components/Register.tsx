@@ -16,6 +16,8 @@ import {
 import { GitHub, Google, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFirebaseContext } from '../context';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface RegisterFormData {
   firstName: string;
@@ -27,32 +29,46 @@ interface RegisterFormData {
 
 const Register = () => {
   const { handleSubmit, register, formState: { errors }, watch } = useForm<RegisterFormData>();
-  const { signUp, user, isAuth } = useFirebaseContext();
+  const { signUp, GoogleSignIn, isLoading, } = useFirebaseContext();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const handleClickPassword = () => setShowPassword(!showPassword);
   const handleClickConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
-  const onSubmit = async (data: RegisterFormData) => {
-    setIsLoading(true);
-
+  const handleGoogleSignUp = () => {
     try {
-      await signUp(data.email, data.password, data.firstName, data.lastName);
-    } catch (error) { // Handle signup error
+      GoogleSignIn();
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
     }
-    setIsLoading(false);
   };
 
-  useEffect(() => {
-    if (isAuth && user) {
-      navigate('/feed');
-    }
-  }, [isAuth, user, navigate]);
+  // const usersCollection = collection(db, 'users');
+  // const querySnapshot = await getDocs(query(usersCollection, where('email', '==', email)));
+  // if (!querySnapshot.empty) {
+  // // User already exists, handle accordingly (e.g., show error message)
+  // toast.error('User with this email address already exists');
+  // return;
+  // }
 
+
+
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      await signUp(data.email, data.password, data.firstName, data.lastName); 
+        
+      navigate('/onboard/create-account');
+    } catch (error) {
+      const errorMessage = (error as { message: string }).message;
+      toast.error(`Firebase Error: ${errorMessage}`);
+
+  };
+
+}
 
   const validatePassword = (password: string) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -135,7 +151,7 @@ const Register = () => {
       </form>
 
       <VStack spacing={4} mt={3}>
-        <Button w={'100%'} variant='outline' leftIcon={<Google />} > Sign up with Google</Button>
+        <Button w={'100%'} variant='outline' leftIcon={<Google />}  onClick={handleGoogleSignUp} > Sign up with Google</Button>
         <Button w={'100%'} bg={'blackAlpha.900'} color={'white'} variant='outline' leftIcon={<GitHub />} >Sign up with GitHub</Button>
       </VStack>
     </>

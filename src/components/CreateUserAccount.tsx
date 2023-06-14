@@ -23,6 +23,9 @@ interface UserDataFormProps {
   userTagLine: string;
   setUserTagLine: React.Dispatch<React.SetStateAction<string>>;
   userData: any;
+  isUserNameAvailable: boolean | null;
+  setIsUserNameAvailable: React.Dispatch<React.SetStateAction<boolean | null>>;
+ 
 }
 
 const UserDataForm = ({
@@ -35,10 +38,11 @@ const UserDataForm = ({
   userTagLine,
   setUserTagLine,
   userData,
+  isUserNameAvailable,
+  setIsUserNameAvailable,
+  
 }: UserDataFormProps) => {
-  const [isUserNameAvailable, setIsUserNameAvailable] = useState<
-    boolean | null
-  >(null);
+  // const [isUserNameAvailable, setIsUserNameAvailable] = useState<boolean | null>(null);
   const [userNameLoading, setUserNameLoading] = useState(false);
 
   const checkUsernameAvailability = async (username: string) => {
@@ -56,6 +60,7 @@ const UserDataForm = ({
     setUserNameLoading(false);
   };
 
+
   const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const alphanumericRegex = /^[a-zA-Z0-9]+$/; // Regular expression for alphanumeric characters only
@@ -66,6 +71,7 @@ const UserDataForm = ({
     }
   };
 
+  // Avatart Fallback
   const avatarFallback = (
     <Avatar
       name={displayName || ""}
@@ -74,12 +80,6 @@ const UserDataForm = ({
       fontSize="2xl"
       color="white"
     >
-      {displayName
-        ? displayName
-            .split(" ")
-            .map((name) => name[0].toUpperCase())
-            .join("")
-        : ""}
     </Avatar>
   );
 

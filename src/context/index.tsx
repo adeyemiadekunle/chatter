@@ -1,5 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { auth, onAuthStateChanged, provider, signOut, db, doc, collection, getDoc, setDoc, getRedirectResult, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../utils/firebase';
+import { auth, onAuthStateChanged, provider, signOut, db, getRedirectResult, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../utils/firebase';
+import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+
+
 
 
 interface FirebaseContextProps {
@@ -35,8 +38,6 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
            
             if (user !== null) {
                 setIsAuth(true);
-                setUser(user);
-        
                 // Create user document in Firestore with uid as document ID
                 const usersCollection = collection(db, 'users'); // Replace 'users' with your desired collection name
                 const userDocRef = doc(usersCollection, user.uid);
@@ -62,6 +63,7 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
 
                             setDoc(userDocRef, newUser)
                                 .then(() => {
+                                    setUser(user);
                                     console.log('User document created with ID:', user.uid);
                                 })
                                 .catch((error) => {
@@ -136,10 +138,10 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
           const userCredential = await createUserWithEmailAndPassword(auth, email, password);
           const user = userCredential.user;
           setIsAuth(true);
-          setUser(user);
-      
-          // Add user details to Firestore
-            const usersCollection = collection(db, 'users');
+
+                // Check if user already exists in Firestore
+            const usersCollection = collection(db, 'users');     
+       
             const userDocRef = doc(usersCollection, user.uid);
             const newUser = {
             displayName: `${firstName} ${lastName}`,
@@ -152,10 +154,9 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
             userTagline: '',
             techStack: [],
             location: '',
-
-            
           };
           await setDoc(userDocRef, newUser);
+          setUser(user);
       
           console.log(user);
         } catch (error) {
@@ -166,6 +167,7 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
           }
       };
 
+      
     const signIn = async (email: string, password: string) => {
         try {
             setIsLoading(true);  // Set isLoading to true when signup starts

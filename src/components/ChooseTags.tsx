@@ -1,9 +1,31 @@
-import React from 'react'
+import PostTags from "./PostTags";
+import { Box, VStack, Text, Heading } from "@chakra-ui/react";
 
-const ChooseTags = () => {
+type ChooseTagsProps = {
+  selectedTags: string[];
+  setSelectedTags: (tags: string[]) => void;
+};
+
+const ChooseTags = ({ selectedTags, setSelectedTags }: ChooseTagsProps) => {
   return (
-    <div>ChooseTags</div>
-  )
-}
+    <>
+     <Box minH='50vh'>
+     <VStack w='100%'>
+        <Box>
+          <Heading mt={10} mb={3} as="h4" fontSize="24px" >Choose your tags</Heading>
+          <Text mb={10}>We use tags to personalize your feed and make it easier for you to discover new  and relevant content.</Text>
+        </Box>
 
-export default ChooseTags
+        <Box w='100%'  >
+          <PostTags
+            selectedTags={selectedTags}
+            setSelectedTags={setSelectedTags}
+          />
+        </Box>
+      </VStack>
+     </Box>
+    </>
+  );
+};
+
+export default ChooseTags;

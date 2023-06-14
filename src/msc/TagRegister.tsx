@@ -12,8 +12,10 @@ import {
   ListItem,
   Image,
   Text,
-  Box,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
+import { Search2Icon } from "@chakra-ui/icons";
 
 type PostTagsProps = {
   selectedTags: string[];
@@ -67,81 +69,66 @@ const PostTags: React.FC<PostTagsProps> = ({
   };
 
   return (
-    <VStack
-      align="flex-start"
-      minH="200px"
-      mt="40px"
-      mb="50px"
-      position="relative"
-    >
-      <Text fontWeight="600" color="gray.500">
-        SELECT TAGS
-      </Text>
-
-      <Box style={{ position: "relative" }} w='100%'   >
+    <VStack align="flex-start"  minH='200px' mt='40px'  mb='50px'>
+        
+      <Text fontWeight='600' >SELECT TAGS</Text>
+      <InputGroup>
+        <InputLeftElement
+          pointerEvents="none"
+          children={<Search2Icon color="gray.400" />}
+        />
         <Input
           ref={inputRef}
-          placeholder=" Start typing to search..."
-          fontSize='14px'
+          placeholder="Search tags"
           value={searchValue}
           onChange={handleInputChange}
         />
+      </InputGroup>
 
-        {searchValue !== "" && (
-          <List
-            spacing={2}
-            listStyleType="none"
-            border={"1px solid gray.50"}
-            w={"100%"}
-            h={"200px"}
-            // overflowY={"scroll"}
-            position="absolute"
-            zIndex={1}
-            bg="white"
-            top="100%"
-            boxShadow='base' py='3' rounded='md'
-          >
-            {availableTags
-              .filter((tag) =>
-                tag.name.toLowerCase().includes(searchValue.toLowerCase())
-              )
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((tag) => (
-                <ListItem
-                  w={"100%"}
-                  p={3}
-                  key={tag.id}
-                  _hover={{
-                    backgroundColor: "gray.50",
-                    color: "black",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleTagSelect(tag)}
-                  
-                >
-                  <HStack>
-                    <Image src={tag.image} boxSize="30px" />
-                    <Text>{tag.name}</Text>
-                  </HStack>
-                </ListItem>
-              ))}
-          </List>
-        )}
-      </Box>
 
-      <HStack flexWrap="wrap" gap={4} p={2}  >
-        {selectedTags?.map(
-          (tag) =>
-            tag && (
+      {searchValue !== "" && (
+        <List
+          spacing={2}
+          listStyleType="none"
+          border={"1px solid gray.50"}
+          w={"100%"}
+          height={"200px"}
+          overflowY={"scroll"}
+        >
+          {availableTags
+            .filter((tag) =>
+              tag.name.toLowerCase().includes(searchValue.toLowerCase()))
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((tag) => (
+              <ListItem
+                w={"100%"}  p={3} key={tag.id}
+                _hover={{
+                  backgroundColor: "gray.50",
+                  color: "black",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleTagSelect(tag)}
+              >
+                <HStack>
+                  <Image src={tag.image} boxSize="30px"></Image>
+                  <Text>{tag.name}</Text>
+                </HStack>
+              </ListItem>
+            ))}
+        </List>)}
+
+          
+        <HStack  flexWrap='wrap' gap={4}>
+              {selectedTags?.map((tag) => tag && (
               <Tag key={tag} size="lg" variant="solid" colorScheme="teal">
                 <TagLabel color={"whiteAlpha.900"}>{tag}</TagLabel>
                 <TagCloseButton onClick={() => handleTagDeselect(tag)} />
               </Tag>
-            )
-        )}
-      </HStack>
+              ))}
+        </HStack>
     </VStack>
   );
 };
+
 
 export default PostTags;

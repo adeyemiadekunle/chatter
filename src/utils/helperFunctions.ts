@@ -11,17 +11,17 @@ import { db, auth } from './firebase';
   userTagLine: string;
   techStack: string[];
   location: string;
-}
+} ;
 
 export const fetchUserData = async () => {
   try {
-    const user = auth.currentUser;
-    if (!user) {
+    const user = auth.currentUser?.uid;
+    if (!user ) {
       console.error("User not logged in");
       return null;
     }
 
-    const docRef = doc(db, "users", user.uid);
+    const docRef = doc(db, "users", user);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -120,23 +120,23 @@ export const createDraft = async (callback: (arg0: string) => void) => {
 
 
 // publishArticle
-export const publishArticle = async (headerImage: string, tags: string[], content: string) => {
-  try {
-    const articleRef = await addDoc(collection(db, "articles"), {
-      publishAt: new Date().toISOString(),
-      authorId: auth.currentUser?.uid,
-      headerImage,
-      tags,
-      content,
-      likes: [],
-      comments: [],
-      views: [],
-    });
-    console.log("Article published with ID:", articleRef.id);
-  } catch (error) {
-    console.error("Error publishing article:", error);
-  }
-};
+// export const publishArticle = async (headerImage: string, tags: string[], content: string) => {
+//   try {
+//     const articleRef = await addDoc(collection(db, "articles"), {
+//       publishAt: new Date().toISOString(),
+//       authorId: auth.currentUser?.uid,
+//       headerImage,
+//       tags,
+//       content,
+//       likes: [],
+//       comments: [],
+//       views: [],
+//     });
+//     console.log("Article published with ID:", articleRef.id);
+//   } catch (error) {
+//     console.error("Error publishing article:", error);
+//   }
+// };
 
 // updateDraft
 export const updateDraft = async (draftId: string, headerImage: string, content: string) => {
@@ -163,7 +163,7 @@ export const updateDraft = async (draftId: string, headerImage: string, content:
 
 
 //  publishDraft
-export const publishDraft = async (draftId: string, tags: string[]) => {
+export const publishDraft = async (draftId: string, tags: string[], slug: string) => {
   try {
     const draftRef = doc(db, "drafts", draftId);
     const draftDoc = await getDoc(draftRef);
@@ -175,6 +175,7 @@ export const publishDraft = async (draftId: string, tags: string[]) => {
       publishAt: new Date().toISOString(),
       authorId: auth.currentUser?.uid,
       headerImage,
+      slug,
       tags,
       content,
       likes: [],
@@ -273,7 +274,7 @@ export const fetchUserDrafts = async (): Promise<Drafts[]> => {
 
 // for User Published Articles
 
- export interface UserArticle {
+ export interface UserArticles {
   id: string;
   headerImage: string;
   content: {
@@ -286,14 +287,14 @@ export const fetchUserDrafts = async (): Promise<Drafts[]> => {
   };
 }
 
-export const fetchUserArticles = async (): Promise<UserArticle[]> => {
+export const fetchUserArticles = async (): Promise<UserArticles[]> => {
   const user = auth.currentUser;
   try {
     const querySnapshot = await getDocs(
       query(collection(db, "articles"), where("authorId", "==", user?.uid))
     );
 
-    const UserArticleData: UserArticle[] = querySnapshot.docs.map((doc) => ({
+    const UserArticleData: UserArticles[] = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       headerImage: doc.data().headerImage || '', // Provide a default value or modify as needed
       content: doc.data().content || {} // Provide a default value or modify as needed
@@ -312,7 +313,8 @@ export const fetchUserArticles = async (): Promise<UserArticle[]> => {
 export interface Author {
     displayName: string;
     email: string;
-    photoURL: string;  
+    photoURL: string;
+    userTagLine: string  
 }
 
 
@@ -322,8 +324,8 @@ export const fetchAuthorData = async (authorId: string) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const { displayName, email, photoURL } = docSnap.data() as Author;
-      return { displayName, email, photoURL };
+      const { displayName, email, photoURL, userTagLine } = docSnap.data() as Author;
+      return { displayName, email, photoURL, userTagLine };
     } else {
       console.log("Author not found");
       return null;

@@ -29,7 +29,7 @@ const router = createBrowserRouter(
       <Route path="/onboard" element={<Onboarding />} />
       <Route path="*" element={<NoMatch />} />
 
-      <Route element={<PrivateRoute />}>
+      <Route  element={<PrivateRoute/>} >
         <Route path="/" element={<Layout />}>
           <Route path="/feed" element={<Feed />}>
             <Route index element={<Personalize />} />
@@ -45,7 +45,7 @@ const router = createBrowserRouter(
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      <Route element={<PrivateRoute />}>
+      <Route element={<PrivateRoute/>} >
         <Route path="/:articleId" element={<ArticlesDetails />} />
         <Route path="/draft/:draftId" element={<Draft />} />
         <Route path="/onboard/create-account" element={<CreateAccount />} />

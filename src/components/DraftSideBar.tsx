@@ -8,7 +8,7 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
-import { fetchUserDrafts, Draft, fetchUserArticles, Article } from "../utils/helperFunctions";
+import { fetchUserDrafts, Drafts, fetchUserArticles, UserArticles } from "../utils/helperFunctions";
 import { HeaderOutput } from "editorjs-react-renderer";
 import { useNavigate } from "react-router-dom";
 
@@ -17,8 +17,8 @@ import { useNavigate } from "react-router-dom";
 const DraftSidebar = () => {
   const navigate = useNavigate();
 
-  const [drafts, setDrafts] = useState([] as Draft[]);
-  const [articles, setArticles] = useState([] as Article[]);
+  const [drafts, setDrafts] = useState([] as Drafts[]);
+  const [articles, setArticles] = useState([] as UserArticles[]);
   
 //  for Drafts
   useEffect(() => {
@@ -79,7 +79,7 @@ const ArticleCount = articles.length;
                drafts.length > 0 ? (
                     drafts.map((draft) => (
                       <Box key={draft.id}>
-                        <Box cursor={'pointer'} onClick={()=> navigate(`/draft/${draft.id}`)} >
+                        <Box key={draft.id} cursor={'pointer'} onClick={()=> navigate(`/draft/${draft.id}`)} >
                           {headerBlocks.map((headerBlock: any) => (
                             <HeaderOutput key={headerBlock.id} data={headerBlock.data} />
                           ))}
@@ -106,7 +106,7 @@ const ArticleCount = articles.length;
                   articles.length > 0 ? (
                     articles.map((article) => (
                       <Box key={article.id}>
-                        <Box cursor={'pointer'}>
+                        <Box  key={article.id} cursor={'pointer'}>
                           {headerBlocksArticle.map((headerBlock: any) => (
                             <HeaderOutput key={headerBlock.id} data={headerBlock.data} />
                           ))}

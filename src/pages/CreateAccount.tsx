@@ -11,28 +11,28 @@ import {
   Text,
   Flex,
   Button,
+  StepTitle
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import {
-  fetchUserData,
-  updateUserData,
-  UserData,
+import { fetchUserData, updateUserData, UserData,
 } from "../utils/helperFunctions";
 import CreateUserAccount from "../components/CreateUserAccount";
+import ChooseTags from "../components/ChooseTags";
+import { useNavigate } from "react-router-dom";
 
-const steps = [{}, {}, {}];
+
+
+const steps = [
+  {title: 'First'},
+   {title: 'Final'},];
 
 const StepHeading = [
-  <Flex gap={{ base: "3", md: "8" }} fontSize="20px" whiteSpace="nowrap">
-    <Text fontWeight="bold"> Step 1</Text>
+  <Flex gap={{ base: "3", md: "8" }} alignItems='center'  whiteSpace="nowrap">
+    <Text fontWeight="bold"  fontSize="20px"> Step 1</Text>
     <Text> Create your Account</Text>
   </Flex>,
-  <Flex gap={{ base: "3", md: "8" }} fontSize="20px" whiteSpace="nowrap">
-    <Text fontWeight="bold"> Step 2</Text>
-    <Text> </Text> What brings you to Chatter
-  </Flex>,
-  <Flex gap={{ base: "3", md: "8" }} fontSize="20px" whiteSpace="nowrap">
-    <Text fontWeight="bold"> Final Step</Text>
+  <Flex gap={{ base: "3", md: "8" }} alignItems='center' whiteSpace="nowrap">
+    <Text fontWeight="bold"  fontSize="20px" > Final Step</Text>
     <Text> Choose your tags</Text>
   </Flex>,
 ];
@@ -48,6 +48,8 @@ function CreateAccount() {
   const [techStack, setTechStack] = useState<string[]>([]);
   const [location, setLocation] = useState("");
   const [photoURL, setPhotoURL] = useState("");
+  const [isUserNameAvailable, setIsUserNameAvailable] = useState<boolean | null>(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -67,6 +69,8 @@ function CreateAccount() {
     fetchUser();
   }, []);
 
+  console.log(userData)
+
   const handleUpdate = async () => {
     if (userData) {
       const updatedUserData: UserData = {
@@ -82,8 +86,12 @@ function CreateAccount() {
         // Add other updated fields
       };
       await updateUserData(updatedUserData);
+      navigate('/feed/recent')
     }
+
   };
+
+  console.log(userTagLine)
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -98,23 +106,21 @@ function CreateAccount() {
       email={email}
       userTagLine={userTagLine}
       setUserTagLine={setUserTagLine}
+      isUserNameAvailable={isUserNameAvailable}
+      setIsUserNameAvailable={setIsUserNameAvailable}
     />,
-    <div>Step 2 Content</div>,
-    <div>Step 3 Content</div>,
+    <ChooseTags selectedTags={techStack} setSelectedTags={setTechStack} />,
   ];
 
   const handleNextStep = () => {
     setActiveStep((prevStep) => prevStep + 1);
   };
 
-  const handleBackStep = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
 
-  const isLastStep = activeStep === steps.length - 1;
+  // checking if the user has entered the required fields in the first step and check if the username is available
+  const checkCreateAccount = userName.length < 4 || userTagLine === "" || isUserNameAvailable === false;
 
-  // checking if the user has entered the required fields in the first step
-  const checkCreateAccount = userName.length < 4 || userTagLine === "";
+  const checkChoosetTags = techStack.length < 3
 
   return (
     <Box px={6}>
@@ -146,6 +152,9 @@ function CreateAccount() {
                   <StepIndicator w={"80px"} h={4}>
                     <StepStatus complete={<StepIcon />} />
                   </StepIndicator>
+                  <Box display='none'>
+                    <StepTitle>{step.title}</StepTitle>
+                  </Box>
                   <StepSeparator />
                 </Step>
               ))}
@@ -175,17 +184,7 @@ function CreateAccount() {
           )}
 
           {activeStep === 1 && (
-            <>
-              <Button colorScheme="blue" onClick={handleBackStep}>
-                Back{" "}
-              </Button>
-              <Button colorScheme="blue" onClick={handleNextStep}>
-                Continue{" "}
-              </Button>
-            </>
-          )}
-          {isLastStep && (
-            <Button colorScheme="blue" w="100%" onClick={handleUpdate}>
+            <Button  isDisabled={checkChoosetTags} colorScheme="blue" w="100%" onClick={handleUpdate}>
               Finish{" "}
             </Button>
           )}

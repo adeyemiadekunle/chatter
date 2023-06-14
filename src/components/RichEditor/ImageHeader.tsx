@@ -7,7 +7,7 @@ import {
   StorageReference,
   deleteObject,
 } from "firebase/storage";
-import { app } from "../utils/firebase";
+import { app } from "../../utils/firebase";
 import { Button, Icon } from "@chakra-ui/react";
 import { Box, VStack, Image  } from "@chakra-ui/react";
 import { ImageOutlined, DeleteOutlined } from "@mui/icons-material";

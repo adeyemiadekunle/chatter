@@ -5,9 +5,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 
-interface UserData {
-  userRole?: string;
-}
 
 const Loading = () => {
   return (
@@ -18,20 +15,21 @@ const Loading = () => {
 };
 
 const AdminRoute = () => {
-  const [userRole, setUserRole] = useState<string | undefined>("");
+  const [userRole, setUserRole] = useState("");
   const user = auth.currentUser;
   const navigate = useNavigate();
 
   useEffect(() => {
     const getUserRole = async () => {
-  
         const userDocRef = doc(db, "users", user.uid);
         const userDocSnap = await getDoc(userDocRef);
-        const userData = userDocSnap.data() as UserData;
+        const userData = userDocSnap.data();
         setUserRole(userData?.userRole); 
     };
     getUserRole();
   }, [user?.uid]);
+
+  console.log(userRole);
 
   return (
     <>

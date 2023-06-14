@@ -3,11 +3,11 @@ import EditorJS from "@editorjs/editorjs";
 
 import {  updateDraft, publishDraft, fetchDraft } from "../../utils/helperFunctions";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, useDisclosure, Flex, HStack, IconButton, Tooltip, Box, Alert, AlertIcon, AlertTitle, AlertDescription} from "@chakra-ui/react";
-import ImageHeader from "../ImageHeader";
+import { Button, useDisclosure, Flex, HStack, IconButton, Tooltip, Box, Alert, AlertIcon, AlertTitle, AlertDescription, Input} from "@chakra-ui/react";
+import ImageHeader from "./ImageHeader";
 import PublishDrawer from "../PublishDrawer";
 import { ViewSidebarOutlined } from "@mui/icons-material";
-import { debounce } from "lodash"
+import { debounce,} from "lodash"
 // editorjs tools
 import Undo from 'editorjs-undo';
 import Embed from '@editorjs/embed'
@@ -41,6 +41,8 @@ const DEFAULT_INITIAL_DATA = {
 const EditorComponent = ({ IsOpen, onToggle }) => {
   const ejInstance = useRef();
   const [imageUrl, setImageUrl] = useState("");
+  const [slug, setSlug] = useState("");
+  const [content, setContent] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const { draftId } = useParams();
   const navigate = useNavigate();
@@ -70,6 +72,7 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
     const initialData = existingData ? existingData.content : DEFAULT_INITIAL_DATA;
     const existingImage = existingData ? existingData.headerImage : "";
     setImageUrl(existingImage);
+   
 
 
     const editor = new EditorJS({
@@ -77,7 +80,7 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
       onReady: () => {
         ejInstance.current = editor;
         new Undo({ editor });
-        setIsLoading(false);
+
       },
       autofocus: true,
       data: initialData,
@@ -117,23 +120,37 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
     updateDraft(draftId, image, content);
   }, [draftId, imageUrl]);
 
-  
+
+
+
+// Get the editor content and save it to state
+ useEffect(() => {
+  async function getEditorContent() {
+    const content = await ejInstance.current.saver.save();
+    setContent(content);
+  }
+  getEditorContent();
+}, [ejInstance.current]);
+
+   console.log(content)
+
 
   const handlePublish = useCallback(async () => {
     const content = await getEditorContent();
     const image = imageUrl;
     const tags = selectedTags;
+    const slug = slug;
 
     if (draftId) {
       // Update existing draft and publish
       updateDraft(draftId, image, content);
-      publishDraft(draftId, tags);
+      publishDraft(draftId, tags, slug);
       navigate("/feed/recent");
     } else {
       // Publish a new draft
       console.log("No draft ID available. Cannot publish.");
     }
-  }, [draftId, getEditorContent, imageUrl, selectedTags, navigate]);
+  }, [draftId, getEditorContent, imageUrl, selectedTags, navigate, slug]);
 
 
   useEffect(() => {
@@ -170,6 +187,7 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
           <Box px={{base: '30px', md: '100px'}}  >
             <Flex flexDir={"column"}  >
               <ImageHeader imageUrl={imageUrl} setImageUrl={setImageUrl} />
+              
               <Box id="editorjs" ></Box>
               <PublishDrawer
                 onClick={handlePublish}
@@ -178,6 +196,9 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
                 btnRef={btnRef}
                 selectedTags={selectedTags}
                 setSelectedTags={setSelectedTags}
+                slug={slug}
+                setSlug={setSlug}
+                content={content}
               />
             </Flex>
           </Box>

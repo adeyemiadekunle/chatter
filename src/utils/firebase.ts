@@ -13,17 +13,6 @@ import {
 } from "firebase/auth";
 import {
   getFirestore,
-  collection,
-  addDoc,
-  getDoc,
-  doc,
-  setDoc,
-  deleteDoc,
-  updateDoc,
-  query,
-  getDocs,
-  onSnapshot,
-  where,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -48,17 +37,6 @@ const provider = new GoogleAuthProvider();
 export {
   db,
   app,
-  collection,
-  addDoc,
-  getDoc,
-  getDocs,
-  doc,
-  where,
-  setDoc,
-  deleteDoc,
-  updateDoc,
-  query,
-  onSnapshot,
   auth,
   provider,
   signInWithPopup,

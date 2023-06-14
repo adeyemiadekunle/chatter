@@ -15,40 +15,47 @@ const Profile = () => {
     const { GoogleSignOut } = useFirebaseContext();
     const navigate = useNavigate();
 
-     const handleGoogleSignOut = async () => {
+    const handleGoogleSignOut = async () => {
         try {
-            GoogleSignOut();
-            navigate('/');
+          GoogleSignOut();
+          localStorage.removeItem('userData'); // Clear the userData from local storage
+          navigate('/');
         } catch (error) {
-            console.log(error);
+          console.log(error);
         }
-    };
-   
+      };
+      
 
  //  User Data
-const [userData, setUserData] = useState({} as UserData);
+ const [userData, setUserData] = useState<UserData | null>(null);
 
-useEffect(() => {
+ useEffect(() => {
     const fetchUser = async () => {
-        const data = await fetchUserData();
-        if (data !== null) {
-            setUserData(data);
-        }
+      const data = await fetchUserData();
+      setUserData(data);
+      localStorage.setItem('userData', JSON.stringify(data)); // Store the userData in local storage
     };
-
-    fetchUser();
-}, []);
+  
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData)); // Retrieve the userData from local storage
+    } else {
+      fetchUser();
+    }
+  }, []);
+  
+ 
 
     return (
         <Menu>
-            <MenuButton role='profile' as={Avatar} src={userData.photoURL} size='sm' cursor={'pointer'} />
+            <MenuButton role='profile' as={Avatar}  size='sm' cursor={'pointer'} />
             <MenuList width={'300px'} p={0} >
                 <MenuItem >
                     <HStack py={3} spacing={6}>
-                        <Avatar src={userData.photoURL}  />
+                        <Avatar src={userData?.photoURL}  />
                         <VStack alignItems={'start'} fontWeight={'500'} fontSize={'16px'} spacing={0} >
-                            <Text>{userData.displayName}</Text>
-                            <Text color={'grey'}>@adeyemidev</Text>
+                            <Text>{userData?.displayName}</Text>
+                            <Text color={'grey'}>@{userData?.userName}</Text>
                         </VStack>
                     </HStack>
                 </MenuItem>

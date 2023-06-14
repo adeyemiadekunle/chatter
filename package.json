@@ -46,7 +46,8 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.2",
     "react-icons": "^4.8.0",
-    "react-router-dom": "^6.11.1"
+    "react-router-dom": "^6.11.1",
+    "react-toastify": "^9.1.3"
   },
   "devDependencies": {
     "@editorjs/simple-image": "^1.5.1",

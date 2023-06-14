@@ -5,12 +5,12 @@ import { Box } from "@chakra-ui/react";
 import {
   fetchArticles,
   fetchAuthorData,
-  Article,
+  Articles,
   Author,
 } from "../utils/helperFunctions";
 
 const Recent = () => {
-  const [articles, setArticles] = useState([] as Article[]);
+  const [articles, setArticles] = useState([] as Articles[]);
   const [authorsData, setAuthorsData] = useState({} as Author);
 
   //  for Published Articles
@@ -36,6 +36,7 @@ const Recent = () => {
     });
   }, [articles]);
 
+  
   const ArticleHeaderLevel1 = (blocks: any) => {
     return blocks.find(
       (block: any) => block.type === "header" && block.data.level === 1
@@ -61,6 +62,7 @@ const Recent = () => {
           key={article.id}
           Title={headerBlocksArticle.data}
           displayName={authorsData?.displayName}
+          userTagLine={authorsData?.userTagLine}
           AvatarImage={authorsData?.photoURL}
           HeaderImage={article.headerImage}
           tags={article.tags}

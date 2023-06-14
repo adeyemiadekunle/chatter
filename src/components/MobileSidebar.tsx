@@ -3,8 +3,12 @@ import { Box, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, Dra
 import { AnalyticsOutlined, BookmarkAddedOutlined, EditNoteOutlined, HomeOutlined, PublishedWithChangesOutlined, TrendingUpOutlined } from '@mui/icons-material'
 import { CloseIcon } from '@chakra-ui/icons'
 
+ interface MobileSidebarProps {
+    onClose: () => void;
+    isOpen: boolean;
+}
 
-const MobileSidebar = ({onClose , isOpen}) => {
+const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
     return (
         <Drawer placement='left' onClose={onClose} isOpen={isOpen}  >
             <DrawerOverlay />
