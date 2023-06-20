@@ -32,7 +32,7 @@ const UserDataForm = ({
   displayName,
   setDisplayName,
   photoURL,
-  userName,
+  userName, 
   setUserName,
   email,
   userTagLine,

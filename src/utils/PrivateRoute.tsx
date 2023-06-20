@@ -1,5 +1,5 @@
 
-import { useFirebaseContext } from '../context';
+import { useFirebaseContext } from '../context/Firebase';
 import { Navigate, Outlet } from 'react-router-dom';
 
 export const PrivateRoute = () => {

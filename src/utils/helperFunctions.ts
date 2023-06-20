@@ -1,7 +1,7 @@
-import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where } from "firebase/firestore";
+import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot, updateDoc, arrayUnion, arrayRemove} from "firebase/firestore";
 import { db, auth } from './firebase';
 
-// Fetch User Data
+// Fetch Login User Data
  export interface UserData {
   displayName: string;
   email: string;
@@ -38,7 +38,9 @@ export const fetchUserData = async () => {
 };
 
 
-//  updateUserData
+
+
+//  update LoginUserData
 export const updateUserData = async (userData: UserData) => {
   try {
     const user = auth.currentUser;
@@ -57,25 +59,73 @@ export const updateUserData = async (userData: UserData) => {
 
 
 // fetchAllUsers
-export const fetchAllUsers = async () => {
+// export const fetchAllUsers = async () => {
+//   try {
+//     const querySnapshot = await getDocs(collection(db, 'users'));
+//     const users: UserData[] = [];
+
+//     querySnapshot.forEach((doc) => {
+//       const { displayName, email, photoURL, userName, userBio, userTagLine, techStack, location,
+//       } = doc.data();
+
+//       users.push({ displayName, email, photoURL, userName, userBio, userTagLine, techStack, location,
+//       });
+//     });
+
+//     return users;
+//   } catch (error) {
+//     console.error('Error fetching all users:', error);
+//     return [];
+//   }
+// };
+
+
+
+
+// Fetch All Dynamic Users
+export interface Users {
+  userId: string;
+  displayName: any;
+  email: any;
+  photoURL: any;
+  userName: any;
+  userBio: any;
+  userTagLine: any;
+  techStack: any;
+  location: any;
+  url: string;
+}
+
+export const fetchAllUsers = async (): Promise<Users[]> => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'users'));
-    const users: UserData[] = [];
+    const querySnapshot = await getDocs(collection(db, "users"));
+    const users: Users[] = [];
 
     querySnapshot.forEach((doc) => {
-      const { displayName, email, photoURL, userName, userBio, userTagLine, techStack, location,
-      } = doc.data();
+      const { displayName, email, photoURL, userName, userBio, userTagLine, techStack, location } = doc.data();
+      const userId = doc.id;
 
-      users.push({ displayName, email, photoURL, userName, userBio, userTagLine, techStack, location,
+      users.push({
+        userId,
+        displayName,
+        email,
+        photoURL,
+        userName,
+        userBio,
+        userTagLine,
+        techStack,
+        location,
+        url: `/${userName}`,
       });
     });
 
     return users;
   } catch (error) {
-    console.error('Error fetching all users:', error);
+    console.error("Error fetching all users:", error);
     return [];
   }
 };
+
 
 
 //  createDraft
@@ -138,6 +188,8 @@ export const createDraft = async (callback: (arg0: string) => void) => {
 //   }
 // };
 
+
+
 // updateDraft
 export const updateDraft = async (draftId: string, headerImage: string, content: string) => {
   try {
@@ -196,7 +248,9 @@ export const publishDraft = async (draftId: string, tags: string[], slug: string
 
 
 
-//  fetchDraft
+
+
+//  fetchDraft a single draft
 export const fetchDraft = async (draftId: string) => {
   try {
     const user = auth.currentUser;
@@ -224,6 +278,8 @@ export const fetchDraft = async (draftId: string) => {
   }
 };
 
+
+
 //  deleteDraft
 export const deleteDraft = async (draftId: string) => {
   try {
@@ -236,7 +292,7 @@ export const deleteDraft = async (draftId: string) => {
 };
 
 
-//  Fetch User Drafts
+//  Fetch LoginUser Drafts
  export interface Drafts {
   id: string;
   headerImage: string;
@@ -249,7 +305,7 @@ export const deleteDraft = async (draftId: string) => {
     }[];
   };
 }
-
+ 
 export const fetchUserDrafts = async (): Promise<Drafts[]> => {
   const user = auth.currentUser;
   try {
@@ -272,8 +328,8 @@ export const fetchUserDrafts = async (): Promise<Drafts[]> => {
 };
 
 
-// for User Published Articles
 
+// for LoginUser All Published  Articles
  export interface UserArticles {
   id: string;
   headerImage: string;
@@ -308,15 +364,14 @@ export const fetchUserArticles = async (): Promise<UserArticles[]> => {
 }
 
 
-//  Fetch Author Data
-
+//  Fetch a single Author Data for Article Card
 export interface Author {
     displayName: string;
     email: string;
     photoURL: string;
     userTagLine: string  
+    userName: string;
 }
-
 
 export const fetchAuthorData = async (authorId: string) => {
   try {
@@ -324,8 +379,8 @@ export const fetchAuthorData = async (authorId: string) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const { displayName, email, photoURL, userTagLine } = docSnap.data() as Author;
-      return { displayName, email, photoURL, userTagLine };
+      const { displayName, email, photoURL, userTagLine, userName } = docSnap.data() as Author;
+      return { displayName, email, photoURL, userTagLine, userName };
     } else {
       console.log("Author not found");
       return null;
@@ -338,10 +393,8 @@ export const fetchAuthorData = async (authorId: string) => {
 
 
 
-
-
-// Fetch Article
-interface Article {
+// Fetch a single Article to view a single article
+export interface Article {
   publishAt: string; 
   headerImage: string; 
   tags: string[];
@@ -352,18 +405,20 @@ interface Article {
   views: string[];
 }
 
-export const fetchArticle = async (articleId: string) => {
+export const fetchArticle = async (slug: string) => {
   try {
-    const docRef = doc(db, "articles", articleId);
-    const docSnap = await getDoc(docRef);
+    const articlesRef = collection(db, "articles");
+    const querySnapshot = query(articlesRef, where("slug", "==", slug));
+    const queryDocs = await getDocs(querySnapshot);
 
-    if (docSnap.exists()) {
+    if (!queryDocs.empty) {
+      const docSnapshot = queryDocs.docs[0];
       const {
-        publishAt, headerImage,  tags, content, authorId, likes, comments, views,
-      } = docSnap.data() as Article;
+        publishAt, headerImage, tags, content, authorId, likes, comments, views,
+      } = docSnapshot.data() as Article;
 
       return {
-        publishAt, headerImage, tags, content, authorId, likes, comments, views,
+        publishAt,  headerImage, tags, content, authorId, likes, comments, views,
       };
     } else {
       console.log("Article not found");
@@ -376,15 +431,53 @@ export const fetchArticle = async (articleId: string) => {
 };
 
 
-
-
-// Fetch Articles
-
-export interface Articles {
+export interface AuthorArticles {
   id: string;
   publishAt: string;
   headerImage: string;
   tags: string[];
+  content: string;
+  authorId: string;
+  likes: string[];
+  comments: string[];
+  views: string[];
+}
+
+
+export const fetchAuthorArticles = async (authorId: string): Promise<AuthorArticles[]> => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "articles"));
+
+    const articlesData: AuthorArticles[] = querySnapshot.docs
+      .map((doc) => ({
+        id: doc.id,
+        publishAt: doc.data().publishAt || "",
+        headerImage: doc.data().headerImage || "",
+        tags: doc.data().tags || [],
+        content: doc.data().content || {},
+        authorId: doc.data().authorId || "",
+        likes: doc.data().likes || [],
+        comments: doc.data().comments || [],
+        views: doc.data().views || [],
+        // ... other properties
+      }))
+      .filter((article) => article.authorId === authorId); // Filter articles based on authorId
+
+    return articlesData;
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    return [];
+  }
+};
+
+
+
+// Fetch List of Recent Articles List
+export interface RecentArticles {
+  id: string;
+  publishAt: string;
+  headerImage: string;
+  tags: { name: string; hash: string }[]
   content: {
     blocks: {
       type: string;
@@ -397,29 +490,104 @@ export interface Articles {
   likes: string[];
   comments: string[];
   views: string[];
+  slug: string;
 }
 
-export const fetchArticles = async (): Promise<Articles[]> => {
-  try {
-    const querySnapshot = await getDocs(collection(db, "articles"));
+export const fetchArticles = (callback: (articles: RecentArticles[]) => void): Unsubscribe => {
+  const articlesCollectionRef = collection(db, "articles");
 
-    const articlesData: Articles[] = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      publishAt: doc.data().publishAt || '', 
-      headerImage: doc.data().headerImage || '', 
-      tags: doc.data().tags || [], 
-      content: doc.data().content || {}, 
-      authorId: doc.data().authorId || '', 
-      likes: doc.data().likes || [], 
-      comments: doc.data().comments || [], 
-      views: doc.data().views || [], 
-      // ... other properties
-    }));
+  const unsubscribe = onSnapshot(articlesCollectionRef, (querySnapshot: QuerySnapshot) => {
+    const articlesData: RecentArticles[] = [];
 
-    return articlesData;
-  } catch (error) {
-    console.error("Error fetching articles:", error);
-    return [];
-  }
+    if (!querySnapshot.empty) {
+      querySnapshot.forEach((doc) => {
+        articlesData.push({
+          id: doc.id,
+          publishAt: doc.data().publishAt || "",
+          headerImage: doc.data().headerImage || "",
+          tags: doc.data().tags || [],
+          content: doc.data().content || {},
+          authorId: doc.data().authorId || "",
+          likes: doc.data().likes || [],
+          comments: doc.data().comments || [],
+          views: doc.data().views || [],
+          slug: doc.data().slug || "",
+          // ... other properties
+        });
+      });
+    }
+
+    callback(articlesData);
+  });
+
+  return unsubscribe;
+};
+
+
+
+//  Fetch Tags Categories
+export interface Tags {
+  id: string;
+  name: string;
+  image: string;
+  followers: string[];
+  hash: string;
+  follow: () => Promise<void>;
+  unfollow: () => Promise<void>;
 }
+
+export const fetchAllTags = (): Promise<Tags[]> => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onSnapshot(query(collection(db, "tags")), (snapshot) => {
+      const tags: Tags[] = [];
+
+      snapshot.forEach((docSnapshot) => {
+        const { name, image, followers, hash } = docSnapshot.data();
+        const tagsId = docSnapshot.id;
+
+        tags.push({
+          id: tagsId,
+          name: name || "",
+          image: image || "",
+          followers: followers || [],
+          hash: hash || "",
+          follow: async () => {
+            try {
+              const currentUser = auth.currentUser?.uid; // Function to get the current user ID
+              const tagRef = doc(db, "tags", tagsId);
+
+              await updateDoc(tagRef, {
+                followers: arrayUnion(currentUser),
+              });
+
+              console.log(`User ${currentUser} followed tag ${tagsId}.`);
+            } catch (error) {
+              console.error(`Error following tag ${tagsId}:`, error);
+            }
+          },
+          unfollow: async () => {
+            try {
+              const currentUser = auth.currentUser?.uid; // Function to get the current user ID
+              const tagRef = doc(db, "tags", tagsId);
+
+              await updateDoc(tagRef, {
+                followers: arrayRemove(currentUser),
+              });
+
+              console.log(`User ${currentUser} unfollowed tag ${tagsId}.`);
+            } catch (error) {
+              console.error(`Error unfollowing tag ${tagsId}:`, error);
+            }
+          },
+        });
+      });
+
+      resolve(tags);
+    }, reject);
+
+    // Cleanup the listener when needed
+    return () => unsubscribe();
+  });
+};
+
 

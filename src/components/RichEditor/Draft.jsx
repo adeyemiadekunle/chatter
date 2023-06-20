@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import EditorJS from "@editorjs/editorjs";
-
 import {  updateDraft, publishDraft, fetchDraft } from "../../utils/helperFunctions";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, useDisclosure, Flex, HStack, IconButton, Tooltip, Box, Alert, AlertIcon, AlertTitle, AlertDescription, Input} from "@chakra-ui/react";
 import ImageHeader from "./ImageHeader";
 import PublishDrawer from "../PublishDrawer";
 import { ViewSidebarOutlined } from "@mui/icons-material";
-import { debounce,} from "lodash"
+import { create, debounce,} from "lodash"
+
 // editorjs tools
 import Undo from 'editorjs-undo';
 import Embed from '@editorjs/embed'
@@ -41,13 +41,14 @@ const DEFAULT_INITIAL_DATA = {
 const EditorComponent = ({ IsOpen, onToggle }) => {
   const ejInstance = useRef();
   const [imageUrl, setImageUrl] = useState("");
-  const [slug, setSlug] = useState("");
+  const [slugUrl, setSlugUrl] = useState("");
   const [content, setContent] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const { draftId } = useParams();
   const navigate = useNavigate();
   const btnRef = useRef()
   const { isOpen, onOpen, onClose } = useDisclosure()
+
 
 
   const handleUpdateDraft = useCallback(
@@ -63,10 +64,9 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
     [draftId, imageUrl]
     
   );
-  
+
 
   const initEditor = useCallback(async () => {
-
     // Retrieve the initial data from the database
     const existingData = await fetchDraft(draftId);
     const initialData = existingData ? existingData.content : DEFAULT_INITIAL_DATA;
@@ -74,13 +74,11 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
     setImageUrl(existingImage);
    
 
-
     const editor = new EditorJS({
       holder: "editorjs",
-      onReady: () => {
+      onReady: async () => {
         ejInstance.current = editor;
         new Undo({ editor });
-
       },
       autofocus: true,
       data: initialData,
@@ -115,12 +113,11 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
   };
 
   const handleSaveDraft = useCallback(async () => {
-    const content = await getEditorContent()
+    const content = await getEditorContent();
     const image = imageUrl;
-    updateDraft(draftId, image, content);
-  }, [draftId, imageUrl]);
-
-
+    updateDraft(draftId, image, content, );
+  }, [draftId, imageUrl, getEditorContent]);
+  
 
 
 // Get the editor content and save it to state
@@ -132,25 +129,25 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
   getEditorContent();
 }, [ejInstance.current]);
 
-   console.log(content)
+//
 
 
   const handlePublish = useCallback(async () => {
     const content = await getEditorContent();
     const image = imageUrl;
     const tags = selectedTags;
-    const slug = slug;
+    const slug = slugUrl;
 
     if (draftId) {
       // Update existing draft and publish
       updateDraft(draftId, image, content);
-      publishDraft(draftId, tags, slug);
+      publishDraft(draftId, tags, slug );
       navigate("/feed/recent");
     } else {
       // Publish a new draft
       console.log("No draft ID available. Cannot publish.");
     }
-  }, [draftId, getEditorContent, imageUrl, selectedTags, navigate, slug]);
+  }, [draftId, getEditorContent, imageUrl, selectedTags, navigate, slugUrl]);
 
 
   useEffect(() => {
@@ -164,9 +161,7 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
     };
   }, []);
 
-
-
-
+  
   return (
      <>
         <Box minH={"100vh"} pb={'200px'} >
@@ -196,8 +191,8 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
                 btnRef={btnRef}
                 selectedTags={selectedTags}
                 setSelectedTags={setSelectedTags}
-                slug={slug}
-                setSlug={setSlug}
+                slug={slugUrl}
+                setSlug={setSlugUrl}
                 content={content}
               />
             </Flex>

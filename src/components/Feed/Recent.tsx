@@ -1,26 +1,31 @@
 import { useState, useEffect } from "react";
-import ArticleCard from "./ArticleCard";
+import ArticleCard from "../ArticleCard";
 import { Box } from "@chakra-ui/react";
 
 import {
   fetchArticles,
   fetchAuthorData,
-  Articles,
+  RecentArticles,
   Author,
-} from "../utils/helperFunctions";
+} from "../../utils/helperFunctions";
 
 const Recent = () => {
-  const [articles, setArticles] = useState([] as Articles[]);
+  const [articles, setArticles] = useState([] as RecentArticles[]);
   const [authorsData, setAuthorsData] = useState({} as Author);
 
-  //  for Published Articles
+  //  for Published Articles recently updated
   useEffect(() => {
-    const fetchingArticles = async () => {
-      const fetchedArticles = await fetchArticles();
+    const unsubscribe = fetchArticles((fetchedArticles) => {
       setArticles(fetchedArticles);
+    });
+
+    return () => {
+      unsubscribe();
     };
-    fetchingArticles();
   }, []);
+
+  console.log(articles);
+
 
   useEffect(() => {
     const fetchAuthor = async (authorId: string) => {
@@ -55,6 +60,8 @@ const Recent = () => {
     articles.length > 0 ? articles[0].content.blocks : []
   );
 
+
+
   return (
     <Box>
       {articles.map((article) => (
@@ -68,6 +75,8 @@ const Recent = () => {
           tags={article.tags}
           PublishDate={article.publishAt}
           Paragraph={paragraphBlocksArticle.data.text}
+          username={authorsData?.userName}
+          slug={article.slug}
         />
       ))}
     </Box>

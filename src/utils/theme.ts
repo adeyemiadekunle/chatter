@@ -19,7 +19,7 @@ const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       body: {
-        bg: props.colorMode === "dark" ? "black" : "#F5F5F5",
+        bg: props.colorMode === "dark" ? "black" : "#FFFFFF",
         color: props.colorMode === "dark" ? "#F5F5F5" : "gray.800", 
       },
       ".selected-div": {

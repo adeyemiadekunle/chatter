@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { GitHub, Google, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Text, Link, FormControl, FormLabel, InputGroup, InputRightElement, FormErrorMessage,  Input,  Heading, VStack, Button } from '@chakra-ui/react';
 // import { useDisclosure } from '@chakra-ui/react';
-import { useFirebaseContext} from '../context';
+import { useFirebaseContext} from '../context/Firebase';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // import PasswordReset from './PasswordReset';

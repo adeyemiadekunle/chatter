@@ -15,22 +15,24 @@ import {
   Box,
 } from "@chakra-ui/react";
 
+
 type PostTagsProps = {
-  selectedTags: string[];
-  setSelectedTags: (tags: string[]) => void;
+  selectedTags: TagData[];
+  setSelectedTags: (tags: TagData[]) => void;
 };
 
 type TagData = {
   id: string;
   name: string;
   image: string;
+  hash : string; 
 };
 
 const PostTags: React.FC<PostTagsProps> = ({
   selectedTags,
   setSelectedTags,
-}) => {
-  const [searchValue, setSearchValue] = useState<string>("");
+}: PostTagsProps) => {
+  const [searchValue, setSearchValue] = useState("");
   const [availableTags, setAvailableTags] = useState<TagData[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -48,17 +50,16 @@ const PostTags: React.FC<PostTagsProps> = ({
   }, []);
 
   const handleTagSelect = (tag: TagData): void => {
-    const tagName = tag.name;
-    if (!selectedTags.includes(tagName)) {
-      setSelectedTags([...selectedTags, tagName]);
+    if (!selectedTags.some((selectedTag) => selectedTag.hash === tag.hash)) {
+      setSelectedTags([...selectedTags, tag]);
     }
     setSearchValue("");
     inputRef.current?.focus();
   };
 
-  const handleTagDeselect = (tagName: string): void => {
-    setSelectedTags(
-      selectedTags.filter((selectedTag) => selectedTag !== tagName)
+  const handleTagDeselect = (hash: string): void => {
+    setSelectedTags((prevTags) =>
+      prevTags.filter((selectedTag) => selectedTag.hash !== hash)
     );
   };
 
@@ -66,23 +67,19 @@ const PostTags: React.FC<PostTagsProps> = ({
     setSearchValue(e.target.value);
   };
 
+  console.log(selectedTags);
+
   return (
-    <VStack
-      align="flex-start"
-      minH="200px"
-      mt="40px"
-      mb="50px"
-      position="relative"
-    >
+    <VStack align="flex-start" minH="200px" mt="40px" mb="50px" position="relative">
       <Text fontWeight="600" color="gray.500">
         SELECT TAGS
       </Text>
 
-      <Box style={{ position: "relative" }} w='100%'   >
+      <Box style={{ position: "relative" }} w="100%">
         <Input
           ref={inputRef}
-          placeholder=" Start typing to search..."
-          fontSize='14px'
+          placeholder="Start typing to search..."
+          fontSize="14px"
           value={searchValue}
           onChange={handleInputChange}
         />
@@ -91,15 +88,16 @@ const PostTags: React.FC<PostTagsProps> = ({
           <List
             spacing={2}
             listStyleType="none"
-            border={"1px solid gray.50"}
-            w={"100%"}
-            h={"200px"}
-            // overflowY={"scroll"}
+            border="1px solid gray.50"
+            w="100%"
+            h="200px"
             position="absolute"
             zIndex={1}
             bg="white"
             top="100%"
-            boxShadow='base' py='3' rounded='md'
+            boxShadow="base"
+            py="3"
+            rounded="md"
           >
             {availableTags
               .filter((tag) =>
@@ -108,7 +106,7 @@ const PostTags: React.FC<PostTagsProps> = ({
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((tag) => (
                 <ListItem
-                  w={"100%"}
+                  w="100%"
                   p={3}
                   key={tag.id}
                   _hover={{
@@ -117,7 +115,6 @@ const PostTags: React.FC<PostTagsProps> = ({
                     cursor: "pointer",
                   }}
                   onClick={() => handleTagSelect(tag)}
-                  
                 >
                   <HStack>
                     <Image src={tag.image} boxSize="30px" />
@@ -129,16 +126,13 @@ const PostTags: React.FC<PostTagsProps> = ({
         )}
       </Box>
 
-      <HStack flexWrap="wrap" gap={4} p={2}  >
-        {selectedTags?.map(
-          (tag) =>
-            tag && (
-              <Tag key={tag} size="lg" variant="solid" colorScheme="teal">
-                <TagLabel color={"whiteAlpha.900"}>{tag}</TagLabel>
-                <TagCloseButton onClick={() => handleTagDeselect(tag)} />
-              </Tag>
-            )
-        )}
+      <HStack flexWrap="wrap" gap={4} p={2}>
+        {selectedTags.map((tag) => (
+          <Tag key={tag.id} size="lg" variant="solid" colorScheme="teal">
+            <TagLabel display='flex' alignItems='center' color="whiteAlpha.900"><Image boxSize='20px' mr={2} src={tag.image}/> {tag.name}</TagLabel>
+            <TagCloseButton onClick={() => handleTagDeselect(tag.hash)} />
+          </Tag>
+        ))}
       </HStack>
     </VStack>
   );

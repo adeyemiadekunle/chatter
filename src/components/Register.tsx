@@ -14,7 +14,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { GitHub, Google, Visibility, VisibilityOff } from '@mui/icons-material';
-import { useFirebaseContext } from '../context';
+import { useFirebaseContext } from '../context/Firebase';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

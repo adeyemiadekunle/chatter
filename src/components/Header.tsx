@@ -3,14 +3,31 @@ import {useState, useEffect} from 'react'
 import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure } from '@chakra-ui/react'
 import { MoonIcon, SunIcon, BellIcon, SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
 import { useColorMode, useColorModeValue } from '@chakra-ui/react'
-import { useFirebaseContext } from '../context'
+import { useFirebaseContext } from '../context/Firebase'
 import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined} from '@mui/icons-material'
 import { NavLink, useNavigate } from 'react-router-dom'
 import MobileSidebar from './MobileSidebar'
-import { createDraft, fetchUserData, UserData } from '../utils/helperFunctions'
+import { createDraft} from '../utils/helperFunctions'
+import { auth, db } from '../utils/firebase'
+import { onSnapshot, doc } from 'firebase/firestore'
 
 
-const Profile = () => {
+interface HeaderProps {
+    handleCreateDraft: (draft: any) => void;
+}
+
+ interface UserData {
+    displayName: string;
+    email: string;
+    photoURL: string;
+    userName: string;
+    userBio: string;
+    userTagLine: string;
+    techStack: string[];
+    location: string;
+  } ;
+
+const Profile = ({handleCreateDraft}: HeaderProps) => {
 
     const { GoogleSignOut } = useFirebaseContext();
     const navigate = useNavigate();
@@ -30,37 +47,44 @@ const Profile = () => {
  const [userData, setUserData] = useState<UserData | null>(null);
 
  useEffect(() => {
-    const fetchUser = async () => {
-      const data = await fetchUserData();
-      setUserData(data);
-      localStorage.setItem('userData', JSON.stringify(data)); // Store the userData in local storage
-    };
-  
-    const storedUserData = localStorage.getItem('userData');
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData)); // Retrieve the userData from local storage
-    } else {
-      fetchUser();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      setUserData(null);
+      return; // Return early if there is no authenticated user
     }
-  }, []);
-  
- 
 
+    const userDoc = doc(db, "users", currentUser.uid);
+    const unsubscribe = onSnapshot(userDoc, (doc) => {
+      if (doc.exists()) {
+        const { displayName, email, photoURL, userName, userBio, userTagLine, techStack, location } =
+          doc.data() as UserData;
+        setUserData({ displayName, email, photoURL, userName, userBio, userTagLine, techStack, location });
+      } else {
+        setUserData(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+ 
     return (
         <Menu>
             <MenuButton role='profile' as={Avatar}  size='sm' cursor={'pointer'} />
             <MenuList width={'300px'} p={0} >
-                <MenuItem >
-                    <HStack py={3} spacing={6}>
-                        <Avatar src={userData?.photoURL}  />
-                        <VStack alignItems={'start'} fontWeight={'500'} fontSize={'16px'} spacing={0} >
-                            <Text>{userData?.displayName}</Text>
-                            <Text color={'grey'}>@{userData?.userName}</Text>
-                        </VStack>
-                    </HStack>
-                </MenuItem>
+                <Link  as={NavLink} to={userData?.userName} >
+                    <MenuItem  >
+                        <HStack py={3} spacing={6}>
+                            <Avatar src={userData?.photoURL}  />
+                            <VStack alignItems={'start'} fontWeight={'500'} fontSize={'16px'} spacing={0} >
+                                <Text>{userData?.displayName}</Text>
+                                <Text color={'grey'}  fontSize='14px' >@{userData?.userName}</Text>
+                            </VStack>
+                        </HStack>
+                    </MenuItem>
+                </Link>
                 <MenuDivider m={0} />
-                 <Link as={NavLink} to='/new' ><MenuItem py={4} hideFrom='md'> <Icon as={PostAddOutlined} /><Text pl={2}>Create Post</Text></MenuItem></Link>
+                <MenuItem py={4} hideFrom='md' onClick={handleCreateDraft}  > <Icon as={PostAddOutlined} /><Text pl={2}>Create Post</Text></MenuItem>
                 <MenuItem py={4}> <Icon as={DescriptionOutlined} /><Text pl={2}>My Drafts</Text></MenuItem>
                 <MenuItem py={4}><Icon as={CollectionsBookmarkOutlined} /> <Text pl={2}>My Bookmarks</Text></MenuItem>
                 <MenuItem py={4}><Icon as={Settings} /><Text pl={2}>Account Settings</Text></MenuItem>
@@ -133,7 +157,7 @@ const Header = () => {
                         <Icon as={BellIcon} boxSize={'22px'} />
                     </Stack>
                     <Box>
-                         <Profile />
+                         <Profile handleCreateDraft={handleCreateDraft} />
                     </Box>
                 </HStack>
             </HStack>

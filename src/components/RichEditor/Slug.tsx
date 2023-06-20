@@ -1,7 +1,26 @@
 import { useState, useEffect } from "react";
-import { Box, Input, Text, VStack} from "@chakra-ui/react";
+import { Input, Text, VStack} from "@chakra-ui/react";
 
-function createSlug(title: string): string {
+interface ContentBlock {
+  type: string;
+  data: {
+    level: number;
+    text: string;
+    
+  };
+}
+
+interface Content {
+  blocks: ContentBlock[];
+}
+
+interface SlugProps {
+  slug: string;
+  content: Content;
+  setSlug: (slug: string) => void;
+}
+
+export function createSlug(title: string): string {
   let slug = title.toLowerCase();
 
   slug = slug.replace(/[^a-zA-Z0-9\s-]/g, "");
@@ -23,26 +42,15 @@ function createSlug(title: string): string {
   return slug;
 }
 
-
-interface SlugProps {
-  slug: string;
-  content: any;
-  setSlug: any;
-}
-
 function Slug({ slug, content, setSlug }: SlugProps) {
-
-  const [title, setTitle] = useState<string>("");
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     async function extractHeaderLevel1() {
-      if (content && content.blocks) {
-        const headerBlock = content.blocks.find(
-          (block: { type: string; data: { level: number; }; }) => block.type === "header" && block.data.level === 1
-        );
-        return headerBlock ? headerBlock.data.text : "";
-      }
-      return "";
+      const headerBlock = content?.blocks?.find(
+        (block: ContentBlock) => block.type === "header" && block.data.level === 1
+      );
+      return headerBlock ? headerBlock.data.text : "";
     }
 
     function generateSlug() {
@@ -50,20 +58,23 @@ function Slug({ slug, content, setSlug }: SlugProps) {
       return generatedSlug;
     }
 
-    const unscribe = async () => {
+    const unsubscribe = async () => {
       const headerTitle = await extractHeaderLevel1();
       setTitle(headerTitle);
       const generatedSlug = generateSlug();
       setSlug(generatedSlug);
     };
-    unscribe();
-  }, [content, setTitle, title, setSlug]);
+
+    unsubscribe();
+  }, [content, setTitle, setSlug, title]);
 
   return (
     <>
-      <VStack  alignItems='left' >
-        <Text color='gray.500' fontWeight='600' >ARTICLE SLUG</Text>
-        <Input value={slug}  readOnly  />
+      <VStack alignItems='left'>
+        <Text color='gray.500' fontWeight='600'>
+          ARTICLE SLUG
+        </Text>
+        <Input value={slug} readOnly />
       </VStack>
     </>
   );

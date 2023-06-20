@@ -1,5 +1,5 @@
 // import useArticleManagement from "../hooks/useArticleManagement";
-import UserFeed from "../components/UserFeed";
+import UserFeed from "../components/Feed/UserFeed";
 import { Box, useColorModeValue } from "@chakra-ui/react";
 
 const Home = () => {
@@ -8,7 +8,7 @@ const Home = () => {
   const color = useColorModeValue("#0F172A", "white");
 
   return (
-    <Box display={{ base: "block", md: "flex" }}>
+    <Box display={{ base: "block", md: "flex" }} >
       {/* Main */}
       <Box
         flex={{ base: "none", md: "1" }}

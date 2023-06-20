@@ -225,12 +225,15 @@ a {
     -webkit-transition: opacity 0.1s ease;
     transition: opacity 0.1s ease;
     will-change: opacity, top;
+    
  
   }
     
   .ce-popover__items {
     display: flex;
     /* flex-direction: column; */
+    padding: 10px 0  10px 0;
+    gap: 10px;
   }
 
   .ce-popover__item-label {
