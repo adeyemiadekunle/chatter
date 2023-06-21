@@ -3,11 +3,11 @@ import { onSnapshot, collection, query, DocumentData } from "firebase/firestore"
 import { db } from "../../utils/firebase";
 import { Box, Flex} from '@chakra-ui/react'
 import UserArticleCard from '../Author/UserArticleCard'
+import { fetchAuthorData, Author } from "../../utils/helperFunctions";
 
 interface AuthorArticleProps {
   userId: string;
 }
-
 
 export interface AuthorArticles {
   id: string;
@@ -26,10 +26,12 @@ export interface AuthorArticles {
   likes: string[];
   comments: string[];
   views: string[];
+  slug: string;
 }
 
 const AuthorArticle = ({ userId }: AuthorArticleProps) => {
   const [userArticles, setUserArticles] = useState<AuthorArticles[]>([]);
+  const [authorsData, setAuthorsData] = useState({} as Author);
 
   useEffect(() => {
     const fetchAuthorArticles = async () => {
@@ -49,6 +51,7 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
               likes,
               comments,
               views,
+              slug
             } = doc.data() as DocumentData;
 
             if (authorId === userId) { // Compare with userId prop instead of authorId
@@ -62,6 +65,7 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
                 likes: likes || [],
                 comments: comments || [],
                 views: views || [],
+                slug: slug || ""
                 // ... other properties
               });
             }
@@ -80,8 +84,23 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
   }, [userId]);  
 
 
+  
+  useEffect(() => {
+    const fetchAuthor = async (authorId: string) => {
+      const data = await fetchAuthorData(authorId);
+      if (data !== null) {
+        setAuthorsData(data);
+      }
+    };
 
-  console.log(userArticles)
+  userArticles.forEach((article) => {
+      fetchAuthor(article.authorId);
+      console.log(article.authorId);
+    });
+  }, [userArticles]);
+
+
+  // console.log(userArticles)
 
   const ArticleHeaderLevel1 = (blocks: any) => {
     return blocks.find(
@@ -115,6 +134,10 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
                   HeaderImage={article.headerImage}
                   PublishDate={article.publishAt}
                   alt={article.id}
+                  AvatarImage={authorsData.photoURL}
+                  displayName={authorsData.displayName}
+                  slug={article.slug}
+                  username={authorsData.userName}
                 />
             )) : 
             <Box   w='100%'mt={3} > 

@@ -1,6 +1,6 @@
 import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot, updateDoc, arrayUnion, arrayRemove} from "firebase/firestore";
 import { db, auth } from './firebase';
-import draft from "../msc/draft";
+
 
 // Fetch Login User Data
  export interface UserData {
@@ -330,6 +330,7 @@ export interface Author {
     photoURL: string;
     userTagLine: string  
     userName: string;
+    followers: string[];
     
 }
 
@@ -339,8 +340,8 @@ export const fetchAuthorData = async (authorId: string) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const { displayName, email, photoURL, userTagLine, userName, } = docSnap.data() as Author;
-      return { displayName, email, photoURL, userTagLine, userName };
+      const { displayName, email, photoURL, userTagLine, userName, followers } = docSnap.data() as Author;
+      return { displayName, email, photoURL, userTagLine, userName, followers };
     } else {
       console.log("Author not found");
       return null;

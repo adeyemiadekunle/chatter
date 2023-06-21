@@ -48,8 +48,9 @@ const router = createBrowserRouter(
 
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<GeneralLayout />}>
+     
         <Route path="/:username" element={<Profile />} />
-        <Route path="/:username/:slug" element={<ArticleDetails />} />
+    
           <Route path="/t/:hash" element={<TagCategory />}>
             <Route index element={<Hot/>}  />
             <Route path='hot' element={<Hot/>} />
@@ -60,8 +61,7 @@ const router = createBrowserRouter(
       </Route>
 
       <Route element={<PrivateRoute />}>
-       
-       
+      <Route path="/:username/:slug" element={<ArticleDetails />} />
         <Route path="/draft/:draftId" element={<Draft />} />
         <Route path="/onboard/create-account" element={<CreateAccount />} />
       </Route>

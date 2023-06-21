@@ -44,7 +44,7 @@ const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarIm
       <Box w={{base: '100%', md: '90%'}} p={5}    >
         <Box >
           <HStack spacing={3}>
-            <Avatar src={AvatarImage} size={'md'}></Avatar>
+            <Avatar src={AvatarImage} name={displayName} size={'md'}></Avatar>
             <Box>
               <Link as={NavLink} to={`/${username}`} ><Heading fontSize={'16px'} fontWeight={'700'}>{displayName}</Heading></Link>
               <Flex gap={4} fontSize={'14px'} pt={1}> <Text>{FormattedDate(PublishDate)} </Text> <Text>10 Min Read</Text> </Flex>

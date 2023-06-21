@@ -9,12 +9,16 @@ import {
 import Output from "editorjs-react-renderer";
 import { HeaderOutput } from "editorjs-react-renderer";
 import {
-  VStack, Box, HStack, Image, Tag, TagLabel, Heading, Avatar, Text, Button, Flex, Link, Divider,Spacer, Icon
+  VStack, Box, HStack, Image, Tag, TagLabel, Heading, Avatar, Text,  Flex, Link, Divider, Icon, 
 } from "@chakra-ui/react";
 import { styles } from "../components/ArticleStyle";
 import { FormattedDate } from "../utils/FormatDate";
 import { BookmarkAddOutlined, FavoriteBorderOutlined, AnalyticsOutlined, BookmarkAddedOutlined, ForumOutlined, ShareOutlined} from '@mui/icons-material'
 import  AuthorArticles  from "../components/Author/AuthorsArticle";  
+import ArticleHeading from "../components/ArticleHeading";
+import { followAuthor } from "../components/FollowingAuthor";
+import {auth } from '../utils/firebase'
+
 
 
 
@@ -26,7 +30,10 @@ const ArticleDetails = () => {
   const [publishDate, setPublishDate] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
+
   const { slug } = useParams<{ slug: string }>();
+  const currentUser = auth.currentUser?.uid;
 
   useEffect(() => {
     const getArticle = async () => {
@@ -50,15 +57,28 @@ const ArticleDetails = () => {
   useEffect(() => {
     const fetchAuthor = async (authorId: string) => {
       const data = await fetchAuthorData(authorId);
+      console.log(data);
       if (data !== null) {
+        const { followers } = data;
         setAuthorsData(data);
+        if (currentUser !== undefined) {
+          setIsFollowing(followers.includes(currentUser));
+        }
       }
     };
 
     fetchAuthor(author);
-  }, [contents]);
+  }, [contents, currentUser]);
 
-  console.log(author);
+  console.log(isFollowing);
+  
+  const handleFollow = async () => {
+    setIsFollowing(!isFollowing); // Toggle the value of isFollowing
+    if (currentUser !== undefined) {
+      await followAuthor(author, isFollowing, currentUser); // Pass the updated value to followAuthor
+    }
+  };
+  
 
   const ArticleHeaderLevel1 = (blocks: any) => {
     return blocks.find(
@@ -71,7 +91,10 @@ const ArticleDetails = () => {
   );
 
   return (
-    <Box>
+    <Box>  
+      <Box>
+        <ArticleHeading></ArticleHeading>
+        </Box>  
       <Box maxW={{ base: "100%", md: "1000px" }} m="0 auto"  >
         <VStack>
           <Box>
@@ -88,24 +111,73 @@ const ArticleDetails = () => {
             spacing={4}
             py={6}
           >
-              <Flex alignItems='center' gap={3}  flexDir={{base: 'column', md: 'row'}} >
-                <HStack spacing={1}>
-                  <Avatar
-                    size="md"
-                    src={authorsData.photoURL}
-                    name={authorsData.displayName}
-                  />
-                  <Text fontWeight="700">{authorsData.userName}</Text>
+              <Flex alignItems='center' gap={3}  flexDir={{base: 'column', md: 'row'}} > 
+               <HStack spacing={2} >
+                  <Box>
+                        <Avatar
+                          size="lg"
+                          src={authorsData.photoURL}
+                          name={authorsData.displayName}
+                        />
+                  </Box>
+                  <VStack fontSize='14px' alignItems='flex-start' >
+                    <HStack>
+                      <Text fontWeight="600">{authorsData.displayName}</Text>
+                      <Text>·</Text>
+                        {isFollowing ? (
+                          <Text color="blue.500" onClick={handleFollow} cursor='pointer' >
+                            Following
+                          </Text>
+                        ) : (
+                          <Text color="blue.500" onClick={handleFollow} cursor='pointer'>
+                            Follow
+                          </Text>
+                        )
+                        }
+                    </HStack>
+                    <HStack>
+                         <Text>10 min Read</Text>
+                         <Text>·</Text>
+                        <Text>{FormattedDate(publishDate)} </Text>
+                        
+                    </HStack>
+                  </VStack>
                 </HStack>
-                <Text  display={{base: 'none', md: 'block'}} >·</Text>
-                <HStack>
-                <Text>
-                  <Text>{FormattedDate(publishDate)} </Text>
-                </Text>
-                   <Text>·</Text>
-                <Text>10 min Read</Text>
-                </HStack>
+
+                
               </Flex>
+              <Box  pb={8}>
+                <HStack  borderRadius='10px' px={3} py={2} className='selected-div' >
+                      <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                      >
+                          <Icon as={FavoriteBorderOutlined} color={'gray.700'} /> <Text>10</Text>
+                      </Flex>
+                      <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                      >
+                          <Icon as={AnalyticsOutlined} color={'gray.700'} /> <Text>1</Text>
+                      </Flex>
+                      <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                      >
+                          <Icon as={ForumOutlined} color={'gray.700'} /> <Text>3</Text>
+                      </Flex>
+
+                      <Flex gap={1}  w={'40px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                      >
+                          <Icon as={BookmarkAddOutlined} color={'gray.700'} />
+                      </Flex>
+
+                      <Flex gap={1}  w={'40px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                      >
+                          <Icon as={ShareOutlined} color={'gray.700'} />
+                      </Flex>
+                      
+                  </HStack>
+              </Box>
           
           </VStack>
           <Box w='100%'>
@@ -116,7 +188,9 @@ const ArticleDetails = () => {
             <Output data={contents} style={styles} />
 
             <VStack mt={'60px'} w='100%' mb={'60px'}>
-            <HStack  border='1px solid gray' borderRadius='50px' px={3} py={2}  >
+
+              {/*   */}
+             <HStack borderRadius='10px' px={3} py={2} className='selected-div'  >
                     <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                     _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
                     >
@@ -162,7 +236,7 @@ const ArticleDetails = () => {
               </Box>
           </Box>
         </VStack>
-        <Divider></Divider>
+        <Divider/>
       </Box>
       <Box minH='300px' w='100%' mt={3} pb='100px' >
         <HStack w='100%' justifyContent='center' >
