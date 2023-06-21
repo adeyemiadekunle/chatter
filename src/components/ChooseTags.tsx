@@ -1,4 +1,4 @@
-import PostTags from "./PostTags";
+import PostTags from "./RichEditor/ArticleTags";
 import { Box, VStack, Text, Heading } from "@chakra-ui/react";
 
 type ChooseTagsProps = {

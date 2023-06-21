@@ -1,5 +1,6 @@
 import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot, updateDoc, arrayUnion, arrayRemove} from "firebase/firestore";
 import { db, auth } from './firebase';
+import draft from "../msc/draft";
 
 // Fetch Login User Data
  export interface UserData {
@@ -56,28 +57,6 @@ export const updateUserData = async (userData: UserData) => {
     console.error("Error updating user data:", error);
   }
 };
-
-
-// fetchAllUsers
-// export const fetchAllUsers = async () => {
-//   try {
-//     const querySnapshot = await getDocs(collection(db, 'users'));
-//     const users: UserData[] = [];
-
-//     querySnapshot.forEach((doc) => {
-//       const { displayName, email, photoURL, userName, userBio, userTagLine, techStack, location,
-//       } = doc.data();
-
-//       users.push({ displayName, email, photoURL, userName, userBio, userTagLine, techStack, location,
-//       });
-//     });
-
-//     return users;
-//   } catch (error) {
-//     console.error('Error fetching all users:', error);
-//     return [];
-//   }
-// };
 
 
 
@@ -167,26 +146,6 @@ export const createDraft = async (callback: (arg0: string) => void) => {
     console.error("Error saving article:", error);
   }
 };
-
-
-// publishArticle
-// export const publishArticle = async (headerImage: string, tags: string[], content: string) => {
-//   try {
-//     const articleRef = await addDoc(collection(db, "articles"), {
-//       publishAt: new Date().toISOString(),
-//       authorId: auth.currentUser?.uid,
-//       headerImage,
-//       tags,
-//       content,
-//       likes: [],
-//       comments: [],
-//       views: [],
-//     });
-//     console.log("Article published with ID:", articleRef.id);
-//   } catch (error) {
-//     console.error("Error publishing article:", error);
-//   }
-// };
 
 
 
@@ -285,7 +244,7 @@ export const deleteDraft = async (draftId: string) => {
   try {
     const docRef = doc(db, "drafts", draftId);
     await deleteDoc(docRef);
-    console.log("Draft deleted successfully");
+    console.log("Draft deleted successfully", draftId);
   } catch (error) {
     console.error("Error deleting draft:", error);
   }

@@ -11,8 +11,8 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
-import PostTags from "./PostTags";
-import Slug from "./RichEditor/Slug";
+import PostTags from "./ArticleTags";
+import Slug from "./Slug";
 
 type PublishDrawerProps = {
   isOpen: boolean;

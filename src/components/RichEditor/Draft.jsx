@@ -4,7 +4,7 @@ import {  updateDraft, publishDraft, fetchDraft } from "../../utils/helperFuncti
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, useDisclosure, Flex, HStack, IconButton, Tooltip, Box, Alert, AlertIcon, AlertTitle, AlertDescription, Input} from "@chakra-ui/react";
 import ImageHeader from "./ImageHeader";
-import PublishDrawer from "../PublishDrawer";
+import PublishDrawer from "./PublishDrawer";
 import { ViewSidebarOutlined } from "@mui/icons-material";
 import { create, debounce,} from "lodash"
 

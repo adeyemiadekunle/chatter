@@ -7,11 +7,12 @@ import {
   Link,
   IconButton,
   Divider,
-  HStack
+  HStack,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { ArrowBackOutlined } from "@mui/icons-material";
 import DraftSideBar from '../../components/DraftSideBar'
+
 
 
 const NewArticle = () => {
@@ -47,11 +48,10 @@ const NewArticle = () => {
                   <Divider mt={3}/>
             </Box>
 
- 
-
             <Box px={3} py={2}>
                <DraftSideBar/>
             </Box>
+
           </Box>
 
           <Box

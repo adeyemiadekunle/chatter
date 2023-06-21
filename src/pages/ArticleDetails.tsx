@@ -1,30 +1,38 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchArticle } from "../utils/helperFunctions";
-import Output from "editorjs-react-renderer";
-import { VStack, Box, HStack, Image, Tag, TagLabel } from "@chakra-ui/react";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { fetchArticle } from '../utils/helperFunctions';
+import Output from 'editorjs-react-renderer';
+import {
+  VStack,
+  Box,
+  HStack,
+  Image,
+  Tag,
+  TagLabel,
+} from '@chakra-ui/react';
+import {styles} from '../components/ArticleStyle'
 
-interface TagData {
-  name: string;
-  hash: string;
-}
+// interface TagData {
+//   name: string;
+//   hash: string;
+//   tags: string[];
+// }
 
-interface ArticleDetailsProps {
-  user?: string;
-  tags: TagData[];
-}
+// interface ArticleDetailsProps {
+//   user?: string;
+//   tags: TagData[];
+// }
 
-
-const ArticleDetails: React.FC<ArticleDetailsProps> = () => {
-  const [contents, setContents] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+const ArticleDetails = () => {
+  const [contents, setContents] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const { slug } = useParams<{ slug: string }>();
 
   useEffect(() => {
     const getArticle = async () => {
-      const article = await fetchArticle(slug ?? "");
+      const article = await fetchArticle(slug ?? '');
       if (article) {
         const { content, headerImage, tags } = article;
         setContents(content);
@@ -40,10 +48,8 @@ const ArticleDetails: React.FC<ArticleDetailsProps> = () => {
   }, [slug]);
 
   return (
-    <Box>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
+    <Box >
+      <Box maxW={{base: '100%', md: '800px'}} m='0 auto' >
         <VStack>
           <Box>
             <Image src={imageUrl} />
@@ -58,10 +64,10 @@ const ArticleDetails: React.FC<ArticleDetailsProps> = () => {
             </HStack>
           </Box>
           <Box>
-            <Output data={contents} />
+            <Output data={contents} style={styles} />
           </Box>
         </VStack>
-      )}
+      </Box>
     </Box>
   );
 };
