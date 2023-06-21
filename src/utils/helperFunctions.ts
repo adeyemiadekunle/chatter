@@ -330,6 +330,7 @@ export interface Author {
     photoURL: string;
     userTagLine: string  
     userName: string;
+    
 }
 
 export const fetchAuthorData = async (authorId: string) => {
@@ -338,7 +339,7 @@ export const fetchAuthorData = async (authorId: string) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      const { displayName, email, photoURL, userTagLine, userName } = docSnap.data() as Author;
+      const { displayName, email, photoURL, userTagLine, userName, } = docSnap.data() as Author;
       return { displayName, email, photoURL, userTagLine, userName };
     } else {
       console.log("Author not found");
@@ -357,7 +358,15 @@ export interface Article {
   publishAt: string; 
   headerImage: string; 
   tags: string[];
-  content: string; 
+  content: {
+    blocks: {
+      type: string;
+      data: {
+        level: number;
+        text: string;
+      };
+    }[];
+  };
   authorId: string;
   likes: string[];
   comments: string[];

@@ -2,29 +2,32 @@ export const styles = {
     paragraph: {
         fontSize: '1.1rem',
         fontWeight: 400,
-        lineHeight: '1.5rem',
+        lineHeight: '1.8rem',
         marginBottom: '0.7rem',
         marginTop: '0.7rem',
+        
+       
     },
     header: {
       h1: {
+        display: 'none',
         fontSize: '2.5rem',
         fontWeight: 700,
-        lineHeight: '1.2rem',
+        lineHeight: '3rem',
         marginBottom: '2rem',
         marginTop: '1.5rem',
       },
       h2: {
         fontSize: '2rem',
         fontWeight: 700,
-        lineHeight: '1.2rem',
+        lineHeight: '2.5rem',
         marginBottom: '1.5rem',
         marginTop: '1.5rem',
       },
       h3: {
         fontSize: '1.5rem',
         fontWeight: 600,
-        lineHeight: '1.2rem',
+        lineHeight: '2rem',
         marginBottom: '1.5rem',
         marginTop: '1.5rem',
 
@@ -32,7 +35,7 @@ export const styles = {
       h4: {
         fontSize: '1.3rem',
         fontWeight: 600,
-        lineHeight: '1.2rem',
+        lineHeight: '1.8rem',
         marginBottom: '1.5rem',
         marginTop: '1.5rem',
 
@@ -40,7 +43,7 @@ export const styles = {
       h5: {
         fontSize: '1.2rem',
         fontWeight: 600,
-        lineHeight: '1.2rem',
+        lineHeight: '1.7rem',
         marginBottom: '1.5rem',
         marginTop: '1.5rem',
 
@@ -48,7 +51,7 @@ export const styles = {
       h6: {
         fontSize: '1.1rem',
         fontWeight: 600,
-        lineHeight: '1.2rem',
+        lineHeight: '1.5rem',
         marginBottom: '1.5rem',
         marginTop: '1.5rem',
 
@@ -179,10 +182,43 @@ export const styles = {
       },
     },
     table: {
-      table: {},
-      tr: {},
-      th: {},
-      td: {},
+      table: {
+        width: '100%',
+        marginBottom: '1.5rem',
+        marginTop: '1.5rem',
+
+      },
+      tr: {
+        borderBottom: '1px solid #ddd',
+        padding: '0.35rem',
+        textAlign: 'left',
+        fontWeight: 600,
+        fontSize: '1.1rem',
+        lineHeight: '1.5rem',
+        marginBottom: '0.7rem',
+        marginTop: '0.7rem',
+
+
+      },
+      th: {
+        padding: '0.35rem',
+        textAlign: 'left',
+        fontWeight: 600,
+        fontSize: '1.1rem',
+        lineHeight: '1.5rem',
+        marginBottom: '0.7rem',
+        marginTop: '0.7rem',
+
+      },
+      td: {
+        padding: '0.35rem',
+        textAlign: 'left',
+        fontSize: '1.1rem',
+        lineHeight: '1.5rem',
+        marginBottom: '0.7rem',
+        marginTop: '0.7rem',
+
+      },
     },
     quote: {
       container: {
@@ -216,8 +252,18 @@ export const styles = {
       }
     },
     codeBox: {
-      container: {},
-      code: {},
+      container: {
+        marginBottom: '1.5rem',
+        marginTop: '1.5rem',
+
+      },
+      code: {
+        fontSize: '1.1rem',
+        fontWeight: 400,
+        lineHeight: '1.5rem',
+        marginBottom: '0.7rem',
+        marginTop: '0.7rem',
+      },
     },
     warning: {
       container: {},
@@ -239,11 +285,43 @@ export const styles = {
       link: {}
     },
     linkTool: {
-      container: {},
-      textHolder: {},
-      title: {},
-      description: {},
-      image: {},
+      container: {
+        marginBottom: '1.5rem',
+        marginTop: '1.5rem',
+      },
+      textHolder: {
+        fontSize: '1.1rem',
+        fontWeight: 400,
+        lineHeight: '1.5rem',
+        marginBottom: '0.7rem',
+        marginTop: '0.7rem',
+      },
+      title: {
+        fontSize: '1.1rem',
+        fontWeight: 400,
+        lineHeight: '1.5rem',
+        marginBottom: '0.7rem',
+        marginTop: '0.7rem',
+
+      },
+      description: {
+        fontSize: '1.1rem',
+        fontWeight: 400,
+        lineHeight: '1.5rem',
+        marginBottom: '0.7rem',
+        marginTop: '0.7rem',
+
+      },
+      image: {
+        maxWidth: '100%',
+        maxHeight: '100%',
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: '1.5rem',
+        marginTop: '1.5rem',
+
+      },
       siteName: {}
 
     },
