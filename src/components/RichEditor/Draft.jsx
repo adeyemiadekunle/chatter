@@ -30,7 +30,7 @@ const DEFAULT_INITIAL_DATA = {
     {
       type: "header",
       data: {
-        text: "Let`s write an awesome article!",
+        text: "",
         level: 1,
       },
     },
@@ -82,6 +82,7 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
       },
       autofocus: true,
       data: initialData,
+      placeholder: "Let's write some awesome content!",
       onChange: handleUpdateDraft,
       tools: {
         header: {
@@ -172,8 +173,8 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
               </Tooltip>
             </Box>
             <HStack spacing={8}>
-              <Button onClick={handleSaveDraft}>Save</Button>
-              <Button ref={btnRef} onClick={onOpen}>
+              <Button fontSize='base' onClick={handleSaveDraft}>Save</Button>
+              <Button fontSize='base' ref={btnRef} onClick={onOpen}>
                 Publish
               </Button>
             </HStack>

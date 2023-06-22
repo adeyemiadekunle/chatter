@@ -20,8 +20,6 @@ import { followAuthor } from "../components/FollowingAuthor";
 import {auth } from '../utils/firebase'
 
 
-
-
 const ArticleDetails = () => {
   const [contents, setContents] = useState<Article["content"]>({ blocks: [] });
   const [authorsData, setAuthorsData] = useState({} as Author);
@@ -57,7 +55,6 @@ const ArticleDetails = () => {
   useEffect(() => {
     const fetchAuthor = async (authorId: string) => {
       const data = await fetchAuthorData(authorId);
-      console.log(data);
       if (data !== null) {
         const { followers } = data;
         setAuthorsData(data);
@@ -70,7 +67,6 @@ const ArticleDetails = () => {
     fetchAuthor(author);
   }, [contents, currentUser]);
 
-  console.log(isFollowing);
   
   const handleFollow = async () => {
     setIsFollowing(!isFollowing); // Toggle the value of isFollowing
@@ -97,23 +93,23 @@ const ArticleDetails = () => {
         </Box>  
       <Box maxW={{ base: "100%", md: "1000px" }} m="0 auto"  >
         <VStack>
-          <Box>
-            <Box>
-              <Heading fontSize={{base: '34px', md: '48px'}} textAlign="center" mt={12}>
+          <HStack  >
+            <Box  w={{base: '100%', md: '90%' }} m='0 auto'  >
+              <Heading fontSize={{base: '34px', md: '48px'}} textAlign="center" mt={12} >
                 <HeaderOutput data={headerBlocksArticle?.data} />
               </Heading>
             </Box>
-          </Box>
+          </HStack>
           <VStack
             minH="100px"
             w="100%"
             justifyContent="center"
             spacing={4}
-            py={6}
+            py={{base: '2', md: '4'}}
           >
               <Flex alignItems='center' gap={3}  flexDir={{base: 'column', md: 'row'}} > 
-               <HStack spacing={2} >
-                  <Box>
+               <Flex gap={2} alignItems='center' flexDir={{base: 'column', md: 'row'}} >
+                  <Box  pb={{base: '3', md: '0'}}>
                         <Avatar
                           size="lg"
                           src={authorsData.photoURL}
@@ -142,7 +138,7 @@ const ArticleDetails = () => {
                         
                     </HStack>
                   </VStack>
-                </HStack>
+                </Flex>
 
                 
               </Flex>
@@ -190,7 +186,8 @@ const ArticleDetails = () => {
             <VStack mt={'60px'} w='100%' mb={'60px'}>
 
               {/*   */}
-             <HStack borderRadius='10px' px={3} py={2} className='selected-div'  >
+              <Box  position='sticky' >
+              <HStack borderRadius='10px' px={3} py={2} className='selected-div'  >
                     <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                     _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
                     >
@@ -220,6 +217,7 @@ const ArticleDetails = () => {
                     </Flex>
                      
                 </HStack>
+              </Box>
             </VStack>
 
                   {/*  Tags */}

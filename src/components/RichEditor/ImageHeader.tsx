@@ -85,6 +85,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       {!imageUrl && (
         <VStack h={"100px"} justifyContent={"center"} alignItems={"left"}  >
           <Button
+            fontSize='base'
             isLoading={isLoading}
             loadingText='Uploading'
             colorScheme='teal'

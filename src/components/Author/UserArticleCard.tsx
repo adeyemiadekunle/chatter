@@ -51,16 +51,16 @@ const ArticleCard = ({
             />
             </Link>
           </Box>
-          <Heading fontSize='24px'>
+          <Heading fontSize='md'>
            <Link as={NavLink} to={`/${username}/${slug}`}>
             <HeaderOutput  data={Title} />
            </Link>
           </Heading>
-          <HStack w="100%" fontSize='14px' spacing={2}>
+          <HStack w="100%"  spacing={2}>
             <Avatar src={AvatarImage} name={displayName} size={'sm'}/>
-            <Text>{FormattedDate(PublishDate)} </Text> <Text>10 Min Read</Text>
+            <Text fontSize='sm'>{FormattedDate(PublishDate)} </Text> <Text fontSize='sm'>10 Min Read</Text>
           </HStack>
-          <Text pt={0}>
+          <Text pt={0} fontSize='base'>
             <TextTrimmingWithEllipsis text={Paragraph} maxLength={maxLength} />
           </Text>
         </VStack>

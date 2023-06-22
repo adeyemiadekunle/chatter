@@ -85,7 +85,7 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
                     </MenuItem>
                 </Link>
                 <MenuDivider m={0} />
-                <MenuItem py={4}  onClick={handleCreateDraft}  > <Icon as={PostAddOutlined} /><Text pl={2}>New Post</Text></MenuItem>
+                <MenuItem py={4}  onClick={handleCreateDraft}  > <Icon as={PostAddOutlined} /><Text pl={2}>New Draft</Text></MenuItem>
                 <MenuItem py={4}> <Icon as={DescriptionOutlined} /><Text pl={2}>My Drafts</Text></MenuItem>
                 <MenuItem py={4}><Icon as={CollectionsBookmarkOutlined} /> <Text pl={2}>My Bookmarks</Text></MenuItem>
                 <MenuItem py={4}><Icon as={Settings} /><Text pl={2}>Account Settings</Text></MenuItem>
@@ -128,11 +128,11 @@ const Header = () => {
                     <VStack hideFrom='md'>
                         <HamburgerIcon onClick={onOpen} boxSize={'32px'} />
                     </VStack>
-                    <Link as={NavLink} to='/' ><Box fontSize={{base: '22px', md: '28px'}} px={3}  bg={'#543EE0'} fontWeight={700} color={'white'}> Chatter</Box></Link>
+                    <Link as={NavLink} to='/' ><Box fontSize='md' px={3}  bg='brand.800' fontWeight={700} color={'white'}> Chatter</Box></Link>
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>
-                  <Link as={NavLink} to='/feed/personalize' ><Button color={'#543EE0'}>My Feed</Button></Link>
+                  <Link as={NavLink} to='/feed/personalize' ><Button color='brand.800' fontSize='base'>My Feed</Button></Link>
                     <InputGroup >
                         <InputLeftElement w={'30px'} h={'30px'} children={<Icon as={SearchIcon} color={'grey'} boxSize={'15px'} />}  ml={2} mt={1} />
                         <Input placeholder="Search Chatter" size='md' minWidth={'500px'}  variant={'outline'}  focusBorderColor='#543EE0' />

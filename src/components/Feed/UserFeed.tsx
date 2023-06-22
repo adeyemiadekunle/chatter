@@ -9,17 +9,17 @@ import {
 const UserFeed = () => {
   return (
     <Box>
-      <Flex gap={2} overflowX={'auto'} >
+      <Flex gap={1} overflowX={'auto'} >
         <Link
           as={NavLink}
           to="personalize"
           display={"flex"}
           alignItems={"center"}
-          px={6}
+          px={5}
           py={4}
           _hover={{bg: 'gray.100', color: 'black'}}
           borderBottom={'1px solid #E2E8F0'}
-          _activeLink={{color: 'blue', borderBottom: ' 1px solid blue'}}
+          _activeLink={{color: 'brand.800', borderBottom: ' 1px solid #0057C2'}}
         >
           <Icon as={AutoFixHighOutlined} fontSize={"26px"} />
           <Text pl={1} whiteSpace={"nowrap"}>
@@ -31,11 +31,11 @@ const UserFeed = () => {
           to="featured"
           display={"flex"}
           alignItems={"center"}
-          px={6}
+          px={5}
           py={4}
           _hover={{bg: 'gray.100', color: 'black'}}
           borderBottom={'1px solid #E2E8F0'}
-          _activeLink={{color: 'blue', borderBottom: ' 1px solid blue'}}
+          _activeLink={{color: 'brand.800', borderBottom: ' 1px solid #0057C2'}}
         >
           <Icon as={StarOutlineOutlined} fontSize={"26px"} />
           <Text pl={1}>Featured</Text>
@@ -45,11 +45,11 @@ const UserFeed = () => {
           to="recent"
           display={"flex"}
           alignItems={"center"}
-          px={6}
+          px={5}
           py={4}
           _hover={{bg: 'gray.100', color: 'black'}}
           borderBottom={'1px solid #E2E8F0'}
-          _activeLink={{color: 'blue', borderBottom: ' 1px solid blue'}}
+          _activeLink={{color: 'brand.800', borderBottom: ' 1px solid #0057C2'}}
         >
           <Icon as={PublishOutlined} fontSize={"28px"} />
           <Text pl={1}>Recent</Text>

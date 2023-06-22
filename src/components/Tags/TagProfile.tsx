@@ -128,15 +128,15 @@ export const TagsProfile = ({ tags, user }: TagsProfileProps) => {
         </HStack>
         <HStack spacing={4} justifyContent="center">
           {isFollowing ? (
-            <Button onClick={handleFollowClick} rightIcon={<CheckIcon />}>
+            <Button fontSize='base' onClick={handleFollowClick} rightIcon={<CheckIcon />}>
               Unfollow
             </Button>
           ) : (
-            <Button onClick={handleFollowClick} rightIcon={<AddIcon />}>
+            <Button fontSize='base' onClick={handleFollowClick} rightIcon={<AddIcon />}>
               Follow
             </Button>
           )}
-          <Button>Write An Article</Button>
+          <Button fontSize='base'>Write An Article</Button>
         </HStack>
         <HStack spacing={4} justifyContent="center">
           <Text>{FollowersCount} followers</Text>

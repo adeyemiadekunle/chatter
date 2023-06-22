@@ -1,4 +1,15 @@
 
+:root {
+  --font-size-sm: clamp(0.8rem, 0.07vw + 0.79rem, 0.84rem);
+  --font-size-base: clamp(1.05rem, 0.21vw + 0.96rem, 1.13rem);
+  --font-size-md: clamp(1.25rem, 0.42vw + 1.17rem, 1.5rem);
+  --font-size-lg: clamp(1.56rem, 0.73vw + 1.42rem, 2rem);
+  --font-size-xl: clamp(1.95rem, 1.19vw + 1.72rem, 2.66rem);
+  --font-size-xxl: clamp(2.44rem, 1.85vw + 2.07rem, 3.55rem);
+  --font-size-xxxl: clamp(3.05rem, 2.81vw + 2.49rem, 4.73rem);
+}
+
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -6,11 +17,19 @@
 }
 
 body {
-  font-size: 16px;
+  font-size: var(--font-size-base) ;
   font-weight: 400;
   line-height: 27px;
   min-height: 100vh;
 }
+
+input, textarea, label {
+  font-family: inherit;
+  font-size: var(--font-size-base) !important;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
 
 a {
   text-decoration: none !important;
@@ -22,7 +41,6 @@ a {
   margin: 0 auto;
 
 }
-
 
 
 /* Editor styling */
@@ -48,21 +66,21 @@ a {
 }
 
 .ce-block__content h1 {
-  font-size: 2.5rem;
+  font-size:var(--font-size-xxl);
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
 .ce-block__content h2 {
-  font-size: 2rem;
+  font-size: var(--font-size-xl);
   font-weight: 600;
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
 .ce-block__content h3 {
-  font-size: 1.75rem;
+  font-size: var(--font-size-lg);
   font-weight: 600;
   line-height: 1.2;
   margin-bottom: 0.8rem;
@@ -70,28 +88,28 @@ a {
 }
 
 .ce-block__content h4 {
-  font-size: 1.5rem;
+  font-size: var(--font-size-md);
   font-weight: 600;
   line-height: 1.2;
  margin-bottom: 0.8rem;
 }
 
 .ce-block__content h5 {
-  font-size: 1.25rem;
+  font-size: var(--font-size-md);
   font-weight: 500;
   line-height: 1.2;
   margin-bottom: 0.7rem;
 }
 
 .ce-block__content h6 {
-  font-size: 1rem;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   line-height: 1.2;
   margin-bottom: 0.7rem;
 }
 
 .ce-paragraph {
-  font-size: 1.1rem;
+  font-size: var(--font-size-base);
   font-weight: 400;
   line-height: 1.5;
   margin-bottom: 0.7rem;
@@ -148,7 +166,7 @@ a {
 /* Media Queries */
 @media screen and (max-width: 650px) {
 
-  .ce-block__content h1  {
+  /* .ce-block__content h1  {
     font-size: 2rem;
     font-weight: 700;
     line-height: 1.2;
@@ -194,7 +212,7 @@ a {
     line-height: 1.2;
     margin-bottom: 1.5rem;
     margin-top: 1.5rem;
-  }
+  } */
 
   .ce-block__content p {
     font-size: 0.75rem;

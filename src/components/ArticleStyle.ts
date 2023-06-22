@@ -1,12 +1,13 @@
+
+
 export const styles = {
+
     paragraph: {
         fontSize: '1.1rem',
         fontWeight: 400,
         lineHeight: '1.8rem',
         marginBottom: '0.7rem',
-        marginTop: '0.7rem',
-        
-       
+        marginTop: '0.7rem',   
     },
     header: {
       h1: {
@@ -16,6 +17,7 @@ export const styles = {
         lineHeight: '3rem',
         marginBottom: '2rem',
         marginTop: '1.5rem',
+        color: '#0047AB',
       },
       h2: {
         fontSize: '2rem',
@@ -139,7 +141,6 @@ export const styles = {
         marginTop: '1.5rem',
       }
     },
-
 
     list: {
       container: {
@@ -325,5 +326,60 @@ export const styles = {
       siteName: {}
 
     },
+    embedTool: {
+      container: {
+        marginBottom: '1.5rem',
+        marginTop: '1.5rem',
+      },
+      textHolder: {
+        fontSize: '1.1rem',
+        fontWeight: 400,
+        lineHeight: '1.5rem',
+        marginBottom: '0.7rem',
+        marginTop: '0.7rem',
+      },
+      title: {
+        fontSize: '1.1rem',
+        fontWeight: 400,
+        lineHeight: '1.5rem',
+        marginBottom: '0.7rem',
+        marginTop: '1.5rem',
+
+      },
+      description: {
+        fontSize: '1.1rem',
+        fontWeight: 400,
+        lineHeight: '1.5rem',
+        marginBottom: '1.5rem',
+        marginTop: '1.5rem',
+
+      },
+      image: {
+        maxWidth: '100%',
+        maxHeight: '100%',
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: '1.5rem',
+        marginTop: '1.5rem',
+
+      },
+      siteName: {},
+
+      iframe: {
+        width: '100%',
+        height: '100%',
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: '1.5rem',
+        marginTop: '1.5rem',
+        
+      }
+
+    },
+
+   
+
   };
   

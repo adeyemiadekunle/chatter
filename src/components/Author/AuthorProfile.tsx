@@ -79,6 +79,7 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
               <HStack>
                 {isFollowing ? (
                   <Button
+                    fontSize='base'
                     isDisabled={currentUser === user.userId}
                     onClick={handleFollow}
                     rightIcon={<CheckIcon />}
@@ -86,7 +87,8 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
                     Unfollow
                   </Button>
                 ) : (
-                  <Button
+                   <Button
+                   fontSize='base'
                     isDisabled={currentUser === user.userId}
                     onClick={handleFollow}
                     rightIcon={<AddIcon />}
@@ -139,6 +141,7 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
               <HStack>
                 {isFollowing ? (
                   <Button
+                  fontSize='base'
                     isDisabled={currentUser === user.userId}
                     onClick={handleFollow}
                     rightIcon={<CheckIcon />}
@@ -147,6 +150,7 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
                   </Button>
                 ) : (
                   <Button
+                  fontSize='base'
                     isDisabled={currentUser === user.userId}
                     onClick={handleFollow}
                     rightIcon={<AddIcon />}

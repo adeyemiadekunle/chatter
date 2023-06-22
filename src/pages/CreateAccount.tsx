@@ -174,6 +174,7 @@ function CreateAccount() {
         >
           {activeStep === 0 && (
             <Button
+            fontSize='base'
               isDisabled={checkCreateAccount}
               w="100%"
               colorScheme="blue"
@@ -184,7 +185,7 @@ function CreateAccount() {
           )}
 
           {activeStep === 1 && (
-            <Button  isDisabled={checkChoosetTags} colorScheme="blue" w="100%" onClick={handleUpdate}>
+            <Button  fontSize='base' isDisabled={checkChoosetTags} colorScheme="blue" w="100%" onClick={handleUpdate}>
               Finish{" "}
             </Button>
           )}

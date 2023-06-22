@@ -30,36 +30,36 @@ const Header = () => {
   const { isAuth} = useFirebaseContext();
   return (
     <>
-      <Box px={12} py={4}>
-        <HStack spacing={10} justifyContent={"space-between"}>
+      <Box px={[ 4, 12]} py={4}  >
+        <HStack spacing={10} justifyContent={"space-between"}  >
           {/* logo */}
           <Box
-            fontSize={"26px"}
+            fontSize='md'
             px={3}
             py={1}
-            bg={"#543EE0"}
+            bg='brand.800'
             fontWeight={700}
-            color={"white"}
+            color='primary.white'
           >
             Chatter
           </Box>
-          <HStack spacing={10}display={{base: 'none', md: 'block'}} >
-            { isAuth ? <Link as={NavLink} to='/feed' > <Button color={'#543EE0'}>My Feed</Button></Link> : 
-             <Link as={NavLink} to='/onboard' > <Button color={'#543EE0'}>My Feed</Button></Link> }
+          <HStack spacing={10}  display={{base: 'none', md: 'block'}}  >
+            { isAuth ? <Link as={NavLink} to='/feed' ><Button color= 'brand.800' fontSize='base' >My Feed</Button></Link> : 
+             <Link as={NavLink} to='/onboard' > <Button color= 'brand.800' fontSize='base'  >My Feed</Button></Link> }
             {  isAuth ?  
             <Link as={NavLink}  to='/feed' hideBelow='md' >
-                <Button  bg={'#543EE0'} borderColor={'#543EE0'} color={'white'}
-                _hover={{ bg: 'white', border: '#543EE0', color: 'black'}}
+                <Button  bg= 'brand.800' borderColor='brand.800' color={'white'}
+                _hover={{ bg: 'brand.600'}}
                 transition={'all .3s ease-in-out'}
                   >
                 <Icon as={CreateOutlined} ></Icon>
-                    <Text pl={2}>Create Post </Text>
+                    <Text fontSize='base' pl={2}>Create Post </Text>
                 </Button>
             </Link>
               : 
             <Link as={NavLink}  to='/onboard' hideBelow='md' >
-              <Button  bg={'#543EE0'} borderColor={'#543EE0'} color={'white'}
-              _hover={{ bg: 'white', border: '#543EE0', color: 'black'}}
+              <Button bg= 'brand.800' borderColor='brand.800'color={'white'}
+                 _hover={{ bg: 'brand.700'}}
               transition={'all .3s ease-in-out'}
               >
               <Icon as={CreateOutlined} ></Icon>
@@ -71,12 +71,13 @@ const Header = () => {
           <HStack spacing={8} justifyContent={"center"} alignItems={"center"} display={{base: 'none', md: 'block'}} >
             <Link as={NavLink} to="/onboard">
               <Button
+                fontSize='base'
                 m={0}
                 width={120}
-                bg={"white"}
-                borderColor={"#543EE0"}
+                 bg='primary.white'
+                 border='1px solid #0057C2'
                 transition={"all .3s ease-in-out"}
-                _hover={{ color: "white", bg: "#543EE0" }}
+                _hover={{ bg: 'brand.800', color: 'primary.white'}}
               >
                 Log In
               </Button>
@@ -84,13 +85,14 @@ const Header = () => {
 
             <Link as={NavLink} to="/onboard">
               <Button
+                fontSize='base'
                 m={0}
                 width={120}
                 color={"white"}
-                bg={"#543EE0"}
-                borderColor={"#543EE0"}
+                 bg='brand.800'
+                 borderColor='brand.800'
                 transition={"all 0.3s ease-in-out"}
-                _hover={{ color: "black", bg: "white", borderColor: "#543EE0" }}
+                _hover={{ bg: 'brand.700'}}
               >
                 Sign Up
               </Button>
@@ -127,30 +129,26 @@ const LandingPage = () => {
               <Heading
                 as="h1"
                 pb={"25px"}
-                fontSize={{base: '40px', md: '56px'}}
-                lineHeight={{base:'50px', md: "82px"}}
+                fontSize='2xl'
+                lineHeight={{base:'50px', md: "72px"}}
                 fontWeight={700}
                 textAlign={{base: 'center', md: 'left'}}
               
               >
                 Welcome to Chatter: A Haven for Text Based Content
               </Heading>
-              <Text fontSize={"20px"} textAlign={{base: 'center', md: 'left'}} pb={"25px"} fontWeight={600}>
+              <Text fontSize='md' textAlign={{base: 'center', md: 'left'}} pb={"25px"} fontWeight={600}>
                 Unleash the Power of Words, Connect with Like-minded Readers
                 <br /> and Writers
               </Text>
               <Box  display={{base:' flex', md: 'block'}} justifyContent='center'  >
                 <Button
-                  bg={"#543EE0"}
-                  borderColor={"#543EE0"}
+                  bg='brand.800'
+                  fontSize='base'
                   width={150}
                   p={6}
                   ml={0}
-                  _hover={{
-                    bg: "white",
-                    border: " 1px solid #543EE0",
-                    color: "black",
-                  }}
+                  _hover={{ bg: 'brand.700'}}
                   transition={"all .3s ease-in-out"}
                 >
                   Get Started
@@ -167,14 +165,14 @@ const LandingPage = () => {
               <Heading
                 as="h2"
                 pt={{base: '30px', md: "100px"}}
-                pb={{base: '', md: "48px" }}
-                fontSize={{base: '36px', md: '48px'}}
+                pb={{base: '', md: "20px" }}
+                fontSize='lg'
                 fontWeight={700}
-                lineHeight={"72px"}
+                lineHeight='tall'
               >
                 About Chatter
               </Heading>
-            <Text fontSize={"18px"} lineHeight={"27px"} width={{base: '100%', md: '90%'}}>
+            <Text fontSize='base' lineHeight='base' width={{base: '100%', md: '90%'}}>
                 Chatter is a multi-functional platform where authors and readers
                 can have access to their own content. It aims to be a
                 traditional bookworm’s heaven and a blog to get access to more
@@ -207,10 +205,10 @@ const LandingPage = () => {
           {/* why should join chatter */}
           <VStack minH={"500px"} mx={{base: '0', md: '100px'}} pb={"70px"}  mt={{base: '5', md: '0'}} >
             <Box>
-              <Heading pb={"20px"}  >Why you should join Chatter</Heading>
+              <Heading as='h2' fontSize='lg' pb={"20px"}  >Why you should join Chatter</Heading>
             </Box>
             <Box>
-              <Text fontSize={"18px"} pb={"40px"} mx={{base: '0', md: '30px'}}>
+              <Text fontSize='base' pb={"40px"} mx={{base: '0', md: '30px'}}>
                 Our goal is to make writers and readers see our platform as
                 their next heaven for blogging, ensuring ease in interactions,
                 connecting with like-minded peers, have access to favorite
@@ -237,10 +235,10 @@ const LandingPage = () => {
                 >
                   <Image w={"30px"} src={Analytics}></Image>
                 </Box>
-                <Heading as="h3" fontSize={"24px"} py={"15px"}>
+                <Heading as="h3" fontSize='md' py={"15px"}>
                   Analytics
                 </Heading>
-                <Text fontSize={"18px"}>
+                <Text fontSize='base'>
                   Analytics to track the number of views, likes and comment and
                   also analyze the performance of your articles over a period of
                   time
@@ -264,10 +262,10 @@ const LandingPage = () => {
                 >
                   <Image w={"30px"} src={Social}></Image>
                 </Box>
-                <Heading as="h3" fontSize={"24px"} py={"15px"}>
+                <Heading as="h3" fontSize='md' py={"15px"}>
                   Social interactions
                 </Heading>
-                <Text fontSize={"18px"}>
+                <Text fontSize='base'>
                   Users on the platform can interact with posts they like,
                   comment and engage in discussions
                 </Text>
@@ -290,10 +288,10 @@ const LandingPage = () => {
                 >
                   <Image w={"30px"} src={Content}></Image>
                 </Box>
-                <Heading as="h3" fontSize={"24px"} py={"15px"}>
+                <Heading as="h3" fontSize='md' py={"15px"}>
                   Content creation
                 </Heading>
-                <Text fontSize={"18px"}>
+                <Text fontSize='base'>
                   Write nice and appealing with our in-built markdown, a rich
                   text editor
                 </Text>
@@ -322,7 +320,7 @@ const LandingPage = () => {
               />
             </Center>
             <Box flex={1} textAlign={{base: 'center', md: 'left'}} px={{base: '2', md: '0'}} >
-              <Text fontSize={"18px"} width={{base: '100%', md: '90%'}} pb={"48px"} mt={{base: '40px', md: '80px'}}  >
+              <Text fontSize='base' width={{base: '100%', md: '90%'}} pb={"48px"} mt={{base: '40px', md: '80px'}}  >
                 "Chatter has become an integral part of my online experience. As a
                 user of this incredible blogging platform, I have discovered a
                 vibrant community of individuals who are passionate about sharing
@@ -345,9 +343,9 @@ const LandingPage = () => {
               />
             </Center>
 
-              <Text fontSize={"22px"} fontWeight={"500"} as="h4">
+              <Text fontSize='md' fontWeight={"500"} as="h4">
                 Andrew Campbell,{" "}
-                <span style={{ fontSize: "18px" }}>
+                <span style={{ fontSize: 'base' }}>
                   Software Developer at Apple
                 </span>
               </Text>
@@ -355,13 +353,10 @@ const LandingPage = () => {
                 mt={"38px"}
                 ml={0}
                 mb={{base: '45px', md: '0'}}
-                bg={"#543EE0"}
+                bg='brand.800'
+                fontSize='base'
                 color={"white"}
-                _hover={{
-                  bg: "white",
-                  border: " 1px solid #543EE0",
-                  color: "black",
-                }}
+                _hover={{ bg: "brand.700" }}
                 transition={"all .3s ease-in-out"}
               >
                 Join Chatter
@@ -407,7 +402,7 @@ const LandingPage = () => {
             </Box>
 
             <Box flex={1} textAlign={{base: 'center', md: 'left'}} >
-              <Heading as="h3"  fontSize={{base: '36px', md: '48px'}} lineHeight={{base:'50px', md: "82px"}} mt={{base: '45px', md: "92px"}}  textAlign={{base: 'center', md: 'left'}}>
+              <Heading as="h3"  fontSize='xl'  lineHeight={{base:'45px', md: "70px"}} mt={{base: '45px', md: "92px"}}  textAlign={{base: 'center', md: 'left'}}>
                 Write, read and connect <br /> with great minds on chatter
               </Heading>
 
@@ -450,14 +445,11 @@ const LandingPage = () => {
               <Button
                 mt={"36px"}
                 ml={0}
-                bg={"#543EE0"}
+                  bg='brand.800'
+                fontSize='base'
                 color={"white"}
                 width={"150px"}
-                _hover={{
-                  bg: "white",
-                  border: " 1px solid #543EE0",
-                  color: "black",
-                }}
+                _hover={{ bg: "brand.700" }}
                 transition={"all .3s ease-in-out"}
               >
                 Get started

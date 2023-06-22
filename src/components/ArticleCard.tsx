@@ -46,18 +46,18 @@ const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarIm
           <HStack spacing={3}>
             <Avatar src={AvatarImage} name={displayName} size={'md'}></Avatar>
             <Box>
-              <Link as={NavLink} to={`/${username}`} ><Heading fontSize={'16px'} fontWeight={'700'}>{displayName}</Heading></Link>
-              <Flex gap={4} fontSize={'14px'} pt={1}> <Text>{FormattedDate(PublishDate)} </Text> <Text>10 Min Read</Text> </Flex>
+              <Link as={NavLink} to={`/${username}`} ><Heading fontSize='base' fontWeight={'700'}>{displayName}</Heading></Link>
+              <Flex gap={4}  pt={1} > <Text  fontSize='sm' >{FormattedDate(PublishDate)} </Text> <Text  fontSize='sm'  >10 Min Read</Text> </Flex>
             </Box>
           </HStack>
         </Box>
         <Box> 
           <Link as={NavLink} to={`/${username}/${slug}`} >
-          <Heading as='h3' fontSize={'28px'} fontWeight={'700'} cursor='pointer'   >
+          <Heading as='h3' fontSize='md' fontWeight={'700'} cursor='pointer'   >
             <HeaderOutput data={Title} />
           </Heading>
          </Link>
-        <Text pt={0}  >
+        <Text pt={0}  fontSize='base' >
             <TextTrimmingWithEllipsis text={Paragraph} maxLength={maxLength} /> 
       </Text>
        
@@ -78,7 +78,7 @@ const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarIm
                     <Flex gap={2}>
                           {tags.map((tag) => (
                             <Link as={NavLink} to={`/t/${tag.hash}`} key={tag.hash}>
-                              <Button variant="outline" borderRadius="15px" colorScheme="blue" size="sm">
+                              <Button fontSize='sm' variant="outline" borderRadius="15px" colorScheme="blue" size="sm">
                                 {tag.name}
                               </Button>
                             </Link>
@@ -108,7 +108,7 @@ const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarIm
 
             <VStack display={{base: 'block', md: 'none'}}      justifyContent={'space-between'} mt={1} wrap={{base: 'wrap', md: 'nowrap' }} gap={{base: '10px'}}>
                 <HStack>
-                <Flex gap={2}>
+                <Flex gap={2} flexShrink='wrap'>
                           {tags.map((tag) => (
                             <Link as={NavLink} to={`/t/${tag.hash}`} key={tag.hash}>
                               <Button variant="outline" borderRadius="15px" colorScheme="blue" size="sm">

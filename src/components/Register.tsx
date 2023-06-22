@@ -82,18 +82,18 @@ const Register = () => {
 
   return (
     <>
-      <Heading fontSize={'24px'} py={5}>Welcome to Chatter</Heading>
+      <Heading fontSize='md' py={5}>Welcome to Chatter</Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl isRequired>
           <Flex gap={2}>
-            <Box flex={1}>
-              <FormLabel>First name</FormLabel>
-              <Input type='text' placeholder="John" {...register('firstName', { required: 'First name is required' })} />
+            <Box flex={1} >
+              <FormLabel >First name</FormLabel>
+              <Input  type='text' placeholder="John" {...register('firstName', { required: 'First name is required' })} />
             </Box>
             <Box flex={1}>
-              <FormLabel>Last Name</FormLabel>
-              <Input type='text' placeholder="Doe" {...register('lastName', { required: 'Last name is required' })} />
+              <FormLabel  >Last Name</FormLabel>
+              <Input  type='text' placeholder="Doe" {...register('lastName', { required: 'Last name is required' })} />
             </Box>
           </Flex>
         </FormControl>

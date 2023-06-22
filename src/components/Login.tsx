@@ -56,15 +56,15 @@ const Login = () => {
 
   return (
     <>
-      <Heading fontSize={'24px'} py={5}>Welcome Back</Heading>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl isRequired>
-          <FormLabel>Email</FormLabel>
-          <Input type='email' placeholder='johndoe@gmail.com' {...register('email', { required: 'Email is required' })} />
+      <Heading fontSize='md' py={5}>Welcome Back</Heading>
+      <form onSubmit={handleSubmit(onSubmit)} >
+        <FormControl isRequired >
+          <FormLabel >Email</FormLabel>
+          <Input  type='email' placeholder='johndoe@gmail.com' {...register('email', { required: 'Email is required' })} />
           {errors.email && <FormErrorMessage>{errors.email.message}</FormErrorMessage>}
 
-          <FormControl isRequired  isInvalid={!!errors.password || !!errorMessage}>
-            <FormLabel pt={2} htmlFor="password">Password</FormLabel>
+          <FormControl isRequired  isInvalid={!!errors.password || !!errorMessage} >
+            <FormLabel  pt={2} htmlFor="password">Password</FormLabel>
             <InputGroup>
               <Input
                 type={showPassword ? 'text' : 'password'}
@@ -86,12 +86,12 @@ const Login = () => {
           </FormControl>
 
           <Box pt={5}>
-            <Button w={'100%'} isLoading={isLoading} color={'white'} bg={'#543EE0'} type='submit'> Log In</Button>
+            <Button w={'100%'} isLoading={isLoading} color={'white'}  bg='brand.800' type='submit'> Log In</Button>
           </Box>
           <Link><Text pt={2} fontSize={'14px'} >Reset forgotten Password</Text></Link>
           <VStack spacing={4} mt={3}>
-            <Button w={'100%'} variant='outline' leftIcon={<Google />}  onClick={handleGoogleSignIn}> Log In with Google</Button>
-            <Button w={'100%'} bg={'blackAlpha.900'} color={'white'} variant='outline' leftIcon={<GitHub />} >Log In with GitHub</Button>
+            <Button w={'100%'} variant='outline' leftIcon={<Google />}  color='red'  onClick={handleGoogleSignIn}> Log In with Google</Button>
+            <Button w={'100%'} bg={'blackAlpha.900'} color={'white'}   variant='outline' leftIcon={<GitHub />} >Log In with GitHub</Button>
           </VStack>
         </FormControl>
       </form>

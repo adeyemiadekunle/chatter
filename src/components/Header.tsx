@@ -1,10 +1,10 @@
 // Note: Header component
 import {useState, useEffect} from 'react'
-import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure } from '@chakra-ui/react'
+import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex } from '@chakra-ui/react'
 import { MoonIcon, SunIcon, BellIcon, SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
 import { useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { useFirebaseContext } from '../context/Firebase'
-import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined} from '@mui/icons-material'
+import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined, Add} from '@mui/icons-material'
 import { NavLink, useNavigate } from 'react-router-dom'
 import MobileSidebar from './MobileSidebar'
 import { createDraft} from '../utils/helperFunctions'
@@ -76,7 +76,7 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
                     <MenuItem  >
                         <HStack py={3} spacing={6}>
                             <Avatar src={userData?.photoURL}  />
-                            <VStack alignItems={'start'} fontWeight={'500'} fontSize={'16px'} spacing={0} >
+                            <VStack alignItems={'start'} fontWeight={'500'} fontSize='sm' spacing={0} >
                                 <Text>{userData?.displayName}</Text>
                                 <Text color={'grey'}  fontSize='14px' >@{userData?.userName}</Text>
                             </VStack>
@@ -84,7 +84,7 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
                     </MenuItem>
                 </Link>
                 <MenuDivider m={0} />
-                <MenuItem py={4} hideFrom='md' onClick={handleCreateDraft}  > <Icon as={PostAddOutlined} /><Text pl={2}>Create Post</Text></MenuItem>
+                <MenuItem py={4} hideFrom='md' onClick={handleCreateDraft}  > <Icon as={PostAddOutlined} /><Text pl={2}>New Draft</Text></MenuItem>
                 <MenuItem py={4}> <Icon as={DescriptionOutlined} /><Text pl={2}>My Drafts</Text></MenuItem>
                 <MenuItem py={4}><Icon as={CollectionsBookmarkOutlined} /> <Text pl={2}>My Bookmarks</Text></MenuItem>
                 <MenuItem py={4}><Icon as={Settings} /><Text pl={2}>Account Settings</Text></MenuItem>
@@ -120,25 +120,30 @@ const Header = () => {
 
     return (
         <Box px={{base: '3', md: '8'}} py={{base: '3', md: '5'}} bg={bg} color={color}  className='header'  display={'flex'} flexDir={'column'} alignItems={'center'} >
+                {/* Mobile Menu fixed */}
+              <Flex onClick={handleCreateDraft} bg='brand.800'  justifyContent='center' alignItems='center'  w='50px' borderRadius='full'  hideFrom= 'md' position='fixed' zIndex='44' right='4' bottom='5'  h={'50px'} >
+                    <Icon color='primary.white' fontSize='xl' as={Add}/>
+              </Flex>
+
             <HStack spacing={10} justify={'space-between'} bg={bg} maxW={'1280px'} w={'100%'} >
                 <HStack spacing={4}  >
                     <VStack hideFrom='md'>
                         <HamburgerIcon onClick={onOpen} boxSize={'32px'} />
                     </VStack>
-                    <Link as={NavLink} to='/' ><Box fontSize={{base: '22px', md: '28px'}} px={3}  bg={'#543EE0'} fontWeight={700} color={'white'}> Chatter</Box></Link>
+                    <Link as={NavLink} to='/' ><Box fontSize='md' px={3}  bg='brand.800' fontWeight={700} color={'white'}> Chatter</Box></Link>
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>
-                  <Link as={NavLink} to='/feed/personalize' ><Button color={'#543EE0'}>My Feed</Button></Link>
+                  <Link as={NavLink} to='/feed/personalize' ><Button  fontSize='base'>My Feed</Button></Link>
                     <InputGroup >
                         <InputLeftElement w={'30px'} h={'30px'} children={<Icon as={SearchIcon} color={'grey'} boxSize={'15px'} />}  ml={2} mt={1} />
-                        <Input placeholder="Search Chatter" size='md' minWidth={'500px'}  variant={'outline'}  focusBorderColor='#543EE0' />
+                        <Input  placeholder="Search Chatter" size='md' minWidth={'500px'}  variant={'outline'}  focusBorderColor='#543EE0' />
                     </InputGroup>
                 </HStack>
                 <HStack spacing={2} >
                     <Link  onClick={handleCreateDraft} hideBelow='md' >
-                        <Button  bg={'#543EE0'} borderColor={'#543EE0'} color={'white'}
-                        _hover={{ bg: 'white', border: '#543EE0', color: 'black'}}
+                        <Button  bg='brand.800' color={'white'}
+                          _hover={{bg: 'brand.700'}}
                         transition={'all .3s ease-in-out'}
                         >
                         <Icon as={CreateOutlined} ></Icon>
@@ -163,6 +168,7 @@ const Header = () => {
             </HStack>
             {/* Mobile Sidebar */}
             <MobileSidebar isOpen={isOpen} onClose={onClose}  />
+
         </Box>
     )
 }

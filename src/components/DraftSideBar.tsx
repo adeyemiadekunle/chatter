@@ -133,7 +133,7 @@ const ArticleCount = articles.length;
       <Accordion defaultIndex={[0]} allowMultiple={true}>
         <AccordionItem borderStyle={"none"}>
           <AccordionButton>
-            <Box as="span" flex="1" textAlign="left">
+            <Box as="span" flex="1" textAlign="left" fontSize='base'>
               MY DRAFT ({DraftCount})
             </Box>
             <AccordionIcon />
@@ -165,7 +165,7 @@ const ArticleCount = articles.length;
                       </Box>
                     ))
                   ) : (
-                    <Text>No Saved Draft</Text>
+                    <Text fontSize='sm'>No Saved Draft</Text>
                   )
                 }
             </Box>
@@ -173,7 +173,7 @@ const ArticleCount = articles.length;
         </AccordionItem>
         <AccordionItem borderStyle={"none"}>
           <AccordionButton>
-            <Box as="span" flex="1" textAlign="left">
+            <Box as="span" flex="1" textAlign="left" fontSize='base'>
               PUBLISHED ({ArticleCount})
             </Box>
             <AccordionIcon />
@@ -192,7 +192,7 @@ const ArticleCount = articles.length;
                       </Box>
                     ))
                   ) : (
-                    <Text>No Published Articles</Text>
+                    <Text fontSize='sm'>No Published Articles</Text>
                   )
                 }
             </Box>
