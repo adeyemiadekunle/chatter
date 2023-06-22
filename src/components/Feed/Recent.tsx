@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import ArticleCard from "../ArticleCard";
 import { Box } from "@chakra-ui/react";
 
+
+
 import {
   fetchArticles,
   fetchAuthorData,
@@ -9,22 +11,23 @@ import {
   Author,
 } from "../../utils/helperFunctions";
 
+
 const Recent = () => {
-  const [articles, setArticles] = useState([] as RecentArticles[]);
+  const [articles, setArticles] = useState([] as RecentArticles[]);   //  for bookmarking
   const [authorsData, setAuthorsData] = useState({} as Author);
+ 
+  
 
   //  for Published Articles recently updated
   useEffect(() => {
-    const unsubscribe = fetchArticles((fetchedArticles) => {
+    const getArticle = fetchArticles((fetchedArticles) => {
       setArticles(fetchedArticles);
     });
 
     return () => {
-      unsubscribe();
+      getArticle();
     };
   }, []);
-
-  console.log(articles);
 
 
   useEffect(() => {
@@ -37,7 +40,6 @@ const Recent = () => {
 
     articles.forEach((article) => {
       fetchAuthor(article.authorId);
-      console.log(article.authorId);
     });
   }, [articles]);
 
@@ -77,6 +79,8 @@ const Recent = () => {
           Paragraph={paragraphBlocksArticle.data.text}
           username={authorsData?.userName}
           slug={article.slug}
+          articleId={article.id}
+         
         />
       ))}
     </Box>

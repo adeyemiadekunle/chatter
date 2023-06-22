@@ -10,6 +10,7 @@ import Output from "editorjs-react-renderer";
 import { HeaderOutput } from "editorjs-react-renderer";
 import {
   VStack, Box, HStack, Image, Tag, TagLabel, Heading, Avatar, Text,  Flex, Link, Divider, Icon, 
+  LightMode, 
 } from "@chakra-ui/react";
 import { styles } from "../components/ArticleStyle";
 import { FormattedDate } from "../utils/FormatDate";
@@ -18,6 +19,7 @@ import  AuthorArticles  from "../components/Author/AuthorsArticle";
 import ArticleHeading from "../components/ArticleHeading";
 import { followAuthor } from "../components/FollowingAuthor";
 import {auth } from '../utils/firebase'
+import StickyMenu from "../utils/StickyMenu";
 
 
 const ArticleDetails = () => {
@@ -87,10 +89,10 @@ const ArticleDetails = () => {
   );
 
   return (
-    <Box>  
+    <Box  position='relative' >  
       <Box>
         <ArticleHeading></ArticleHeading>
-        </Box>  
+      </Box>  
       <Box maxW={{ base: "100%", md: "1000px" }} m="0 auto"  >
         <VStack>
           <HStack  >
@@ -107,8 +109,8 @@ const ArticleDetails = () => {
             spacing={4}
             py={{base: '2', md: '4'}}
           >
-              <Flex alignItems='center' gap={3}  flexDir={{base: 'column', md: 'row'}} > 
-               <Flex gap={2} alignItems='center' flexDir={{base: 'column', md: 'row'}} >
+              <Flex alignItems='center' gap={3}   > 
+               <Flex gap={2} alignItems='center'  >
                   <Box  pb={{base: '3', md: '0'}}>
                         <Avatar
                           size="lg"
@@ -139,42 +141,8 @@ const ArticleDetails = () => {
                     </HStack>
                   </VStack>
                 </Flex>
-
-                
               </Flex>
-              <Box  pb={8}>
-                <HStack  borderRadius='10px' px={3} py={2} className='selected-div' >
-                      <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
-                      >
-                          <Icon as={FavoriteBorderOutlined} color={'gray.700'} /> <Text>10</Text>
-                      </Flex>
-                      <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
-                      >
-                          <Icon as={AnalyticsOutlined} color={'gray.700'} /> <Text>1</Text>
-                      </Flex>
-                      <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
-                      >
-                          <Icon as={ForumOutlined} color={'gray.700'} /> <Text>3</Text>
-                      </Flex>
-
-                      <Flex gap={1}  w={'40px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
-                      >
-                          <Icon as={BookmarkAddOutlined} color={'gray.700'} />
-                      </Flex>
-
-                      <Flex gap={1}  w={'40px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                      _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
-                      >
-                          <Icon as={ShareOutlined} color={'gray.700'} />
-                      </Flex>
-                      
-                  </HStack>
-              </Box>
-          
+           
           </VStack>
           <Box w='100%'>
             <Image src={imageUrl} h={{base: '100%', md: '500px' }} w='100%' objectFit='cover'  />
@@ -186,38 +154,43 @@ const ArticleDetails = () => {
             <VStack mt={'60px'} w='100%' mb={'60px'}>
 
               {/*   */}
-              <Box  position='sticky' >
-              <HStack borderRadius='10px' px={3} py={2} className='selected-div'  >
+            <StickyMenu >
+              <LightMode>
+              <HStack borderRadius='10px' px={3} py={2}  bg='brand.600' borderColor='brand.600'  color='primary.white'  >
                     <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                    _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                     _hover={{ bg: 'gray.100', color: 'black', cursor: 'pointer' }}     
                     >
-                        <Icon as={FavoriteBorderOutlined} color={'gray.700'} /> <Text>10</Text>
+                        <Icon as={FavoriteBorderOutlined} /> <Text>10</Text>
                     </Flex>
                     <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                    _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                    _hover={{ bg: 'gray.100', color: 'black', cursor: 'pointer' }}     
                     >
-                        <Icon as={AnalyticsOutlined} color={'gray.700'} /> <Text>1</Text>
+                        <Icon as={AnalyticsOutlined}  /> <Text>1</Text>
                     </Flex>
                     <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                    _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                    _hover={{ bg: 'gray.100', color: 'black', cursor: 'pointer' }}     
                     >
-                        <Icon as={ForumOutlined} color={'gray.700'} /> <Text>3</Text>
+                        <Icon as={ForumOutlined}  /> 
+                          <Text>3</Text>
                     </Flex>
 
                     <Flex gap={1}  w={'40px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                    _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                    _hover={{ bg: 'gray.100', color: 'black', cursor: 'pointer' }}     
                     >
-                        <Icon as={BookmarkAddOutlined} color={'gray.700'} />
+                        <Icon as={BookmarkAddOutlined}  />
                     </Flex>
 
                     <Flex gap={1}  w={'40px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                    _hover={{ bg: 'gray.100', cursor: 'pointer' }}     
+                   _hover={{ bg: 'gray.100', color: 'black', cursor: 'pointer' }}     
                     >
-                        <Icon as={ShareOutlined} color={'gray.700'} />
+                        <Icon as={ShareOutlined}  />
                     </Flex>
                      
                 </HStack>
-              </Box>
+                </LightMode>
+
+                </StickyMenu>
+         
             </VStack>
 
                   {/*  Tags */}

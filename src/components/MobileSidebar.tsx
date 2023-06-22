@@ -1,7 +1,8 @@
 
-import { Box, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Heading, HStack, Icon, List, ListItem, ListIcon, Text, VStack } from '@chakra-ui/react'
+import { Box, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Heading, HStack, Icon, List, ListItem, ListIcon, Text, VStack, Link } from '@chakra-ui/react'
 import { AnalyticsOutlined, BookmarkAddedOutlined, EditNoteOutlined, HomeOutlined, PublishedWithChangesOutlined, TrendingUpOutlined } from '@mui/icons-material'
 import { CloseIcon } from '@chakra-ui/icons'
+import { NavLink } from 'react-router-dom'
 
  interface MobileSidebarProps {
     onClose: () => void;
@@ -25,10 +26,12 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
                         <VStack alignItems={'left'} >
                         <Box px={0} py={4}>
                             <List spacing={5} pl={3}>
-                                <ListItem display={'flex'}>
-                                <ListIcon as={HomeOutlined} fontSize={'xlg'}  />
-                                <Text>Home</Text>
-                                </ListItem>
+                                <Link as={NavLink} to='/feed/recent' >
+                                    <ListItem display={'flex'}>
+                                        <ListIcon as={HomeOutlined} fontSize={'xlg'}  />
+                                        <Text>Home</Text>
+                                    </ListItem>
+                                </Link>
                                 <ListItem display={'flex'}>
                                 <ListIcon as={BookmarkAddedOutlined} fontSize={'xlg'} />
                                 <Text>Bookmarks</Text>

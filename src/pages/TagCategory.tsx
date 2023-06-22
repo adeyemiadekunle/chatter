@@ -99,7 +99,7 @@ const TagCategory = () => {
       <Box
         display={{ base: "block", md: "flex" }}
         // mx={{ base: "0", md: "100px" }}
-        maxW={{ base: "100%,", md: "1200px" }}
+        maxW={{ base: "100%,", md: "1100px" }}
         m="0 auto"
         gap={8}
         mt={8}

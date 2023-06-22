@@ -8,7 +8,7 @@ import FeedLayout from "./components/Feed/FeedLayout";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import Onboarding from "./pages/Onboarding";
-import Draft from "./pages/Draft/index";
+import Draft from "./pages/Draft";
 import LandingPage from "./pages/LandingPage";
 import ArticleDetails from "./pages/ArticleDetails";
 import NoMatch from "./pages/NoMatch";

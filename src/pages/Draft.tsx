@@ -1,4 +1,4 @@
-import Draft from "../../components/RichEditor/Draft";
+import Draft from "../components/RichEditor/Draft";
 import {
   Box,
   Flex,
@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { ArrowBackOutlined } from "@mui/icons-material";
-import DraftSideBar from '../../components/DraftSideBar'
+import DraftSideBar from '../components/DraftSideBar'
 
 
 
