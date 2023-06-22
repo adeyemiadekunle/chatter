@@ -49,12 +49,10 @@ useEffect(() => {
 
   if (currentUser !== undefined) {
     const userRef = doc(db, "users", currentUser);
-    console.log(userRef)
     const unsubscribe = onSnapshot(userRef,(doc) => {
       if (doc.exists()) {
         const { bookmarks } = doc.data();
         setIsBookmarking(bookmarks.includes(articleId));
-        console.log(bookmarks)
       }
     });
     return () => {
@@ -64,7 +62,7 @@ useEffect(() => {
 
 }, [currentUser, articleId]);
 
-console.log(isBookmarking)
+
 
 
 const handleBookmark = async () => {
