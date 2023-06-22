@@ -158,7 +158,7 @@ const handleBookmark = async () => {
 
             {/* Mobile */}
 
-            <VStack display={{base: 'block', md: 'none'}}      justifyContent={'space-between'} mt={1} wrap={{base: 'wrap', md: 'nowrap' }} gap={{base: '10px'}}>
+            <VStack display={{base: 'block', md: 'none'}} justifyContent={'space-between'} mt={1} wrap={{base: 'wrap', md: 'nowrap' }} gap={{base: '10px'}}>
                 <HStack>
                 <Flex gap={2} flexShrink='wrap'>
                           {tags.map((tag) => (

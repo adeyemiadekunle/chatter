@@ -23,6 +23,7 @@ import TagCategory from "./pages/TagCategory";
 import GeneralLayout from "./components/GeneralLayout";
 import Hot from "./components/Tags/Hot";
 import New from "./components/Tags/New";
+import Bookmarks from "./pages/Bookmarks";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,9 +49,8 @@ const router = createBrowserRouter(
 
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<GeneralLayout />}>
-     
         <Route path="/:username" element={<Profile />} />
-    
+        <Route path="/bookmarks" element={<Bookmarks />} />
           <Route path="/t/:hash" element={<TagCategory />}>
             <Route index element={<Hot/>}  />
             <Route path='hot' element={<Hot/>} />

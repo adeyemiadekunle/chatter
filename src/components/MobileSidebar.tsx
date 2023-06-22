@@ -32,10 +32,13 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
                                         <Text>Home</Text>
                                     </ListItem>
                                 </Link>
-                                <ListItem display={'flex'}>
-                                <ListIcon as={BookmarkAddedOutlined} fontSize={'xlg'} />
-                                <Text>Bookmarks</Text>
-                                </ListItem>
+                                
+                                 <Link as={NavLink} to='/bookmarks'>
+                                    <ListItem display={'flex'}>
+                                    <ListIcon as={BookmarkAddedOutlined} fontSize={'xlg'} />
+                                    <Text>Bookmarks</Text>
+                                    </ListItem>
+                                 </Link>
                                 <ListItem display={'flex'}>
                                 <ListIcon as={EditNoteOutlined} fontSize={'28px'} />
                                 <Text> Drafts</Text>

@@ -142,7 +142,8 @@ const LandingPage = () => {
                 <br /> and Writers
               </Text>
               <Box  display={{base:' flex', md: 'block'}} justifyContent='center'  >
-                <Button
+               <Link as={NavLink} to='/onboard' >
+               <Button
                   bg='brand.800'
                   fontSize='base'
                   width={150}
@@ -153,6 +154,7 @@ const LandingPage = () => {
                 >
                   Get Started
                 </Button>
+               </Link>
               </Box>
             </Box>
           </Box>

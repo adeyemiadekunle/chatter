@@ -15,7 +15,7 @@ const UserFeed = () => {
           to="personalize"
           display={"flex"}
           alignItems={"center"}
-          px={5}
+          px={3}
           py={4}
           _hover={{bg: 'gray.100', color: 'black'}}
           borderBottom={'1px solid #E2E8F0'}
@@ -31,7 +31,7 @@ const UserFeed = () => {
           to="featured"
           display={"flex"}
           alignItems={"center"}
-          px={5}
+          px={3}
           py={4}
           _hover={{bg: 'gray.100', color: 'black'}}
           borderBottom={'1px solid #E2E8F0'}
@@ -45,7 +45,7 @@ const UserFeed = () => {
           to="recent"
           display={"flex"}
           alignItems={"center"}
-          px={5}
+          px={3}
           py={4}
           _hover={{bg: 'gray.100', color: 'black'}}
           borderBottom={'1px solid #E2E8F0'}

@@ -1,6 +1,7 @@
 import {Box, useColorModeValue} from '@chakra-ui/react'
-import {VStack, Heading, Text, List, ListIcon, ListItem, Icon, Divider} from '@chakra-ui/react'
+import {VStack, Heading, Text, List, ListIcon, ListItem, Icon, Divider, Link} from '@chakra-ui/react'
 import { TrendingUpOutlined, EditNoteOutlined, BookmarkAddedOutlined, PublishedWithChangesOutlined, AnalyticsOutlined, PermIdentityOutlined, NotificationsNoneOutlined, Settings, LogoutOutlined } from '@mui/icons-material'
+import { NavLink } from 'react-router-dom'
 
 const Sidebar = () => {
     const bg = useColorModeValue('white', '#0F172A')
@@ -14,10 +15,12 @@ const Sidebar = () => {
               <ListIcon as={ExploreOffOutlined} fontSize={'xlg'}  />
              <Text>Explore</Text>
             </ListItem> */}
+            <Link as={NavLink}  to='/bookmarks'>
             <ListItem display={'flex'}>
               <ListIcon as={BookmarkAddedOutlined} fontSize={'xlg'} />
              <Text>Bookmarks</Text>
             </ListItem>
+            </Link>
             <ListItem display={'flex'}>
               <ListIcon as={EditNoteOutlined} fontSize={'28px'} />
              <Text> Drafts</Text>

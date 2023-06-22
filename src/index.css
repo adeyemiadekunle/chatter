@@ -1,12 +1,12 @@
 
 :root {
-  --font-size-sm: clamp(0.8rem, 0.07vw + 0.79rem, 0.84rem);
-  --font-size-base: clamp(1.05rem, 0.21vw + 0.96rem, 1.13rem);
-  --font-size-md: clamp(1.25rem, 0.42vw + 1.17rem, 1.5rem);
-  --font-size-lg: clamp(1.56rem, 0.73vw + 1.42rem, 2rem);
-  --font-size-xl: clamp(1.95rem, 1.19vw + 1.72rem, 2.66rem);
-  --font-size-xxl: clamp(2.44rem, 1.85vw + 2.07rem, 3.55rem);
-  --font-size-xxxl: clamp(3.05rem, 2.81vw + 2.49rem, 4.73rem);
+  --font-size-sm: clamp(0.8rem, -0.08vw + 0.82rem, 0.75rem);
+  --font-size-base: clamp(1rem, 0vw + 1rem, 1rem);
+  --font-size-md: clamp(1.25rem, 0.14vw + 1.22rem, 1.33rem);
+  --font-size-lg: clamp(1.56rem, 0.36vw + 1.49rem, 1.78rem);
+  --font-size-xl: clamp(1.95rem, 0.69vw + 1.81rem, 2.37rem);
+  --font-size-xxl: clamp(2.44rem, 1.19vw + 2.2rem, 3.16rem);
+  --font-size-xxxl: clamp(3.05rem, 1.93vw + 2.67rem, 4.21rem);
 }
 
 
