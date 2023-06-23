@@ -63,8 +63,6 @@ useEffect(() => {
 }, [currentUser, articleId]);
 
 
-
-
 const handleBookmark = async () => {
    if (currentUser !== undefined) {
   

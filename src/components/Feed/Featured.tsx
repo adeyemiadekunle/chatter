@@ -1,12 +1,15 @@
 import React from "react";
 import ArticleCard from "../ArticleCard";
-import { Box } from "@chakra-ui/react";
+import { Box,Text } from "@chakra-ui/react";
 
 const Featured = () => {
   return (
     <Box>
-      <ArticleCard />
-      <ArticleCard />
+      <Text>
+        Featured
+      </Text>
+      {/* <ArticleCard /> */}
+      {/* <ArticleCard /> */}
     </Box>
   );
 };

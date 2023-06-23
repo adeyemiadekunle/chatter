@@ -5,17 +5,12 @@ import { useParams } from "react-router-dom";
 import {  auth } from '../utils/firebase';
 import {
   Box,
-  useColorModeValue,
 } from "@chakra-ui/react";
 
 import TagsFeed from "../components/Tags/TagsFeed";
 import { TagsProfile } from "../components/Tags/TagProfile";
+import {Container} from "../components/ArticleContainer";
 
-interface RightBarContainerProps {
-  children: React.ReactNode;
-  height: string;
-  display: any;
-}
 
   
 interface Tags {
@@ -26,28 +21,10 @@ interface Tags {
   hash: string;
 }
 
-const Container = ({ children, height, display }: RightBarContainerProps) => {
-  const bg = useColorModeValue("white", "#0F172A");
-  const color = useColorModeValue("#0F172A", "white");
-
-  return (
-    <Box
-      display={display}
-      bg={bg}
-      color={color}
-      borderRadius={"8px"}
-      className="selected-div"
-      minH={height}
-    >
-      {children}
-    </Box>
-  );
-};
 
 //  TagCategory
 const TagCategory = () => {
   const [tags, setTags] = useState<Tags[]>([]);
-  const  [articleCount, setArticleCount] = useState(0);
   const user = auth.currentUser?.uid;
 
   useEffect(() => {
@@ -108,7 +85,7 @@ const TagCategory = () => {
         <Box flex={{ base: "none", md: "1" }}>
           <Box mb={8}>
             <Container height={"300px"} display={"block"}>
-              <TagsProfile tags={tags} user={user} ArticleCount={articleCount} />
+              <TagsProfile tags={tags} user={user}  />
             </Container>
           </Box>
           <Box>

@@ -12,8 +12,8 @@ const Layout = () => {
             <Box >
                 <Header/>
             </Box>
-            <Box display={{base: 'block', md: 'flex'}} maxW={{base: '100%', md: '1280px', lg: '1400px'}} m='0 auto' >
-             {/* Sidebar */}
+            <Box display={{base: 'block', md: 'flex'}} maxW={{base: '100%', md: '1280px',}} m='0 auto' >
+                  {/* Sidebar */}
                 <Box w={{base: '0', md: '250px' }} hideBelow='md' >
                     <Sidebar/>
                 </Box>

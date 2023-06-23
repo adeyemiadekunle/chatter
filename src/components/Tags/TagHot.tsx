@@ -137,6 +137,7 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
               Paragraph={paragraphBlocksArticle.data.text}
               username={authorsData?.userName}
               slug={article.slug}
+              articleId={article.id}
             />
           </Box>
         ))

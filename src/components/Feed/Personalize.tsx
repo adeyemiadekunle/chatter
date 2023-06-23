@@ -1,13 +1,16 @@
 import React from 'react'
 import ArticleCard from '../ArticleCard'
-import { Box } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 
 const Personalize = () => {
   return (
     <Box>
-        <ArticleCard/>
-        <ArticleCard/>
-        <ArticleCard/>
+      <Text>
+        Personalize
+      </Text>
+        {/* <ArticleCard/> */}
+        {/* <ArticleCard/> */}
+        {/* <ArticleCard/> */}
     </Box>
   )
 }

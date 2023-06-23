@@ -1,6 +1,6 @@
 // import useArticleManagement from "../hooks/useArticleManagement";
 import UserFeed from "../components/Feed/UserFeed";
-import { Box, useColorModeValue } from "@chakra-ui/react";
+import { Box, useColorModeValue, Text } from "@chakra-ui/react";
 
 const Home = () => {
   // const { createDraftArticle } = useArticleManagement();
@@ -10,31 +10,21 @@ const Home = () => {
   return (
     <Box display={{ base: "block", md: "flex" }} >
       {/* Main */}
-      <Box
-        flex={{ base: "none", md: "1" }}
-        mt={5}
-        ml={{base: '0', md: '4'}}
-        mr={{base: '0', md: '4'}}
-        minH={"600px"}
-        bg={bg}
+      <Box flex={{ base: "none", md: "1" }} mt={5} ml={{base: '0', md: '6'}} mr={{base: '0', md: '6'}} minH={"600px"} bg={bg}
         color={color}
-        borderRadius={"8px 8px 0 0"}
+        borderRadius={"2px 2px 0 0"}
         className="selected-div"
       >
         <UserFeed />
       </Box>
       {/* RightBar */}
-      <Box
-        w={{ base: "none", md: "300px" }}
-        display={{ base: "none", md: "block" }}
-        mt={5}
-        mr={4}
-        h={"100vh"}
-        bg={bg}
+      <Box w={{ base: "none", md: "300px" }} display={{ base: "none", md: "block" }} mt={5} mr={4} h={"100vh"} bg={bg}
         color={color}
-        borderRadius={"8px"}
+        borderRadius={"2px"}
         className="selected-div"
-      ></Box>
+      >
+        <Text>RightBar</Text>
+      </Box>
     </Box>
   );
 };

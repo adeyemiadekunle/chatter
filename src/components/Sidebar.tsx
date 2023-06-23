@@ -7,7 +7,7 @@ const Sidebar = () => {
     const bg = useColorModeValue('white', '#0F172A')
     const color = useColorModeValue('#0F172A', 'white')
   return (
-    <Box bg={bg} color={color} minH={'100vh'} mt={5} ml={4} borderRadius={'8px'}  className='selected-div'>
+    <Box bg={bg} color={color} minH={'100vh'} mt={5} ml={4} borderRadius={'2px'}  className='selected-div'>
       <VStack mt={4} mb={4} >
         <Box px={12} py={4}>
           <List spacing={5} pl={3}>
@@ -39,7 +39,7 @@ const Sidebar = () => {
         <Divider/>
 
         <Box px={12} py={4} >
-          <Heading as='h3' fontSize={'18px'} pb={3} textAlign={'left'} display={'flex'}> <Text whiteSpace={'nowrap'} >Trending Tags</Text> <Icon as={TrendingUpOutlined} />
+          <Heading as='h3' fontSize='md' pb={3} textAlign={'left'} display={'flex'}> <Text whiteSpace={'nowrap'} >Trending Tags</Text> <Icon as={TrendingUpOutlined} />
            </Heading>
           <VStack  spacing={4} alignItems={'flex-start'} pl={5}>
             <Text>Programming</Text>
@@ -51,7 +51,7 @@ const Sidebar = () => {
         </Box>
           <Divider />
         <Box  px={12} py={4} >
-          <Heading as='h3' fontSize={'18px'} pb={5} textAlign={'left'} >Personal</Heading>
+          <Heading as='h3' fontSize='md' pb={5} textAlign={'left'} >Personal</Heading>
           <List spacing={5} pl={3}>
             <ListItem display={'flex'}>
               <ListIcon as={PermIdentityOutlined} fontSize={'xlg'}  />

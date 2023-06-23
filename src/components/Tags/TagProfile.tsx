@@ -23,7 +23,6 @@ import TagCountsComponent from "./TagCount";
 interface TagsProfileProps {
   tags: any[];
   user?: string;
-  ArticleCount: number;
 }
 
 

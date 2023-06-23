@@ -48,7 +48,7 @@ const Login = () => {
 
   useEffect (() => {
     if (isAuth && !isLoading){
-      navigate('/feed/recent');
+      navigate('/feed');
     }
   }
   , [isAuth, isLoading, navigate]);

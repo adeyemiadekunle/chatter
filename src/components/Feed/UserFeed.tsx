@@ -21,7 +21,7 @@ const UserFeed = () => {
           borderBottom={'1px solid #E2E8F0'}
           _activeLink={{color: 'brand.800', borderBottom: ' 1px solid #0057C2'}}
         >
-          <Icon as={AutoFixHighOutlined} fontSize={"26px"} />
+          <Icon as={AutoFixHighOutlined} fontSize='md' />
           <Text pl={1} whiteSpace={"nowrap"}>
             For you
           </Text>
@@ -37,7 +37,7 @@ const UserFeed = () => {
           borderBottom={'1px solid #E2E8F0'}
           _activeLink={{color: 'brand.800', borderBottom: ' 1px solid #0057C2'}}
         >
-          <Icon as={StarOutlineOutlined} fontSize={"26px"} />
+          <Icon as={StarOutlineOutlined} fontSize='md' />
           <Text pl={1}>Featured</Text>
         </Link>
         <Link
@@ -51,7 +51,7 @@ const UserFeed = () => {
           borderBottom={'1px solid #E2E8F0'}
           _activeLink={{color: 'brand.800', borderBottom: ' 1px solid #0057C2'}}
         >
-          <Icon as={PublishOutlined} fontSize={"28px"} />
+          <Icon as={PublishOutlined} fontSize='md' />
           <Text pl={1}>Recent</Text>
         </Link>
       </Flex>
