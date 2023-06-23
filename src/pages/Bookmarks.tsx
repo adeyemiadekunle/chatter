@@ -140,7 +140,7 @@ const Bookmarks: React.FC = () => {
           <Box mb={8}>
             <Container height={"200px"} display={"block"}>
               <VStack  height='200px' justifyContent='center' >
-                   <Heading>
+                   <Heading fontSize='xl'>
                     Bookmarks
                    </Heading>
                    <Text>

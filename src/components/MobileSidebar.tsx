@@ -26,7 +26,7 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
                         <VStack alignItems={'left'} >
                         <Box px={0} py={4}>
                             <List spacing={5} pl={3}>
-                                <Link as={NavLink} to='/feed/recent' >
+                                <Link as={NavLink} to='/feed' >
                                     <ListItem display={'flex'}>
                                         <ListIcon as={HomeOutlined} fontSize={'xlg'}  />
                                         <Text>Home</Text>

@@ -14,8 +14,9 @@ import {
   Link,
   LightMode
 } from "@chakra-ui/react";
-import { BookmarkAddOutlined, FavoriteBorderOutlined, AnalyticsOutlined,  ForumOutlined} from '@mui/icons-material'
+import { BookmarkAddOutlined, FavoriteBorderOutlined, AnalyticsOutlined,  ForumOutlined,} from '@mui/icons-material'
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { HeaderOutput } from 'editorjs-react-renderer'
 import { FormattedDate } from '../utils/FormatDate'
 import TextTrimmingWithEllipsis from "../utils/TextTrimming";
@@ -23,6 +24,7 @@ import { NavLink } from "react-router-dom";
 import { BookMark } from "./Bookmark";
 import { auth, db } from "../utils/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
+import { Like } from "./Like";
 
 
  type ArticleCardProps = {
@@ -42,11 +44,12 @@ import { doc, onSnapshot } from "firebase/firestore";
 
 const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarImage, PublishDate, username, slug, articleId }: ArticleCardProps ) => {
   const [isBookmarking, setIsBookmarking] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
   const maxLength = 150;
   const currentUser = auth.currentUser?.uid;
 
 useEffect(() => {
-
   if (currentUser !== undefined) {
     const userRef = doc(db, "users", currentUser);
     const unsubscribe = onSnapshot(userRef,(doc) => {
@@ -63,11 +66,33 @@ useEffect(() => {
 }, [currentUser, articleId]);
 
 
+useEffect (() => {
+   if (currentUser !== undefined) {
+    const articleRef = doc(db, "articles", articleId);  
+    const unsubscribe = onSnapshot(articleRef,(doc) => {
+      if (doc.exists()) {
+        const { likes } = doc.data();
+        setIsLiking(likes.includes(currentUser));
+        setLikesCount(likes.length);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+    }
+}, [currentUser, articleId]);
+
+
+const handleLike = async () => {
+  if (currentUser !== undefined) {
+    await Like(articleId, isLiking, currentUser);
+  }
+}
+
+
 const handleBookmark = async () => {
    if (currentUser !== undefined) {
-  
      await BookMark(articleId, isBookmarking, currentUser);
-    //  setIsBookmarking(!isBookmarking);
    }
    
   };
@@ -87,7 +112,7 @@ const handleBookmark = async () => {
         </Box>
         <Box> 
           <Link as={NavLink} to={`/${username}/${slug}`} >
-          <Heading as='h3' fontSize='md' fontWeight={'700'} cursor='pointer'   >
+          <Heading as='h3' fontSize='lg' fontWeight={'700'} cursor='pointer'   >
             <HeaderOutput data={Title} />
           </Heading>
          </Link>
@@ -111,7 +136,7 @@ const handleBookmark = async () => {
                         <Flex w={'40px'} h={'40px'} borderRadius={'60px'} justifyContent={'center'} alignItems={'center'}
                         _hover={{ bg: 'gray.100', cursor: 'pointer', color: 'blue.500' }}
                         onClick={handleBookmark}
-                        ><Icon as={BookmarkAddedIcon} fontSize={'28px'}/>
+                        ><Icon as={BookmarkAddedIcon} color='brand.800' fontSize={'28px'}/>
                       </Flex>
                        )
                         :
@@ -135,11 +160,27 @@ const handleBookmark = async () => {
                 </HStack>
                  <LightMode>
                   <HStack >
-                      <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                     _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}  
-                      >
-                          <Icon as={FavoriteBorderOutlined}  /> <Text>10</Text>
-                      </Flex>
+                      {
+                        isLiking ?
+                        (
+                          <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                          _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
+                          onClick={handleLike}
+                          >
+                              <Icon as={FavoriteIcon} color='red'   /> <Text>{likesCount}</Text>
+                          </Flex>
+                        )
+                        :
+                        (
+                          <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                          _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
+                          onClick={handleLike}
+                          >
+                              <Icon as={FavoriteBorderOutlined}  /> <Text>{likesCount}</Text>
+                          </Flex>
+                        )
+                      }
+
                       <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                      _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}    
                       >
@@ -176,7 +217,7 @@ const handleBookmark = async () => {
                         <Flex w={'40px'} h={'40px'} borderRadius={'60px'} justifyContent={'center'} alignItems={'center'}
                         _hover={{ bg: 'gray.100', cursor: 'pointer', color: 'blue.500' }}
                         onClick={handleBookmark}
-                        ><Icon as={BookmarkAddedIcon} fontSize={'28px'}/>
+                        ><Icon as={BookmarkAddedIcon} color='brand.800'  fontSize={'28px'}/>
                       </Flex>
                        )
                         :
@@ -187,13 +228,28 @@ const handleBookmark = async () => {
                           ><Icon as={BookmarkAddOutlined} fontSize={'28px'}/>
                         </Flex>
                         )
-                     }
+                        }
 
-                    <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                    _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}   
-                    >
-                        <Icon as={FavoriteBorderOutlined}  /> <Text>10</Text>
-                    </Flex>
+                        {
+                        isLiking ?
+                        (
+                          <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                            _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
+                            onClick={handleLike}
+                          >
+                              <Icon as={FavoriteIcon}  color='red' /> <Text>{likesCount}</Text>
+                          </Flex>
+                        )
+                        :
+                        (
+                          <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                          _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
+                          onClick={handleLike}
+                          >
+                              <Icon as={FavoriteBorderOutlined}  /> <Text>{likesCount}</Text>
+                          </Flex>
+                        )
+                      }
                      </HStack>
 
                     <HStack>
