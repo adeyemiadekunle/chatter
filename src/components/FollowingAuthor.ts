@@ -1,6 +1,6 @@
 
 
-import { arrayRemove, arrayUnion, doc, updateDoc } from "@firebase/firestore";
+import { arrayRemove, arrayUnion, doc, updateDoc, DocumentData, DocumentReference } from "@firebase/firestore";
 import { db } from "../utils/firebase";
 
 export const followAuthor = async (
@@ -10,7 +10,7 @@ export const followAuthor = async (
   ) => {
     try {
       const userRef = doc(db, "users", userId);
-      let currentUserRef = null;
+      let currentUserRef: DocumentReference<DocumentData> | null = null;
   
       if (currentUser) {
         currentUserRef = doc(db, "users", currentUser);

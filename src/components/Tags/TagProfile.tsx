@@ -5,6 +5,8 @@ import {
   arrayUnion,
   arrayRemove,
   onSnapshot,
+  DocumentData,
+  DocumentReference,
 } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { useParams } from "react-router-dom";
@@ -31,7 +33,7 @@ const followTag = async (tagId: string, isFollowing: boolean, user: string) => {
   try {
     const currentUser = user;
     const tagRef = doc(db, "tags", tagId);
-    let currentUserRef = null;
+    let currentUserRef: DocumentReference<DocumentData> | null = null;
 
     if (currentUser) {
       currentUserRef = doc(db, "users", currentUser);

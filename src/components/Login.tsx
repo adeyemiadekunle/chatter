@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../utils/firebase';
 import { fetchUserData } from '../utils/helperFunctions';
-// import PasswordReset from './PasswordReset';
 
 
 type LoginFormValues = {

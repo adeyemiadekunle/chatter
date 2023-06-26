@@ -1,5 +1,5 @@
 // Note: Header component
-import {useState, useEffect, useRef} from 'react'
+import {useState, useEffect} from 'react'
 import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex, IconButton } from '@chakra-ui/react'
 import { MoonIcon, SunIcon, BellIcon, SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
 import { useColorMode, useColorModeValue } from '@chakra-ui/react'

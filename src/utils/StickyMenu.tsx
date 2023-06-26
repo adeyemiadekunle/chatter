@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, CSSProperties } from 'react';
 import { Flex } from '@chakra-ui/react';
 
 interface StickyMenuProps {
@@ -10,7 +10,7 @@ const StickyMenu = ({children}: StickyMenuProps) => {
   const [isSticky, setIsSticky] = useState(false);
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
 
-  const menuStyles = {
+  const menuStyles:CSSProperties = {
     position: 'fixed',
     bottom: '10px',
     width: '100%',
@@ -18,6 +18,7 @@ const StickyMenu = ({children}: StickyMenuProps) => {
     right: 0,
     zIndex: 9999,
   };
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +41,7 @@ const StickyMenu = ({children}: StickyMenuProps) => {
   }, [lastScrollPosition]);
 
   return (
-    <Flex style={isSticky ? menuStyles : null}    justifyContent='center'>
+    <Flex style={isSticky ? menuStyles : undefined} justifyContent='center'>
         {children}
     </Flex>
   );
