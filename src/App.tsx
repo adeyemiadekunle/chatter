@@ -8,9 +8,9 @@ import FeedLayout from "./components/Feed/FeedLayout";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import Onboarding from "./pages/Onboarding";
-import Draft from "./pages/Draft";
+import Draft from "./pages/New";
 import LandingPage from "./pages/LandingPage";
-import ArticleDetails from "./pages/ArticleDetails";
+import ArticleDetails from "./pages/ArticlePage";
 import NoMatch from "./pages/NoMatch";
 import Personalize from "./components/Feed/Personalize";
 import Featured from "./components/Feed/Featured";
@@ -25,13 +25,15 @@ import Hot from "./components/Tags/Hot";
 import New from "./components/Tags/New";
 import Bookmarks from "./pages/Bookmarks";
 
+import Search from "./pages/Search";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<LandingPage />} />
       <Route path="/onboard" element={<Onboarding />} />
       <Route path="*" element={<NoMatch />} />
-
+       
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<FeedLayout />}>
           <Route path="/feed" element={<Feed />}>
@@ -51,6 +53,8 @@ const router = createBrowserRouter(
         <Route path="/" element={<GeneralLayout />}>
         <Route path="/:username" element={<Profile />} />
         <Route path="/bookmarks" element={<Bookmarks />} />
+        <Route path="/search" element={<Search/>} >
+        </Route>
           <Route path="/t/:hash" element={<TagCategory />}>
             <Route index element={<Hot/>}  />
             <Route path='hot' element={<Hot/>} />

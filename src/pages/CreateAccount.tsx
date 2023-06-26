@@ -20,6 +20,12 @@ import CreateUserAccount from "../components/CreateUserAccount";
 import ChooseTags from "../components/ChooseTags";
 import { useNavigate } from "react-router-dom";
 
+type TagData = {
+  id: string;
+  name: string;
+  image: string;
+  hash : string; 
+};
 
 
 const steps = [
@@ -37,6 +43,8 @@ const StepHeading = [
   </Flex>,
 ];
 
+
+
 function CreateAccount() {
   //  User Data
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -45,7 +53,7 @@ function CreateAccount() {
   const [userName, setUserName] = useState("");
   const [userBio, setUserBio] = useState("");
   const [userTagLine, setUserTagLine] = useState("");
-  const [techStack, setTechStack] = useState<string[]>([]);
+  const [techStack, setTechStack] = useState<TagData[]>([]);
   const [location, setLocation] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [isUserNameAvailable, setIsUserNameAvailable] = useState<boolean | null>(null);
@@ -69,7 +77,7 @@ function CreateAccount() {
     fetchUser();
   }, []);
 
-  console.log(userData)
+  console.log(techStack)
 
   const handleUpdate = async () => {
     if (userData) {
@@ -86,7 +94,7 @@ function CreateAccount() {
         // Add other updated fields
       };
       await updateUserData(updatedUserData);
-      navigate('/feed/recent')
+      navigate('/feed')
     }
 
   };
@@ -109,7 +117,7 @@ function CreateAccount() {
       isUserNameAvailable={isUserNameAvailable}
       setIsUserNameAvailable={setIsUserNameAvailable}
     />,
-    <ChooseTags selectedTags={techStack} setSelectedTags={setTechStack} />,
+    <ChooseTags selectedTags={techStack} setSelectedTags={setTechStack}  />,
   ];
 
   const handleNextStep = () => {

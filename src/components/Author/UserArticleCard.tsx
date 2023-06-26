@@ -32,9 +32,7 @@ const ArticleCard = ({
 
   return (
     <>
-      <Box className="selected-div" p={3} borderRadius='10px' boxShadow="xs"  
-
-        >
+      <Box className="selected-div" p={3} borderRadius='10px' boxShadow="xs"  >
         
       <Box w="350px" >
         <VStack w="100%" spacing={0}>

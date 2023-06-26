@@ -15,7 +15,7 @@ export const Container = ({ children, height, display }: RightBarContainerProps)
         display={display}
         bg={bg}
         color={color}
-        borderRadius={"2px"}
+        borderRadius={"5px"}
         className="selected-div"
         minH={height}
       >

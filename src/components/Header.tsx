@@ -1,15 +1,16 @@
 // Note: Header component
-import {useState, useEffect} from 'react'
-import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex } from '@chakra-ui/react'
+import {useState, useEffect, useRef} from 'react'
+import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex, IconButton } from '@chakra-ui/react'
 import { MoonIcon, SunIcon, BellIcon, SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
 import { useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { useFirebaseContext } from '../context/Firebase'
-import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined, Add} from '@mui/icons-material'
+import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined, Create, Home} from '@mui/icons-material'
 import { NavLink, useNavigate } from 'react-router-dom'
 import MobileSidebar from './MobileSidebar'
 import { createDraft} from '../utils/helperFunctions'
 import { auth, db } from '../utils/firebase'
 import { onSnapshot, doc } from 'firebase/firestore'
+import Search from './SearchModal'
 
 
 interface HeaderProps {
@@ -70,12 +71,12 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
  
     return (
         <Menu>
-            <MenuButton role='profile' as={Avatar}  size='sm' cursor={'pointer'} />
+            <MenuButton role='profile' as={Avatar} src={userData?.photoURL} name={userData?.displayName} size='sm' cursor={'pointer'}  />
             <MenuList width={'300px'} p={0} >
                 <Link  as={NavLink} to={userData?.userName} >
                     <MenuItem  >
                         <HStack py={3} spacing={6}>
-                            <Avatar src={userData?.photoURL}  />
+                            <Avatar src={userData?.photoURL} name={userData?.displayName}  />
                             <VStack alignItems={'start'} fontWeight={'500'} fontSize='sm' spacing={0} >
                                 <Text>{userData?.displayName}</Text>
                                 <Text color={'grey'}  fontSize='14px' >@{userData?.userName}</Text>
@@ -86,7 +87,7 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
                 <MenuDivider m={0} />
                 <MenuItem py={4} hideFrom='md' onClick={handleCreateDraft}  > <Icon as={PostAddOutlined} /><Text pl={2}>New Draft</Text></MenuItem>
                 <MenuItem py={4}> <Icon as={DescriptionOutlined} /><Text pl={2}>My Drafts</Text></MenuItem>
-                <MenuItem py={4}><Icon as={CollectionsBookmarkOutlined} /> <Text pl={2}>My Bookmarks</Text></MenuItem>
+                <Link as={NavLink} to='/bookmarks' ><MenuItem py={4}><Icon as={CollectionsBookmarkOutlined} /> <Text pl={2}>My Bookmarks</Text></MenuItem></Link>
                 <MenuItem py={4}><Icon as={Settings} /><Text pl={2}>Account Settings</Text></MenuItem>
                 <MenuDivider m={0} />
                 <MenuItem py={4} onClick={handleGoogleSignOut}> <Icon  as={LogoutOutlined} /> <Text pl={3}>Log Out</Text></MenuItem>
@@ -98,13 +99,14 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
 
 
 
-
 const Header = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     const bg = useColorModeValue('white', '#0F172A')
     const color = useColorModeValue('#0F172A', 'white')
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen:isOpenSearch, onOpen: onOpenSearch, onClose: onCloseSearch } = useDisclosure()
     const navigate = useNavigate()
+   
 
 
     const handleToggleColorMode = () => {
@@ -121,21 +123,42 @@ const Header = () => {
     return (
         <Box px={{base: '3', md: '8'}} py={{base: '3', md: '5'}} bg={bg} color={color}  className='header'  display={'flex'} flexDir={'column'} alignItems={'center'} >
                 {/* Mobile Menu fixed */}
-              <Flex onClick={handleCreateDraft} bg='brand.800'  justifyContent='center' alignItems='center'  w='50px' borderRadius='full'  hideFrom= 'md' position='fixed' zIndex='44' right='4' bottom='5'  h={'50px'} >
-                    <Icon color='primary.white' fontSize='xl' as={Add}/>
+              
+              <Flex bg='whiteAlpha.900' color='black'  justifyContent='center' alignItems='center'  w='100%'   hideFrom= 'md' position='fixed' zIndex='4'  bottom='1'  h={'55px'}>
+                     <HStack w='100%' justifyContent='space-between' px={5} alignItems='center' h='55px'>
+                         <Link as={NavLink} to='/feed' display='flex'
+                         _activeLink={{color: 'brand.800'}}
+                         >
+                            <Icon fontSize='28px' as={Home}/>
+                          </Link>
+                        <Link as={NavLink} to='/search' display='flex'>
+                            <Icon fontSize='24px' as={SearchIcon} />
+                        </Link>
+                        <Link onClick={handleCreateDraft}>
+                             <IconButton  aria-label='create draft' icon={<Create/>} bg='brand.800' borderRadius='full' color='white' />
+                         </Link>
+                        <Link as={NavLink} to='/bookmarks' display='flex' 
+                        _activeLink={{color: 'brand.800'}}
+                        >
+                           <Icon  fontSize='26px' as={CollectionsBookmarkOutlined} ></Icon> 
+                        </Link>
+                        <Link as={NavLink} to='/notification' display='flex'>
+                          <Icon fontSize='28px' as={BellIcon}></Icon>
+                        </Link>
+                     </HStack>
               </Flex>
 
             <HStack spacing={10} justify={'space-between'} bg={bg} maxW={'1280px'} w={'100%'} >
                 <HStack spacing={4}  >
                     <VStack hideFrom='md'>
-                        <HamburgerIcon onClick={onOpen} boxSize={'32px'} />
+                        <Icon onClick={onOpen} as={HamburgerIcon}></Icon>
                     </VStack>
                     <Link as={NavLink} to='/' ><Box fontSize='md' px={3}  bg='brand.800' fontWeight={700} color={'white'}> Chatter</Box></Link>
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>
                   <Link as={NavLink} to='/feed/personalize' ><Button  fontSize='base'>My Feed</Button></Link>
-                    <InputGroup >
+                    <InputGroup onClick={onOpenSearch}  >
                         <InputLeftElement w={'30px'} h={'30px'} children={<Icon as={SearchIcon} color={'grey'} boxSize={'15px'} />}  ml={2} mt={1} />
                         <Input  placeholder="Search Chatter" size='md' minWidth={'500px'}  variant={'outline'}  focusBorderColor='#543EE0' />
                     </InputGroup>
@@ -151,9 +174,6 @@ const Header = () => {
                         </Button>
                     </Link>
 
-                    <Stack hideFrom='md'>
-                        <SearchIcon boxSize={'22px'} />
-                    </Stack>
                     <Stack borderRadius={'50px'} _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'} >
                         <Icon onClick={handleToggleColorMode} as={colorMode === 'light' ? MoonIcon : SunIcon} boxSize={'20px'} />
                     </Stack>
@@ -167,8 +187,12 @@ const Header = () => {
                 </HStack>
             </HStack>
             {/* Mobile Sidebar */}
-            <MobileSidebar isOpen={isOpen} onClose={onClose}  />
+             <Box hideFrom='md'>
+             <MobileSidebar isOpen={isOpen} onClose={onClose} />
+             </Box>
 
+            {/* Desktop  Search */}
+            <Search isOpen={isOpenSearch} onClose={onCloseSearch}   />
         </Box>
     )
 }

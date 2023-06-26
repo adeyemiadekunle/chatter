@@ -114,7 +114,6 @@ const UserDataForm = ({
 
             <FormControl isRequired>
               <FormLabel fontSize={{ base: "14px", md: "16px" }}>
-                {" "}
                 Pick a username
               </FormLabel>
               <Input
@@ -143,7 +142,6 @@ const UserDataForm = ({
 
             <FormControl isReadOnly isRequired>
               <FormLabel fontSize={{ base: "14px", md: "16px" }}>
-                {" "}
                 Your email address
               </FormLabel>
               <Input name="email" value={email} bg="white" />
@@ -167,8 +165,8 @@ const UserDataForm = ({
                 By continue to the next step, you are agreeing to Chatter's{" "}
                 <Link as="a" color="blue">
                   terms of service
-                </Link>{" "}
-                and{" "}
+                </Link>
+                and
                 <Link as="a" color="blue">
                   the privacy policy.
                 </Link>

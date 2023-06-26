@@ -1,5 +1,12 @@
-import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot, updateDoc, arrayUnion, arrayRemove} from "firebase/firestore";
+import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot} from "firebase/firestore";
 import { db, auth } from './firebase';
+
+type TagData = {
+  id: string;
+  name: string;
+  image: string;
+  hash : string; 
+};
 
 
 // Fetch Login User Data
@@ -10,7 +17,7 @@ import { db, auth } from './firebase';
   userName: string;
   userBio: string;
   userTagLine: string;
-  techStack: string[];
+  techStack: TagData[];
   location: string;
 } ;
 
@@ -356,6 +363,7 @@ export const fetchAuthorData = async (authorId: string) => {
 
 // Fetch a single Article to view a single article
 export interface Article {
+  id: string;
   publishAt: string; 
   headerImage: string; 
   tags: string[];
@@ -382,12 +390,11 @@ export const fetchArticle = async (slug: string) => {
 
     if (!queryDocs.empty) {
       const docSnapshot = queryDocs.docs[0];
-      const {
-        publishAt, headerImage, tags, content, authorId, likes, comments, views,
-      } = docSnapshot.data() as Article;
-
+    
+      const { publishAt, headerImage, tags, content, authorId, likes, comments, views, } = docSnapshot.data() as Article;
+      const id = docSnapshot.id;
       return {
-        publishAt,  headerImage, tags, content, authorId, likes, comments, views,
+         id, publishAt, headerImage, tags, content, authorId, likes, comments, views, 
       };
     } else {
       console.log("Article not found");
@@ -501,8 +508,6 @@ export interface Tags {
   image: string;
   followers: string[];
   hash: string;
-  follow: () => Promise<void>;
-  unfollow: () => Promise<void>;
 }
 
 export const fetchAllTags = (): Promise<Tags[]> => {
@@ -520,34 +525,6 @@ export const fetchAllTags = (): Promise<Tags[]> => {
           image: image || "",
           followers: followers || [],
           hash: hash || "",
-          follow: async () => {
-            try {
-              const currentUser = auth.currentUser?.uid; // Function to get the current user ID
-              const tagRef = doc(db, "tags", tagsId);
-
-              await updateDoc(tagRef, {
-                followers: arrayUnion(currentUser),
-              });
-
-              console.log(`User ${currentUser} followed tag ${tagsId}.`);
-            } catch (error) {
-              console.error(`Error following tag ${tagsId}:`, error);
-            }
-          },
-          unfollow: async () => {
-            try {
-              const currentUser = auth.currentUser?.uid; // Function to get the current user ID
-              const tagRef = doc(db, "tags", tagsId);
-
-              await updateDoc(tagRef, {
-                followers: arrayRemove(currentUser),
-              });
-
-              console.log(`User ${currentUser} unfollowed tag ${tagsId}.`);
-            } catch (error) {
-              console.error(`Error unfollowing tag ${tagsId}:`, error);
-            }
-          },
         });
       });
 

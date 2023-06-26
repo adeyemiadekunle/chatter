@@ -58,10 +58,14 @@ const PostTags: React.FC<PostTagsProps> = ({
   };
 
   const handleTagDeselect = (hash: string): void => {
-    setSelectedTags((prevTags) =>
-      prevTags.filter((selectedTag) => selectedTag.hash !== hash)
-    );
+    const index = selectedTags.findIndex((tag) => tag.hash === hash);
+    if (index !== -1) {
+      const newTags = [...selectedTags];
+      newTags.splice(index, 1);
+      setSelectedTags(newTags);
+    }
   };
+  
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(e.target.value);
@@ -129,7 +133,7 @@ const PostTags: React.FC<PostTagsProps> = ({
       <HStack flexWrap="wrap" gap={4} p={2}>
         {selectedTags.map((tag) => (
           <Tag key={tag.id} size="lg" variant="solid" colorScheme="teal">
-            <TagLabel display='flex' alignItems='center' color="whiteAlpha.900"><Image boxSize='20px' mr={2} src={tag.image}/> {tag.name}</TagLabel>
+            <TagLabel fontSize='base' display='flex' alignItems='center' color="whiteAlpha.900"><Image boxSize='20px' mr={2} src={tag.image}/> {tag.name}</TagLabel>
             <TagCloseButton onClick={() => handleTagDeselect(tag.hash)} />
           </Tag>
         ))}

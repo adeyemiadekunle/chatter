@@ -9,13 +9,13 @@ import {
 const UserFeed = () => {
   return (
     <Box>
-      <Flex gap={1} overflowX={'auto'} >
+      <Flex gap={1} overflowX={'auto'} justifyContent={{base: 'space-between', md: 'flex-start'}}  >
         <Link
           as={NavLink}
           to="personalize"
           display={"flex"}
           alignItems={"center"}
-          px={3}
+          px={4}
           py={4}
           _hover={{bg: 'gray.100', color: 'black'}}
           borderBottom={'1px solid #E2E8F0'}
@@ -31,7 +31,7 @@ const UserFeed = () => {
           to="featured"
           display={"flex"}
           alignItems={"center"}
-          px={3}
+          px={4}
           py={4}
           _hover={{bg: 'gray.100', color: 'black'}}
           borderBottom={'1px solid #E2E8F0'}
@@ -45,7 +45,7 @@ const UserFeed = () => {
           to="recent"
           display={"flex"}
           alignItems={"center"}
-          px={3}
+          px={4}
           py={4}
           _hover={{bg: 'gray.100', color: 'black'}}
           borderBottom={'1px solid #E2E8F0'}
@@ -63,3 +63,8 @@ const UserFeed = () => {
 };
 
 export default UserFeed;
+
+
+{/* <Flex onClick={handleCreateDraft} bg='brand.800'  justifyContent='center' alignItems='center'  w='50px' borderRadius='full'  hideFrom= 'md' position='fixed' zIndex='4' right='4' bottom='20'  h={'50px'} >
+                    <Icon color='primary.white' fontSize='xl' as={Add}/>
+              </Flex> */}

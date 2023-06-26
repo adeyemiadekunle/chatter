@@ -91,7 +91,7 @@ const theme = extendTheme({
       },
      
       body: {
-        bg: props.colorMode === "dark" ? "black" : "#FFFFFF",
+        bg: props.colorMode === "dark" ? "black" : "#F5f5f5",
         color: props.colorMode === "dark" ? "#F5F5F5" : "gray.800", 
       },
       ".selected-div": {

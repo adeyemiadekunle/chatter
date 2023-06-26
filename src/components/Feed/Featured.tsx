@@ -1,5 +1,5 @@
-import React from "react";
-import ArticleCard from "../ArticleCard";
+
+// import ArticleCard from "../ArticleCard";
 import { Box,Text } from "@chakra-ui/react";
 
 const Featured = () => {

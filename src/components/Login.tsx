@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { GitHub, Google, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Text, Link, FormControl, FormLabel, InputGroup, InputRightElement, FormErrorMessage,  Input,  Heading, VStack, Button } from '@chakra-ui/react';
-// import { useDisclosure } from '@chakra-ui/react';
 import { useFirebaseContext} from '../context/Firebase';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { auth } from '../utils/firebase';
+import { fetchUserData } from '../utils/helperFunctions';
 // import PasswordReset from './PasswordReset';
 
 
@@ -22,12 +23,10 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  // const  { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleGoogleSignIn = async () => {
     try {
        GoogleSignIn();
-
     } catch (error) {
       console.error('Error signing in with Google:', error);
     }
@@ -46,12 +45,27 @@ const Login = () => {
     }
   };
 
-  useEffect (() => {
-    if (isAuth && !isLoading){
-      navigate('/feed');
-    }
-  }
-  , [isAuth, isLoading, navigate]);
+
+  useEffect(() => {
+    const checkUserData = async () => {
+      if (isAuth && !isLoading && auth.currentUser) {
+        const  user = await fetchUserData();
+        console.log('user', user);
+        if (user?.userName !== '' && user?.userTagLine !== '' && user?.techStack?.length !== undefined && user?.techStack?.length > 0) {
+          console.log('User data is complete, navigate to feed');
+          navigate('/feed');
+        } 
+        else {
+          console.log('User data is incomplete, navigate to create-account page');
+          navigate('/onboard/create-account');
+        }
+
+      }
+    };
+  
+    checkUserData();
+  }, [isAuth, isLoading, navigate, auth]);
+  
 
 
   return (

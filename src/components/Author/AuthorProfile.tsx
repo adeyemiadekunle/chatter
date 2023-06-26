@@ -57,15 +57,17 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
   // Render the user profile using the user object
   return (
     <>
-      <Box maxW={{ base: "100%", md: "1280px" }} m="0 auto">
+      <Box maxW={{ base: "100%", md: "1280px" }} m="0 auto" px={[4, 0]}  >
         <VStack
-          border={"1px solid #E2E8F0"}
+          // border={"1px solid #E2E8F0"}
           minH="300px"
           maxW={{ base: "100%", md: "1024px" }}
           m="0 auto"
           borderRadius="10px"
           mt={6}
           p={4}
+          className="selected-div"
+          boxShadow="xs"
         >
           <VStack hideFrom="md" spacing={2} w="100%">
             <Box>
@@ -184,7 +186,8 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
         p={{ base: 4, md: 0 }}
       >
         <Box
-          border={"1px solid #E2E8F0"}
+           className="selected-div"
+           boxShadow="xs"
           w={{ base: "100%", md: "300px" }}
           h="300px"
           borderRadius="10px"
@@ -196,7 +199,8 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
         </Box>
 
         <Box
-          border={"1px solid #E2E8F0"}
+           className="selected-div"
+           boxShadow="xs"
           w={{ base: "100%", md: "300px" }}
           h="300px"
           borderRadius="10px"
@@ -207,22 +211,23 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
             {" "}
             My Tech Stack
           </Text>
-          {user.techStack.map((tag: string) => (
+          {user.techStack.map((tag) => (
             <Button
-              key={tag}
+              key={tag.hash}
               m={1}
               variant={"outline"}
               borderRadius={"15px"}
               colorScheme={"blue"}
               size={"sm"}
             >
-              {tag}
+              {tag.name}
             </Button>
           ))}
         </Box>
 
         <Box
-          border={"1px solid #E2E8F0"}
+         className="selected-div"
+         boxShadow="xs"
           w={{ base: "100%", md: "300px" }}
           h="300px"
           borderRadius="10px"

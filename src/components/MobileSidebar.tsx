@@ -6,12 +6,13 @@ import { NavLink } from 'react-router-dom'
 
  interface MobileSidebarProps {
     onClose: () => void;
-    isOpen: boolean;
+    isOpen: boolean 
 }
 
 const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
     return (
-        <Drawer placement='left' onClose={onClose} isOpen={isOpen}  >
+        <Box >
+        <Drawer placement='left' onClose={onClose} isOpen={isOpen}   >
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerHeader>
@@ -72,6 +73,7 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
+    </Box>
  )
 }
 

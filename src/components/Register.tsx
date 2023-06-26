@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { useEffect, useState} from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Box,
@@ -18,6 +18,8 @@ import { useFirebaseContext } from '../context/Firebase';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { auth } from '../utils/firebase';
+import { fetchUserData } from '../utils/helperFunctions';
 
 interface RegisterFormData {
   firstName: string;
@@ -29,46 +31,14 @@ interface RegisterFormData {
 
 const Register = () => {
   const { handleSubmit, register, formState: { errors }, watch } = useForm<RegisterFormData>();
-  const { signUp, GoogleSignIn, isLoading, } = useFirebaseContext();
+  const { signUp, GoogleSignIn, isLoading, isAuth } = useFirebaseContext();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
 
   const handleClickPassword = () => setShowPassword(!showPassword);
   const handleClickConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
-
-  const handleGoogleSignUp = () => {
-    try {
-      GoogleSignIn();
-    } catch (error) {
-      console.error('Error signing in with Google:', error);
-    }
-  };
-
-  // const usersCollection = collection(db, 'users');
-  // const querySnapshot = await getDocs(query(usersCollection, where('email', '==', email)));
-  // if (!querySnapshot.empty) {
-  // // User already exists, handle accordingly (e.g., show error message)
-  // toast.error('User with this email address already exists');
-  // return;
-  // }
-
-
-
-  const onSubmit = async (data: RegisterFormData) => {
-    try {
-      await signUp(data.email, data.password, data.firstName, data.lastName); 
-        
-      navigate('/onboard/create-account');
-    } catch (error) {
-      const errorMessage = (error as { message: string }).message;
-      toast.error(`Firebase Error: ${errorMessage}`);
-
-  };
-
-}
 
   const validatePassword = (password: string) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -79,6 +49,47 @@ const Register = () => {
   const validateConfirmPassword = (confirmPassword: string) => {
     return confirmPassword === password;
   };
+
+  const handleGoogleSignUp = () => {
+    try {
+      GoogleSignIn();
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+    }
+  };
+
+
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      await signUp(data.email, data.password, data.firstName, data.lastName);    
+      // navigate('/onboard/create-account');
+    } catch (error) {
+      const errorMessage = (error as { message: string }).message;
+      toast.error(`Firebase Error: ${errorMessage}`);
+
+  };
+
+}
+useEffect(() => {
+  const checkUserData = async () => {
+    if (isAuth && !isLoading && auth.currentUser) {
+      const  user = await fetchUserData();
+      console.log('user', user);
+      if (user?.userName !== '' && user?.userTagLine !== '' && user?.techStack?.length !== undefined && user?.techStack?.length > 0) {
+        console.log('User data is complete, navigate to feed');
+        navigate('/feed');
+      } 
+      else {
+        console.log('User data is incomplete, navigate to create-account page');
+        navigate('/onboard/create-account');
+      }
+
+    }
+  };
+
+  checkUserData();
+}, [isAuth, isLoading, navigate, auth]);
+
 
   return (
     <>

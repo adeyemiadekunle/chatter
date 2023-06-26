@@ -1,31 +1,40 @@
 // import useArticleManagement from "../hooks/useArticleManagement";
 import UserFeed from "../components/Feed/UserFeed";
-import { Box, useColorModeValue, Text } from "@chakra-ui/react";
+import { Box, } from "@chakra-ui/react";
+import { Container } from "../components/ArticleContainer";
 
 const Home = () => {
-  // const { createDraftArticle } = useArticleManagement();
-  const bg = useColorModeValue("white", "#0F172A");
-  const color = useColorModeValue("#0F172A", "white");
+
 
   return (
-    <Box display={{ base: "block", md: "flex" }} >
-      {/* Main */}
-      <Box flex={{ base: "none", md: "1" }} mt={5} ml={{base: '0', md: '6'}} mr={{base: '0', md: '6'}} minH={"600px"} bg={bg}
-        color={color}
-        borderRadius={"2px 2px 0 0"}
-        className="selected-div"
+    <Box
+        display={{ base: "block", md: "flex" }}
+        maxW={{ base: "100%,", md: "1100px" }}
+        m="0 auto"
+        gap={8}
+        mt={5}
+        ml={[0, 8]}
       >
-        <UserFeed />
+        {/* Main */}
+        <Box flex={{ base: "none", md: "1" }}>
+          <Box mb={8}>
+            <Container height={"200px"} display={"block"}>
+            </Container>
+          </Box>
+          <Box>
+            <Container height={"600px"} display={"block"}>
+              <UserFeed />
+            </Container>
+          </Box>
+        </Box>
+
+        {/* RightBar */}
+        <Box w={{ base: "none", md: "300px" }}>
+          <Container height={"300px"} display={{ base: "none", md: "block" }}>
+            <h2>Hello</h2>
+          </Container>
+        </Box>
       </Box>
-      {/* RightBar */}
-      <Box w={{ base: "none", md: "300px" }} display={{ base: "none", md: "block" }} mt={5} mr={4} h={"100vh"} bg={bg}
-        color={color}
-        borderRadius={"2px"}
-        className="selected-div"
-      >
-        <Text>RightBar</Text>
-      </Box>
-    </Box>
   );
 };
 

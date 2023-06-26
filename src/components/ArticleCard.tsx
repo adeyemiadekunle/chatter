@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { BookmarkAddOutlined, FavoriteBorderOutlined, AnalyticsOutlined,  ForumOutlined,} from '@mui/icons-material'
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { HeaderOutput } from 'editorjs-react-renderer'
 import { FormattedDate } from '../utils/FormatDate'
 import TextTrimmingWithEllipsis from "../utils/TextTrimming";
@@ -24,7 +23,6 @@ import { NavLink } from "react-router-dom";
 import { BookMark } from "./Bookmark";
 import { auth, db } from "../utils/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
-import { Like } from "./Like";
 
 
  type ArticleCardProps = {
@@ -44,7 +42,6 @@ import { Like } from "./Like";
 
 const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarImage, PublishDate, username, slug, articleId }: ArticleCardProps ) => {
   const [isBookmarking, setIsBookmarking] = useState(false);
-  const [isLiking, setIsLiking] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const maxLength = 150;
   const currentUser = auth.currentUser?.uid;
@@ -72,7 +69,6 @@ useEffect (() => {
     const unsubscribe = onSnapshot(articleRef,(doc) => {
       if (doc.exists()) {
         const { likes } = doc.data();
-        setIsLiking(likes.includes(currentUser));
         setLikesCount(likes.length);
       }
     });
@@ -83,11 +79,6 @@ useEffect (() => {
 }, [currentUser, articleId]);
 
 
-const handleLike = async () => {
-  if (currentUser !== undefined) {
-    await Like(articleId, isLiking, currentUser);
-  }
-}
 
 
 const handleBookmark = async () => {
@@ -148,39 +139,31 @@ const handleBookmark = async () => {
                         </Flex>
                         )
                      }
-                    <Flex gap={2}>
-                          {tags.map((tag) => (
-                            <Link as={NavLink} to={`/t/${tag.hash}`} key={tag.hash}>
-                              <Button fontSize='sm' variant="outline" borderRadius="15px" colorScheme="blue" size="sm">
-                                {tag.name}
-                              </Button>
-                            </Link>
-                          ))}
-                      </Flex>
+                  <Flex gap={2} flexShrink='wrap'>
+                        {tags.slice(0, 2).map((tag) => (
+                          <Link as={NavLink} to={`/t/${tag.hash}`} key={tag.hash}>
+                            <Button variant="outline" borderRadius="15px" color='brand.800' size="sm">
+                              {tag.name}
+                            </Button>
+                          </Link>
+                        ))}
+                        {tags.length > 2 && (
+                          <Button variant="outline" borderRadius="15px" color='brand.800' size="sm">
+                            + {tags.length - 2} more
+                          </Button>
+                        )}
+                </Flex>
                 </HStack>
                  <LightMode>
-                  <HStack >
-                      {
-                        isLiking ?
-                        (
-                          <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
+                  <HStack >    
+                    <Link as={NavLink} to={`/${username}/${slug}`} >
+                      <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                           _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
-                          onClick={handleLike}
-                          >
-                              <Icon as={FavoriteIcon} color='red'   /> <Text>{likesCount}</Text>
-                          </Flex>
-                        )
-                        :
-                        (
-                          <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                          _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
-                          onClick={handleLike}
+                         
                           >
                               <Icon as={FavoriteBorderOutlined}  /> <Text>{likesCount}</Text>
                           </Flex>
-                        )
-                      }
-
+                    </Link>
                       <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                      _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}    
                       >
@@ -200,14 +183,19 @@ const handleBookmark = async () => {
             <VStack display={{base: 'block', md: 'none'}} justifyContent={'space-between'} mt={1} wrap={{base: 'wrap', md: 'nowrap' }} gap={{base: '10px'}}>
                 <HStack>
                 <Flex gap={2} flexShrink='wrap'>
-                          {tags.map((tag) => (
-                            <Link as={NavLink} to={`/t/${tag.hash}`} key={tag.hash}>
-                              <Button variant="outline" borderRadius="15px" colorScheme="blue" size="sm">
-                                {tag.name}
-                              </Button>
-                            </Link>
-                          ))}
-                      </Flex>
+                  {tags.slice(0, 2).map((tag) => (
+                    <Link as={NavLink} to={`/t/${tag.hash}`} key={tag.hash}>
+                      <Button variant="outline" borderRadius="15px" color='brand.800' size="sm">
+                        {tag.name}
+                      </Button>
+                    </Link>
+                  ))}
+                  {tags.length > 2 && (
+                    <Button variant="outline" borderRadius="15px" color='brand.800' size="sm">
+                      + {tags.length - 2} more
+                    </Button>
+                  )}
+                </Flex>
                 </HStack>
                 <HStack justifyContent='space-between'  >
                      <HStack>
@@ -229,27 +217,13 @@ const handleBookmark = async () => {
                         </Flex>
                         )
                         }
-
-                        {
-                        isLiking ?
-                        (
+                        <Link as={NavLink} to={`/${username}/${slug}`}  >
                           <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                             _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
-                            onClick={handleLike}
-                          >
-                              <Icon as={FavoriteIcon}  color='red' /> <Text>{likesCount}</Text>
-                          </Flex>
-                        )
-                        :
-                        (
-                          <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
-                          _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
-                          onClick={handleLike}
-                          >
-                              <Icon as={FavoriteBorderOutlined}  /> <Text>{likesCount}</Text>
-                          </Flex>
-                        )
-                      }
+                            >
+                                <Icon as={FavoriteBorderOutlined}  /> <Text>{likesCount}</Text>
+                            </Flex>
+                        </Link> 
                      </HStack>
 
                     <HStack>

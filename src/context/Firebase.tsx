@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { auth, onAuthStateChanged, provider, signOut, db, getRedirectResult, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../utils/firebase';
+import { auth, onAuthStateChanged, provider, signOut, db, getRedirectResult, signInWithRedirect, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../utils/firebase';
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 
 
@@ -86,7 +86,7 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
 
 
     const GoogleSignIn = () => {
-        signInWithPopup(auth, provider)
+        signInWithRedirect(auth, provider)
             .then(() => {
                 setIsLoading(true);
                 // console.log(result);
@@ -186,7 +186,7 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
 
 
     return (
-        <FirebaseContext.Provider value={{ isAuth, GoogleSignIn, GoogleSignOut, signUp, signIn, user, isLoading }}>
+        <FirebaseContext.Provider value={{ isAuth, GoogleSignIn, GoogleSignOut, signUp, signIn, user, isLoading,  }}>
             {children}
         </FirebaseContext.Provider>
 

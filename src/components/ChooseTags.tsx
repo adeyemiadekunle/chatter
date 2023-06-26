@@ -1,10 +1,19 @@
 import PostTags from "./RichEditor/ArticleTags";
 import { Box, VStack, Text, Heading } from "@chakra-ui/react";
 
-type ChooseTagsProps = {
-  selectedTags: string[];
-  setSelectedTags: (tags: string[]) => void;
+type TagData = {
+  id: string;
+  name: string;
+  image: string;
+  hash : string; 
 };
+
+type ChooseTagsProps = {
+  selectedTags: TagData[];
+  setSelectedTags: (tags: TagData[]) => void;
+};
+
+
 
 const ChooseTags = ({ selectedTags, setSelectedTags }: ChooseTagsProps) => {
   return (

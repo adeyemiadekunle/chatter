@@ -95,7 +95,6 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
 
   userArticles.forEach((article) => {
       fetchAuthor(article.authorId);
-      console.log(article.authorId);
     });
   }, [userArticles]);
 
