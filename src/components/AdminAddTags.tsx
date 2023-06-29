@@ -17,6 +17,7 @@ import {
 const AddTagForm: React.FC = () => {
   const [tagName, setTagName] = useState<string>("");
   const [tagImage, setTagImage] = useState<File | null>(null);
+  const [tagHash, setTagHash] = useState<string>("");
   
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -44,6 +45,7 @@ const AddTagForm: React.FC = () => {
           name: tagName,
           image: downloadURL,
           followers: [],
+          hash: tagHash,
         };
 
         const docRef = await addDoc(collection(db, "tags"), tagData);
@@ -70,6 +72,11 @@ const AddTagForm: React.FC = () => {
     }
   };
 
+  const handleTagHashChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTagHash(e.target.value);
+  };
+  
+
   return (
     <>
       <VStack mt={"200px"}>
@@ -95,6 +102,16 @@ const AddTagForm: React.FC = () => {
                 onChange={handleTagImageChange}
                 required
               />
+              <FormLabel>Tag Hash</FormLabel>
+               <FormLabel>Tag Hash</FormLabel>
+                  <Input
+                    type="text"
+                    value={tagHash}
+                    onChange={handleTagHashChange}
+                    required
+                    mb={2}
+                  />
+              <br />
               <HStack justifyContent="center" mt={5}>
                 <Button type="submit" width="100%">
                   Add Tag

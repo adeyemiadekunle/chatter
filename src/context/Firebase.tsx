@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { auth, onAuthStateChanged, provider, signOut, db, getRedirectResult, signInWithRedirect, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '../utils/firebase';
+import { auth, onAuthStateChanged, provider, signOut, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, GithubAuthProvider, signInWithPopup } from '../utils/firebase';
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+
+
 
 
 
@@ -11,6 +13,7 @@ interface FirebaseContextProps {
     GoogleSignOut: () => void;
     signUp: (email: string, password: string, fistName: string, lastName: string ) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
+    GithubSignIn: () => void;
     user: any;
     isLoading: boolean;
   }
@@ -21,6 +24,7 @@ interface FirebaseContextProps {
     GoogleSignOut: () => {},
     signUp: () => Promise.resolve(),
     signIn: () => Promise.resolve(),
+    GithubSignIn: () => Promise.resolve(),
     user: null,
     isLoading: false,
   });
@@ -56,7 +60,6 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
                                 userRole: 'noRole',
                                 userName: '',
                                 userBio: '',
-                                userTagline: '',
                                 techStack: [],
                                 location: '',
                             };
@@ -86,7 +89,7 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
 
 
     const GoogleSignIn = () => {
-        signInWithRedirect(auth, provider)
+        signInWithPopup(auth, provider)
             .then(() => {
                 setIsLoading(true);
                 // console.log(result);
@@ -100,25 +103,66 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
 
     }
 
+    // Github Sign UP
 
-    //get result of sign in
-    useEffect(() => {
-        getRedirectResult(auth)
-            .then(() => {
-                // The signed-in user info.
-                // const user = result?.user;
-                // console.log(user);
-                // ...
-            }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                console.log(errorCode);
-                const errorMessage = error.message;
-                console.log(errorMessage);
-                // The email of the user's account used.
+    const GithubSignIn = () => {
+        const provider = new GithubAuthProvider();
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                const credential = GithubAuthProvider.credentialFromResult(result);
+                console.log(credential)
+                setIsAuth(true)
+
+                     // Check if user already exists in Firestore
+        //     const usersCollection = collection(db, 'users');     
+       
+        //     const userDocRef = doc(usersCollection, user.uid);
+        //     const newUser = {
+        //     displayName: `${firstName} ${lastName}`,
+        //     email: user.email,
+        //     photoURL: user.photoURL,
+        //     emailVerified: user.emailVerified,
+        //     userRole: 'noRole',
+        //     userName: '',
+        //     userBio: '',
+        //     techStack: [],
+        //     location: '',
+        //   };
+        //   await setDoc(userDocRef, newUser);
+        //   setUser(user);
+            
+                setIsLoading(true);
+                // console.log(result);
+            })
+            .catch((error) => {
+                console.log("github error", error.message);
+                
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
 
-    }, []);
+    }
+
+
+    //get result of sign in
+    // useEffect(() => {
+    //     getRedirectResult(auth)
+    //         .then(() => {
+    //             // The signed-in user info.
+    //             // const user = result?.user;
+    //             // console.log(user);
+    //             // ...
+    //         }).catch((error) => {
+    //             // Handle Errors here.
+    //             const errorCode = error.code;
+    //             console.log(errorCode);
+    //             const errorMessage = error.message;
+    //             console.log(errorMessage);
+    //             // The email of the user's account used.
+    //         });
+
+    // }, []);
 
     const GoogleSignOut = () => {
         signOut(auth).then(() => {
@@ -151,7 +195,6 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
             userRole: 'noRole',
             userName: '',
             userBio: '',
-            userTagline: '',
             techStack: [],
             location: '',
           };
@@ -186,7 +229,7 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
 
 
     return (
-        <FirebaseContext.Provider value={{ isAuth, GoogleSignIn, GoogleSignOut, signUp, signIn, user, isLoading,  }}>
+        <FirebaseContext.Provider value={{ isAuth, GoogleSignIn, GoogleSignOut, signUp, signIn, user, isLoading, GithubSignIn  }}>
             {children}
         </FirebaseContext.Provider>
 
@@ -194,4 +237,4 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
 
 }
 
-export const useFirebaseContext = () => useContext(FirebaseContext);
+export const userAuth   = () => useContext(FirebaseContext);

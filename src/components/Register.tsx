@@ -14,12 +14,13 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { GitHub, Google, Visibility, VisibilityOff } from '@mui/icons-material';
-import { useFirebaseContext } from '../context/Firebase';
+import { userAuth } from '../context/Firebase';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { auth } from '../utils/firebase';
 import { fetchUserData } from '../utils/helperFunctions';
+// import { set } from 'lodash';
 
 interface RegisterFormData {
   firstName: string;
@@ -31,14 +32,14 @@ interface RegisterFormData {
 
 const Register = () => {
   const { handleSubmit, register, formState: { errors }, watch } = useForm<RegisterFormData>();
-  const { signUp, GoogleSignIn, isLoading, isAuth } = useFirebaseContext();
+  const { signUp, GoogleSignIn, isLoading, isAuth, GithubSignIn} = userAuth();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleClickPassword = () => setShowPassword(!showPassword);
-  const handleClickConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+  const handleClickConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword); 
 
   const validatePassword = (password: string) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -50,26 +51,34 @@ const Register = () => {
     return confirmPassword === password;
   };
 
-  const handleGoogleSignUp = () => {
+  const handleGoogleSignUp =  async () => {
     try {
       GoogleSignIn();
-    } catch (error) {
-      console.error('Error signing in with Google:', error);
+    } catch (e) {
+      console.error('Error signing in with Google:', e);
     }
   };
+
+  const handleGithubSigIn = async() => {
+    try{
+      GithubSignIn();
+    } catch(error){
+      console.error('error github sigin in', error)
+    }
+  };
+  
 
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await signUp(data.email, data.password, data.firstName, data.lastName);    
-      // navigate('/onboard/create-account');
-    } catch (error) {
-      const errorMessage = (error as { message: string }).message;
-      toast.error(`Firebase Error: ${errorMessage}`);
-
+      await signUp(data.email, data.password, data.firstName, data.lastName);  
+    } catch (error: any) {
+      toast.error(`${error.message}`, { position: 'top-center' });
   };
 
 }
+
+
 useEffect(() => {
   const checkUserData = async () => {
     if (isAuth && !isLoading && auth.currentUser) {
@@ -163,7 +172,7 @@ useEffect(() => {
 
       <VStack spacing={4} mt={3}>
         <Button w={'100%'} variant='outline' leftIcon={<Google />}  onClick={handleGoogleSignUp} > Sign up with Google</Button>
-        <Button w={'100%'} bg={'blackAlpha.900'} color={'white'} variant='outline' leftIcon={<GitHub />} >Sign up with GitHub</Button>
+        <Button w={'100%'} bg={'blackAlpha.900'} color={'white'} variant='outline' leftIcon={<GitHub />} onClick={handleGithubSigIn} >Sign up with GitHub</Button>
       </VStack>
     </>
   );

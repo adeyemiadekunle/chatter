@@ -9,7 +9,9 @@ import {
   getRedirectResult,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -20,13 +22,13 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBeCvVEWHnIbkNY8oJi88EBr5CRgHfCchU",
-  authDomain: "capstonetest2-b0f27.firebaseapp.com",
-  projectId: "capstonetest2-b0f27",
-  storageBucket: "capstonetest2-b0f27.appspot.com",
-  messagingSenderId: "1034118863335",
-  appId: "1:1034118863335:web:7b86c484c86c1da1d04542",
-  measurementId: "G-SBEQQEELPS"
+  apiKey: "AIzaSyDxdmpD96V70dhrLr8h3eF7mZBcD7aZXrc",
+  authDomain: "chatte-d8832.firebaseapp.com",
+  projectId: "chatte-d8832",
+  storageBucket: "chatte-d8832.appspot.com",
+  messagingSenderId: "190024177389",
+  appId: "1:190024177389:web:c65d5178577e58e6c09ee4",
+  measurementId: "G-NN4RGX2XQ6"
 };
 
 // Initialize Firebase
@@ -50,5 +52,7 @@ export {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  GithubAuthProvider,
+  signInWithPopup,
  
 };

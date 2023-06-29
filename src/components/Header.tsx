@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex, IconButton } from '@chakra-ui/react'
 import { MoonIcon, SunIcon, BellIcon, SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
 import { useColorMode, useColorModeValue } from '@chakra-ui/react'
-import { useFirebaseContext } from '../context/Firebase'
+import { userAuth } from '../context/Firebase'
 import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined, Create, Home} from '@mui/icons-material'
 import { NavLink, useNavigate } from 'react-router-dom'
 import MobileSidebar from './MobileSidebar'
@@ -30,7 +30,7 @@ interface HeaderProps {
 
 const Profile = ({handleCreateDraft}: HeaderProps) => {
 
-    const { GoogleSignOut } = useFirebaseContext();
+    const { GoogleSignOut } = userAuth();
     const navigate = useNavigate();
 
     const handleGoogleSignOut = async () => {

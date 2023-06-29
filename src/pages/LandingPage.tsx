@@ -23,11 +23,11 @@ import Testimonial from "../assets/Testimonial_Image.png";
 import Getstarted1 from "../assets/getstarted1.png";
 import Getstarted2 from "../assets/getstarted2.png";
 import Getstarted3 from "../assets/getstarted3.png";
-import { useFirebaseContext } from "../context/Firebase";
+import { userAuth } from "../context/Firebase";
 import { CreateOutlined } from "@mui/icons-material";
 
 const Header = () => {
-  const { isAuth} = useFirebaseContext();
+  const { isAuth} = userAuth();
   return (
     <>
       <Box px={[ 4, 12]} py={4}  >

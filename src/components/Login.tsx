@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { GitHub, Google, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Text, Link, FormControl, FormLabel, InputGroup, InputRightElement, FormErrorMessage,  Input,  Heading, VStack, Button } from '@chakra-ui/react';
-import { useFirebaseContext} from '../context/Firebase';
+import { userAuth} from '../context/Firebase';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../utils/firebase';
@@ -17,7 +17,7 @@ type LoginFormValues = {
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickPassword = () => setShowPassword(!showPassword);
-  const { GoogleSignIn,  signIn, isAuth, isLoading } = useFirebaseContext();
+  const { GoogleSignIn,  signIn, isAuth, isLoading, GithubSignIn } = userAuth();
   const { handleSubmit, register, formState: { errors }, getValues } = useForm<LoginFormValues>();
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -28,6 +28,14 @@ const Login = () => {
        GoogleSignIn();
     } catch (error) {
       console.error('Error signing in with Google:', error);
+    }
+  };
+
+  const handleGithubSigIn = async() => {
+    try{
+      GithubSignIn();
+    } catch(error){
+      console.error('error github sigin in', error)
     }
   };
   
@@ -43,6 +51,8 @@ const Login = () => {
       }
     }
   };
+
+
 
 
   useEffect(() => {
@@ -104,7 +114,7 @@ const Login = () => {
           <Link><Text pt={2} fontSize={'14px'} >Reset forgotten Password</Text></Link>
           <VStack spacing={4} mt={3}>
             <Button w={'100%'} variant='outline' leftIcon={<Google />}  color='red'  onClick={handleGoogleSignIn}> Log In with Google</Button>
-            <Button w={'100%'} bg={'blackAlpha.900'} color={'white'}   variant='outline' leftIcon={<GitHub />} >Log In with GitHub</Button>
+            <Button w={'100%'} bg={'blackAlpha.900'} color={'white'}   onClick={handleGithubSigIn} variant='outline' leftIcon={<GitHub />} >Log In with GitHub</Button>
           </VStack>
         </FormControl>
       </form>
