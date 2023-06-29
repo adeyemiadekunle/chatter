@@ -144,10 +144,10 @@ const ArticleCount = articles.length;
                drafts.length > 0 ? (
                     drafts.map((draft) => (
                       <Box key={draft.id}>
-                        <Box key={draft.id}   >
+                        <Box key={draft.id} >
                             {headerBlocks.map((headerBlock: any) => (
                              <>
-                               <Flex alignItems='center' justifyContent='space-between' >
+                               <Flex alignItems='center' justifyContent='space-between' key={draft.id} >
                                   <Text > <HeaderOutput key={headerBlock.id} data={headerBlock.data} />  </Text>
                                     <Menu >
                                       <MenuButton  mb={-2}  >

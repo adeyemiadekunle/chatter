@@ -6,7 +6,7 @@ import { Button, useDisclosure, Flex, HStack, IconButton, Tooltip, Box, Alert, A
 import ImageHeader from "./ImageHeader";
 import PublishDrawer from "./PublishDrawer";
 import { ViewSidebarOutlined } from "@mui/icons-material";
-import { create, debounce,} from "lodash"
+import { debounce,} from "lodash"
 
 // editorjs tools
 import Undo from 'editorjs-undo';
@@ -19,7 +19,6 @@ import CheckList from '@editorjs/checklist'
 import Raw from '@editorjs/raw'
 import Table from '@editorjs/table'
 import List from '@editorjs/list'
-import Paragraph from '@editorjs/paragraph'
 import editorjsCodeflask from '@calumk/editorjs-codeflask';
 import ImageToolsConfig from './ImageToolsConfig'
 
@@ -89,12 +88,7 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
           class: Header,
           inlineToolbar: true,
         },
-        text: {
-          class: Paragraph,
-          inlineToolbar: true,
-        },
         embed: Embed,
-        inlineCode: InlineCode,
         quote: Quote,
         marker: Marker,
         checklist: CheckList,
@@ -103,14 +97,14 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
         table: Table,
         list: List,
         image: ImageToolsConfig,
+        inlineCode: InlineCode,
       },
-      inlineToolbar: true,
     });
   }, [draftId,  handleUpdateDraft]);
 
 
   const getEditorContent = async () => {
-    return await ejInstance.current.saver.save();
+    return await ejInstance.current?.saver.save();
   };
 
   const handleSaveDraft = useCallback(async () => {
@@ -124,11 +118,14 @@ const EditorComponent = ({ IsOpen, onToggle }) => {
 // Get the editor content and save it to state
  useEffect(() => {
   async function getEditorContent() {
-    const content = await ejInstance.current.saver.save();
+    const content = await ejInstance.current?.saver.save();
+   
     setContent(content);
   }
   getEditorContent();
 }, [ejInstance.current]);
+
+console.log("editorinstance",ejInstance.current);
 
 //
 
