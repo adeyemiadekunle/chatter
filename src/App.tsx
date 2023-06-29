@@ -16,8 +16,7 @@ import Personalize from "./components/Feed/Personalize";
 import Featured from "./components/Feed/Featured";
 import Recent from "./components/Feed/Recent";
 import { PrivateRoute } from "./utils/PrivateRoute";
-import AdminRoute from "./utils/AdminRoute";
-import AdminPage from "./pages/AdminPage";
+// import AdminPage from "./pages/AdminPage";
 import CreateAccount from "./pages/CreateAccount";
 import TagCategory from "./pages/TagCategory";
 import GeneralLayout from "./components/GeneralLayout";
@@ -45,9 +44,9 @@ const router = createBrowserRouter(
         </Route>
       </Route>
 
-      <Route >
+      {/* <Route >
         <Route path="/admin" element={<AdminPage />} />
-      </Route>
+      </Route> */}
 
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<GeneralLayout />}>

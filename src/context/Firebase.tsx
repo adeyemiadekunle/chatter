@@ -108,29 +108,8 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
     const GithubSignIn = () => {
         const provider = new GithubAuthProvider();
         signInWithPopup(auth, provider)
-            .then((result) => {
-                const credential = GithubAuthProvider.credentialFromResult(result);
-                console.log(credential)
-                setIsAuth(true)
-
-                     // Check if user already exists in Firestore
-        //     const usersCollection = collection(db, 'users');     
-       
-        //     const userDocRef = doc(usersCollection, user.uid);
-        //     const newUser = {
-        //     displayName: `${firstName} ${lastName}`,
-        //     email: user.email,
-        //     photoURL: user.photoURL,
-        //     emailVerified: user.emailVerified,
-        //     userRole: 'noRole',
-        //     userName: '',
-        //     userBio: '',
-        //     techStack: [],
-        //     location: '',
-        //   };
-        //   await setDoc(userDocRef, newUser);
-        //   setUser(user);
-            
+            .then(() => {
+                setIsAuth(true) 
                 setIsLoading(true);
                 // console.log(result);
             })
@@ -144,25 +123,6 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
 
     }
 
-
-    //get result of sign in
-    // useEffect(() => {
-    //     getRedirectResult(auth)
-    //         .then(() => {
-    //             // The signed-in user info.
-    //             // const user = result?.user;
-    //             // console.log(user);
-    //             // ...
-    //         }).catch((error) => {
-    //             // Handle Errors here.
-    //             const errorCode = error.code;
-    //             console.log(errorCode);
-    //             const errorMessage = error.message;
-    //             console.log(errorMessage);
-    //             // The email of the user's account used.
-    //         });
-
-    // }, []);
 
     const GoogleSignOut = () => {
         signOut(auth).then(() => {
