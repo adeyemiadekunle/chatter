@@ -1,4 +1,5 @@
-import Draft from "../components/RichEditor/Draft";
+// import Draft from "../components/RichEditor/Draft";
+import New from '../components/RichEditor/New'
 import {
   Box,
   Flex,
@@ -12,6 +13,7 @@ import {
 import { NavLink } from "react-router-dom";
 import { ArrowBackOutlined } from "@mui/icons-material";
 import DraftSideBar from '../components/DraftSideBar'
+
 
 
 
@@ -61,7 +63,8 @@ const NewArticle = () => {
             overflowY="auto"
             display={{base: isOpen ? 'none': 'block', md: 'block'}} 
           >
-            <Draft IsOpen={isOpen} onToggle={onToggle} /> 
+            {/* <Draft IsOpen={isOpen} onToggle={onToggle} />  */}
+            <New IsOpen={isOpen} onToggle={onToggle} />
               {/* Draft */}
           </Box>
       </Flex>

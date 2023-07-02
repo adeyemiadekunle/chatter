@@ -19,6 +19,7 @@ type TagData = {
   name: string;
   image: string;
   hash : string; 
+  // followers: string[];
 }
 
 type PublishDrawerProps = {

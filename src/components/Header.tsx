@@ -153,7 +153,7 @@ const Header = () => {
                     <VStack hideFrom='md'>
                         <Icon onClick={onOpen} as={HamburgerIcon}></Icon>
                     </VStack>
-                    <Link as={NavLink} to='/' ><Box fontSize='md' px={3}  bg='brand.800' fontWeight={700} color={'white'}> Chatter</Box></Link>
+                    <Link as={NavLink} to='/' ><Box fontSize='md' px={3}  bg='brand.800' fontWeight={700} color={'white'}> Chatte </Box></Link>
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>

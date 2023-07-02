@@ -66,8 +66,6 @@ export const updateUserData = async (userData: UserData) => {
 };
 
 
-
-
 // Fetch All Dynamic Users
 export interface Users {
   userId: string;
@@ -116,7 +114,6 @@ export const fetchAllUsers = async (): Promise<Users[]> => {
 
 //  createDraft
 const DEFAULT_INITIAL_DATA = {
-  time: new Date().getTime(),
   blocks: [
     {
       type: "header",
@@ -154,10 +151,18 @@ export const createDraft = async (callback: (arg0: string) => void) => {
   }
 };
 
-
+type Block = {
+  time: number;
+  blocks: {
+    type: string;
+    data: {
+      text: string;
+    };
+  }[];
+}
 
 // updateDraft
-export const updateDraft = async (draftId: string, headerImage: string, content: string) => {
+export const updateDraft = async (draftId: string, headerImage: string, content: Block) => {
   try {
     const draftRef = doc(db, "drafts", draftId);
     const snapshot = await getDoc(draftRef);
@@ -178,10 +183,16 @@ export const updateDraft = async (draftId: string, headerImage: string, content:
   }
 };
 
+export interface Tags {
+  id: string;
+  name: string;
+  image: string;
+  hash: string;
+}
 
 
 //  publishDraft
-export const publishDraft = async (draftId: string, tags: string[], slug: string) => {
+export const publishDraft = async (draftId: string, tags: Tags[], slug: string) => {
   try {
     const draftRef = doc(db, "drafts", draftId);
     const draftDoc = await getDoc(draftRef);
@@ -215,7 +226,6 @@ export const publishDraft = async (draftId: string, tags: string[], slug: string
 
 
 
-
 //  fetchDraft a single draft
 export const fetchDraft = async (draftId: string) => {
   try {
@@ -231,7 +241,7 @@ export const fetchDraft = async (draftId: string) => {
     if (docSnap.exists() && docSnap.data()?.authorId === user.uid) {
       const { headerImage, content } = docSnap.data() as {
         headerImage: string;
-        content: string;
+        content: Block;
       };
       return { headerImage, content };
     } else {
@@ -506,7 +516,7 @@ export interface Tags {
   id: string;
   name: string;
   image: string;
-  followers: string[];
+  // followers: string[];
   hash: string;
 }
 

@@ -14,7 +14,7 @@ const Onboarding = () => {
       <Flex>
         <Box flex={1}  bgImage={OnboardImage} bgSize={'cover'} bgPosition={'center'} bgRepeat={'no-repeat'}  minH={'100vh'} display={{base: 'none', md: 'block'}} >
           <VStack h={'100%'}  bgColor={'blackAlpha.700'} color={'whiteAlpha.900'}  justifyContent={'center'}>
-              <Box fontSize={'42px'} px={3} py={1} bg={'#543EE0'} fontWeight={700} color={'white'} mt={'-60px'}> Chatter</Box>
+              <Box fontSize={'42px'} px={3} py={1} bg={'#543EE0'} fontWeight={700} color={'white'} mt={'-60px'}> Chatte</Box>
               <Text w={'72%'} pt={1} fontSize={'24px'} fontWeight={'600'}>Unleash the Power of Words, Connect with Like-minded Readers and Writers</Text>
           </VStack>
         </Box>

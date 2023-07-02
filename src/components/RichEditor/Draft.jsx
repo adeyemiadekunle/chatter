@@ -37,6 +37,8 @@ const DEFAULT_INITIAL_DATA = {
 };
 
 
+
+
 const EditorComponent = ({ IsOpen, onToggle }) => {
   const ejInstance = useRef();
   const [imageUrl, setImageUrl] = useState("");

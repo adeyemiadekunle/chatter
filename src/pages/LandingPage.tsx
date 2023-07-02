@@ -41,7 +41,7 @@ const Header = () => {
             fontWeight={700}
             color='primary.white'
           >
-            Chatter
+            Chatte
           </Box>
           <HStack spacing={10}  display={{base: 'none', md: 'block'}}  >
             { isAuth ? <Link as={NavLink} to='/feed' ><Button color= 'brand.800' fontSize='base' >My Feed</Button></Link> : 
