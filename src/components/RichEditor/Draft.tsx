@@ -28,7 +28,7 @@ const DEFAULT_INITIAL_DATA = {
     {
       type: "header",
       data: {
-        text: "",
+        text: "Let's write Awesome Articles!",
         level: 1,
       },
     },
@@ -132,7 +132,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
 
 //  fetch data from localstorage
   let contentData = localStorage.getItem('editor')
-  const jsonData = contentData ? JSON.parse(contentData) : null;
+  const jsonData = contentData ? JSON.parse(contentData) : DEFAULT_INITIAL_DATA;
   // console.log( "localstor", jsonData)
 
 
@@ -167,7 +167,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
 
         <Box px={{ base: "30px", md: "100px" }} >
           <Flex flexDir={"column"}>
-            <Box bg='white'>
+            <Box bg='white' px={2}>
               <ImageHeader imageUrl={imageUrl} setImageUrl={setImageUrl} />
               <Box>
                 <EditorJs
@@ -179,6 +179,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
                     (editorInstanceRef.current = instance)
                   }
                   tools={EDITOR_JS_TOOLS}
+                  placeholder="Let's write an awesome story!"
                 />
               </Box>
             </Box>
@@ -201,3 +202,5 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
 };
 
 export default EditorComponent;
+
+

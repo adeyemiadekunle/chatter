@@ -120,7 +120,7 @@ const DEFAULT_INITIAL_DATA = {
     {
       type: "header",
       data: {
-        text: "Let's write some Articles!",
+        text: "Let's write Awesome Articles!",
         level: 1,
       },
     },

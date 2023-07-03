@@ -72,21 +72,21 @@ a {
 }
 
 .ce-block__content h1 {
-  font-size:var(--font-size-xxl);
+  font-size:var(--font-size-xl);
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
 .ce-block__content h2 {
-  font-size: var(--font-size-xl);
-  font-weight: 600;
+  font-size: var(--font-size-lg);
+  font-weight: 650;
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
 .ce-block__content h3 {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
   font-weight: 600;
   line-height: 1.2;
   margin-bottom: 0.8rem;
@@ -94,13 +94,13 @@ a {
 }
 
 .ce-block__content h4 {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-base);
   font-weight: 600;
   line-height: 1.2;
  margin-bottom: 0.8rem;
 }
 
-.ce-block__content h5 {
+/* .ce-block__content h5 {
   font-size: var(--font-size-md);
   font-weight: 500;
   line-height: 1.2;
@@ -112,10 +112,10 @@ a {
   font-weight: 500;
   line-height: 1.2;
   margin-bottom: 0.7rem;
-}
+} */
 
 .ce-paragraph {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-base);
   font-weight: 400;
   line-height: 1.5;
   margin-bottom: 0.7rem;
