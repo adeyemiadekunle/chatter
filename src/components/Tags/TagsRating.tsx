@@ -71,7 +71,7 @@ const TagsRatingComponent: React.FC = () => {
   return (
     <Box>
       {tagData.length > 0 ? (
-        tagData.map(({ tag, count, image, name, hash }) => (
+        tagData.slice(0, 5).map(({ tag, count, image, name, hash }) => (
           <Link as={NavLink} to={`/t/${hash}`} key={tag} display="flex" alignItems="center" _hover={{ textDecoration: 'none' }}>
           <Box key={tag} display="flex" alignItems="center">
             <Image src={image} alt={name} width={10} height={10} marginRight={2} />
