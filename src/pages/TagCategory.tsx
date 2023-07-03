@@ -10,16 +10,7 @@ import {
 import TagsFeed from "../components/Tags/TagsFeed";
 import { TagsProfile } from "../components/Tags/TagProfile";
 import {Container} from "../components/ArticleContainer";
-
-
-  
-interface Tags {
-  id: string;
-  name: string;
-  image: string;
-  followers: string[];
-  hash: string;
-}
+import { Tags } from "../utils/helperFunctions";
 
 
 //  TagCategory

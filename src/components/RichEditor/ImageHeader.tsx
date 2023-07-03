@@ -93,6 +93,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             _hover={{ bg: "gray.200" }}
             w={"150px"}
             onClick={handleImageUpload}
+            ml={2}
           >
             <Icon as={ImageOutlined} w={6} h={6} mr={2} />
             Add Cover

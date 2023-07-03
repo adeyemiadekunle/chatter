@@ -3,6 +3,7 @@ import EditorJs from "@natterstefan/react-editor-js";
 import {
   updateDraft,
   publishDraft,
+  Tags,
 } from "../../utils/helperFunctions";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -34,17 +35,9 @@ const DEFAULT_INITIAL_DATA = {
   ],
 };
 
-type TagData = {
-  id: string;
-  name: string;
-  image: string;
-  hash: string;
-  // followers: string[];
-};
 
 
 type EditorComponentProps = {
-  IsOpen: boolean;
   onToggle: () => void;
 };
 
@@ -61,13 +54,12 @@ type Block = {
 
 const EditorComponent: React.FC<EditorComponentProps> = ({
   onToggle,
-  IsOpen
 }) => {
   const [imageUrl, setImageUrl] = useState("");
   const [slugUrl, setSlugUrl] = useState("");
   const [contents, setContents] = useState<Block>(DEFAULT_INITIAL_DATA);
  
-  const [selectedTags, setSelectedTags] = useState<TagData[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tags[]>([]);
   const { draftId } = useParams();
   const navigate = useNavigate();
   const btnRef = useRef<HTMLButtonElement | null>(null);
@@ -173,20 +165,22 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
           </HStack>
         </HStack>
 
-        <Box px={{ base: "30px", md: "100px" }}>
+        <Box px={{ base: "30px", md: "100px" }} >
           <Flex flexDir={"column"}>
-            <ImageHeader imageUrl={imageUrl} setImageUrl={setImageUrl} />
-            <Box>
-              <EditorJs
-                data={jsonData}
-                holder="editorjs"
-                onReady={onReady}
-                onChange={onChange}
-                editorInstance={(instance) =>
-                  (editorInstanceRef.current = instance)
-                }
-                tools={EDITOR_JS_TOOLS}
-              />
+            <Box bg='white'>
+              <ImageHeader imageUrl={imageUrl} setImageUrl={setImageUrl} />
+              <Box>
+                <EditorJs
+                  data={jsonData}
+                  holder="editorjs"
+                  onReady={onReady}
+                  onChange={onChange}
+                  editorInstance={(instance) =>
+                    (editorInstanceRef.current = instance)
+                  }
+                  tools={EDITOR_JS_TOOLS}
+                />
+              </Box>
             </Box>
             <PublishDrawer
               onClick={handlePublish}

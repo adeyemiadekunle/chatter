@@ -1,12 +1,14 @@
 import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot} from "firebase/firestore";
 import { db, auth } from './firebase';
 
-type TagData = {
+
+export interface Tags {
   id: string;
   name: string;
   image: string;
-  hash : string; 
-};
+  hash: string;
+  followers: string[];
+}
 
 
 // Fetch Login User Data
@@ -17,7 +19,7 @@ type TagData = {
   userName: string;
   userBio: string;
   userTagLine: string;
-  techStack: TagData[];
+  techStack: Tags[];
   location: string;
 } ;
 
@@ -183,12 +185,7 @@ export const updateDraft = async (draftId: string, headerImage: string, content:
   }
 };
 
-export interface Tags {
-  id: string;
-  name: string;
-  image: string;
-  hash: string;
-}
+
 
 
 //  publishDraft
@@ -516,7 +513,7 @@ export interface Tags {
   id: string;
   name: string;
   image: string;
-  // followers: string[];
+  followers: string[];
   hash: string;
 }
 

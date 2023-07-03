@@ -1,5 +1,4 @@
-// import Draft from "../components/RichEditor/Draft";
-import New from '../components/RichEditor/New'
+import Draft from "../components/RichEditor/Draft";
 import {
   Box,
   Flex,
@@ -63,8 +62,8 @@ const NewArticle = () => {
             overflowY="auto"
             display={{base: isOpen ? 'none': 'block', md: 'block'}} 
           >
-            {/* <Draft IsOpen={isOpen} onToggle={onToggle} />  */}
-            <New IsOpen={isOpen} onToggle={onToggle} />
+            <Draft  onToggle={onToggle} /> 
+            {/* <New onToggle={onToggle} /> */}
               {/* Draft */}
           </Box>
       </Flex>

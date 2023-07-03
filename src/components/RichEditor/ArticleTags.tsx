@@ -14,34 +14,30 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
+import { Tags } from "../../utils/helperFunctions";
 
 
 type PostTagsProps = {
-  selectedTags: TagData[];
-  setSelectedTags: (tags: TagData[]) => void;
+  selectedTags: Tags[];
+  setSelectedTags: (tags: Tags[]) => void;
 };
 
-type TagData = {
-  id: string;
-  name: string;
-  image: string;
-  hash : string; 
-};
+
 
 const PostTags: React.FC<PostTagsProps> = ({
   selectedTags,
   setSelectedTags,
 }: PostTagsProps) => {
   const [searchValue, setSearchValue] = useState("");
-  const [availableTags, setAvailableTags] = useState<TagData[]>([]);
+  const [availableTags, setAvailableTags] = useState<Tags[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // Fetch the tags from Firestore
     const fetchTags = async () => {
       const querySnapshot = await getDocs(collection(db, "tags"));
-      const tagsData: TagData[] = querySnapshot.docs.map(
-        (doc) => doc.data() as TagData
+      const tagsData: Tags[] = querySnapshot.docs.map(
+        (doc) => doc.data() as Tags
       );
       setAvailableTags(tagsData);
     };
@@ -49,7 +45,7 @@ const PostTags: React.FC<PostTagsProps> = ({
     fetchTags();
   }, []);
 
-  const handleTagSelect = (tag: TagData): void => {
+  const handleTagSelect = (tag: Tags): void => {
     if (!selectedTags.some((selectedTag) => selectedTag.hash === tag.hash)) {
       setSelectedTags([...selectedTags, tag]);
     }

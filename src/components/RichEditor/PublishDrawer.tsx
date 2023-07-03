@@ -13,22 +13,17 @@ import {
 
 import PostTags from "./ArticleTags";
 import Slug from "./Slug";
+import { Tags } from "../../utils/helperFunctions";
 
-type TagData = {
-  id: string;
-  name: string;
-  image: string;
-  hash : string; 
-  // followers: string[];
-}
+
 
 type PublishDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
   btnRef: React.MutableRefObject<any>;
   onClick: () => void;
-  selectedTags: TagData[];
-  setSelectedTags: (tags: TagData[]) => void;
+  selectedTags: Tags[];
+  setSelectedTags: (tags: Tags[]) => void;
   slug: string;
   content: any;
   setSlug: (slug: string) => void;
