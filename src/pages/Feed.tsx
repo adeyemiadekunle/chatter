@@ -2,7 +2,7 @@
 import UserFeed from "../components/Feed/UserFeed";
 import { Box, Image } from "@chakra-ui/react";
 import { Container } from "../components/ArticleContainer";
-import Banner from "../assets/banner.jpg";
+import Banner from "../assets/Banner.png";
 
 
 const Home = () => {
