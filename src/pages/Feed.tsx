@@ -1,7 +1,8 @@
 // import useArticleManagement from "../hooks/useArticleManagement";
 import UserFeed from "../components/Feed/UserFeed";
-import { Box, } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { Container } from "../components/ArticleContainer";
+import Banner from '../assets/banner.png' 
 
 
 const Home = () => {
@@ -19,7 +20,8 @@ const Home = () => {
         {/* Main */}
         <Box flex={{ base: "none", md: "1" }}>
           <Box mb={8}>
-            <Container height={"200px"} display={"block"}>
+            <Container height={"200px"} display={"block"}   >
+              <Image src={Banner} h='200px' w='100%' objectFit='cover' borderRadius='8px' />
             </Container>
           </Box>
           <Box>

@@ -117,7 +117,7 @@ const Search = () => {
   return (
     <>
     <SEO title="Search" description="Search for posts, users and tags" name="Search" type="Post" />
-    <Box bg='primary.white' minH='90vh' >
+    <Box  minH='90vh' >
       <Box maxW={['100%', '800px']} m="0 auto" p={[4, 0]}  >
         <Box pt={10} pb={6} >
           <InputGroup>
@@ -127,14 +127,14 @@ const Search = () => {
               placeholder="Search for articles, users or tags"
               value={searchTerm}
               onChange={handleInputChange}
-              bg='gray.100'
-              _focus={{ bg: 'gray.100' }}
+              _focus={{ bg: 'gray.100', color: 'black' }}
             />
           </InputGroup>
         </Box>
         <Flex mt={4} gap={6} >
           <Link onClick={handleFilterArticles} fontWeight={filterType === 'articles' ? 'bold' : 'normal'}  
             bg={filterType === 'articles' ? 'gray.100' : 'none'} p={1} px={2}
+            color={filterType === 'articles' ? 'brand.800' : 'gray.500'}
             transition=' 0.3s ease-in-out'
            _hover={{ color: 'brand.800' }}
            >
@@ -142,6 +142,7 @@ const Search = () => {
           </Link>
           <Link onClick={handleFilterUsers} fontWeight={filterType === 'users' ? 'bold' : 'normal'} 
             bg={filterType === 'users' ? 'gray.100' : 'none'} p={1} px={2}
+            color={filterType === 'users' ? 'brand.800' : 'gray.500'}
             transition=' 0.3s ease-in-out'
            _hover={{ color: 'brand.800' }}
            >
@@ -149,6 +150,7 @@ const Search = () => {
           </Link>
           <Link onClick={handleFilterTags} fontWeight={filterType === 'tags' ? 'bold' : 'normal'} 
             bg={filterType === 'tags' ? 'gray.100' : 'none'} p={1} px={2}
+            color={filterType === 'tags' ? 'brand.800' : 'gray.500'}
             transition=' 0.3s ease-in-out'
            _hover={{ color: 'brand.800' }}
            >

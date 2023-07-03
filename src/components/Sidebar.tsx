@@ -2,6 +2,7 @@ import {Box, useColorModeValue} from '@chakra-ui/react'
 import {VStack, Heading, Text, List, ListIcon, ListItem, Icon, Divider, Link} from '@chakra-ui/react'
 import { TrendingUpOutlined, EditNoteOutlined, BookmarkAddedOutlined, PublishedWithChangesOutlined, AnalyticsOutlined, PermIdentityOutlined, NotificationsNoneOutlined, Settings, LogoutOutlined } from '@mui/icons-material'
 import { NavLink } from 'react-router-dom'
+import TagsRatingComponent from './Tags/TagsRating'
 
 const Sidebar = () => {
     const bg = useColorModeValue('white', '#0F172A')
@@ -42,11 +43,12 @@ const Sidebar = () => {
           <Heading as='h3' fontSize='md' pb={3} textAlign={'left'} display={'flex'}> <Text whiteSpace={'nowrap'} >Trending Tags</Text> <Icon as={TrendingUpOutlined} />
            </Heading>
           <VStack  spacing={4} alignItems={'flex-start'} pl={5}>
-            <Text>Programming</Text>
+            <TagsRatingComponent />
+            {/* <Text>Programming</Text>
             <Text>Data Science</Text>
             <Text>Technology</Text>
             <Text>Machine Learning</Text>
-            <Text>Web Development</Text>
+            <Text>Web Development</Text> */}
           </VStack>  
         </Box>
           <Divider />

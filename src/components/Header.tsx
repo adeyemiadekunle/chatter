@@ -131,7 +131,7 @@ const Header = () => {
                          >
                             <Icon fontSize='28px' as={Home}/>
                           </Link>
-                        <Link as={NavLink} to='/search' display='flex'>
+                        <Link as={NavLink} to='/search' display='flex'  _activeLink={{color: 'brand.800'}}>
                             <Icon fontSize='24px' as={SearchIcon} />
                         </Link>
                         <Link onClick={handleCreateDraft}>
@@ -142,7 +142,7 @@ const Header = () => {
                         >
                            <Icon  fontSize='26px' as={CollectionsBookmarkOutlined} ></Icon> 
                         </Link>
-                        <Link as={NavLink} to='/notification' display='flex'>
+                        <Link as={NavLink} to='' display='flex'>
                           <Icon fontSize='28px' as={BellIcon}></Icon>
                         </Link>
                      </HStack>

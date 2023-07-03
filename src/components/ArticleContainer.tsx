@@ -18,6 +18,7 @@ export const Container = ({ children, height, display }: RightBarContainerProps)
         borderRadius={"5px"}
         className="selected-div"
         minH={height}
+      
       >
         {children}
       </Box>

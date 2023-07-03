@@ -544,3 +544,5 @@ export const fetchAllTags = (): Promise<Tags[]> => {
 };
 
 
+// Trending Tags
+

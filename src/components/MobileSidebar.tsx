@@ -2,7 +2,8 @@
 import { Box, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Heading, HStack, Icon, List, ListItem, ListIcon, Text, VStack, Link } from '@chakra-ui/react'
 import { AnalyticsOutlined, BookmarkAddedOutlined, EditNoteOutlined, HomeOutlined, PublishedWithChangesOutlined, TrendingUpOutlined } from '@mui/icons-material'
 import { CloseIcon } from '@chakra-ui/icons'
-import { NavLink } from 'react-router-dom'
+import { NavLink} from 'react-router-dom'
+import TagsRatingComponent from './Tags/TagsRating'
 
  interface MobileSidebarProps {
     onClose: () => void;
@@ -10,6 +11,7 @@ import { NavLink } from 'react-router-dom'
 }
 
 const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
+
     return (
         <Box >
         <Drawer placement='left' onClose={onClose} isOpen={isOpen}   >
@@ -17,32 +19,36 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
             <DrawerContent>
                 <DrawerHeader>
                    <HStack justifyContent={'space-between'} >  
-                    <Box fontSize={'22px'} px={3} py={1} bg={'#543EE0'} fontWeight={700} color={'white'}> Chatte</Box> 
+                    <Box fontSize={'22px'} px={3} py={1} bg={'#0057C2'} fontWeight={700} color={'white'}> Chatte</Box> 
                     <Box>
-                        <CloseIcon onClick={onClose} boxSize={'22px'} />
+                        <CloseIcon onClick={onClose} boxSize={'18px'} />
                     </Box> 
                     </HStack>
                 </DrawerHeader>
                     <DrawerBody>
                         <VStack alignItems={'left'} >
                         <Box px={0} py={4}>
-                            <List spacing={5} pl={3}>
+                            <List spacing={5} pl={3} >
+
                                 <Link as={NavLink} to='/feed' >
-                                    <ListItem display={'flex'}>
+                                    <ListItem display={'flex'}  >
                                         <ListIcon as={HomeOutlined} fontSize={'xlg'}  />
                                         <Text>Home</Text>
                                     </ListItem>
                                 </Link>
+                           
                                 
-                                 <Link as={NavLink} to='/bookmarks'>
-                                    <ListItem display={'flex'}>
-                                    <ListIcon as={BookmarkAddedOutlined} fontSize={'xlg'} />
-                                    <Text>Bookmarks</Text>
+                                <Link as={NavLink} to='/bookmarks' >
+                                    <ListItem display={'flex'} mt={4}>
+                                        <ListIcon as={BookmarkAddedOutlined} fontSize={'xlg'} />
+                                        <Text>Bookmarks</Text>
                                     </ListItem>
-                                 </Link>
+                                </Link>
+                              
+                                 
                                 <ListItem display={'flex'}>
-                                <ListIcon as={EditNoteOutlined} fontSize={'28px'} />
-                                <Text> Drafts</Text>
+                                    <ListIcon as={EditNoteOutlined} fontSize={'28px'} />
+                                    <Text> Drafts</Text>
                                 </ListItem >
                                 <ListItem display={'flex'}>
                                 <ListIcon as={PublishedWithChangesOutlined} fontSize={'xlg'} />
@@ -58,11 +64,12 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
                             <Heading as='h3' fontSize={'18px'} pb={3} textAlign={'left'} display={'flex'}> <Text whiteSpace={'nowrap'} >Trending Tags</Text> <Icon as={TrendingUpOutlined} />
                             </Heading>
                             <VStack  spacing={4} alignItems={'flex-start'} pl={4}>
-                                <Text>Programming</Text>
+                                <TagsRatingComponent />
+                                {/* <Text>Programming</Text>
                                 <Text>Data Science</Text>
                                 <Text>Technology</Text>
                                 <Text>Machine Learning</Text>
-                                <Text>Web Development</Text>
+                                <Text>Web Development</Text> */}
                             </VStack>  
                         </Box>
                         </VStack>
