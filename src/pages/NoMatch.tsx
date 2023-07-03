@@ -1,12 +1,17 @@
-import { Box, Link } from '@chakra-ui/react';
+import { Box, Link, VStack } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
+import SEO from '../components/SEO';
+// import { useNavigate } from 'react-router-dom';
 
 const NoMatch = () => {
   return (
     <>
+      <SEO title="404" description="" name="" type="Post" />
       <Box>
-        <h1>404</h1>
-        <Link as={NavLink} href="/feed/personalize">Go Back</Link>
+         <VStack>
+         <h1>404</h1>
+            <Link as={NavLink} href="/">Go Back</Link>
+         </VStack>
       </Box>
     </>
   );

@@ -3,6 +3,7 @@ import UserFeed from "../components/Feed/UserFeed";
 import { Box, } from "@chakra-ui/react";
 import { Container } from "../components/ArticleContainer";
 
+
 const Home = () => {
 
 

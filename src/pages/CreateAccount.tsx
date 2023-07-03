@@ -20,6 +20,7 @@ import CreateUserAccount from "../components/CreateUserAccount";
 import ChooseTags from "../components/ChooseTags";
 import { useNavigate } from "react-router-dom";
 import { Tags } from "../utils/helperFunctions";
+import SEO from "../components/SEO";
 
 
 
@@ -127,6 +128,8 @@ function CreateAccount() {
   const checkChoosetTags = techStack.length < 3
 
   return (
+   <>
+    <SEO title='Create Account' description="" name="" type="" />
     <Box px={6}>
       <Box
         minH="100vh"
@@ -196,6 +199,7 @@ function CreateAccount() {
         </Flex>
       </Box>
     </Box>
+   </>
   );
 }
 

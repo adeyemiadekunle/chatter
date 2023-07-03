@@ -17,7 +17,7 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
             <DrawerContent>
                 <DrawerHeader>
                    <HStack justifyContent={'space-between'} >  
-                    <Box fontSize={'22px'} px={3} py={1} bg={'#543EE0'} fontWeight={700} color={'white'}> Chatter</Box> 
+                    <Box fontSize={'22px'} px={3} py={1} bg={'#543EE0'} fontWeight={700} color={'white'}> Chatte</Box> 
                     <Box>
                         <CloseIcon onClick={onClose} boxSize={'22px'} />
                     </Box> 

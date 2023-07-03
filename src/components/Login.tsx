@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../utils/firebase';
 import { fetchUserData } from '../utils/helperFunctions';
+import SEO from '../components/SEO';
 
 
 type LoginFormValues = {
@@ -79,6 +80,7 @@ const Login = () => {
 
   return (
     <>
+      <SEO title='Login/Register to Chatter' description='' name='' type='' />
       <Heading fontSize='md' py={5}>Welcome Back</Heading>
       <form onSubmit={handleSubmit(onSubmit)} >
         <FormControl isRequired >

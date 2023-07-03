@@ -5,6 +5,7 @@ import { Author, fetchAuthorData } from "../utils/helperFunctions";
 import {Box,  Text, VStack, Heading} from "@chakra-ui/react";
 import { Container } from "../components/ArticleContainer";
 import ArticleCard from "../components/ArticleCard";
+import SEO from "../components/SEO";
 
 interface Article {
   id: string;
@@ -126,6 +127,7 @@ const Bookmarks: React.FC = () => {
   return (
 
     <>
+    <SEO title=" Bookmarks - Chatte" description='' name='' type='' />
     <Box>
     <Box
         display={{ base: "block", md: "flex" }}

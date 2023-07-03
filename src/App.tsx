@@ -23,7 +23,6 @@ import GeneralLayout from "./components/GeneralLayout";
 import Hot from "./components/Tags/Hot";
 import New from "./components/Tags/New";
 import Bookmarks from "./pages/Bookmarks";
-
 import Search from "./pages/Search";
 
 const router = createBrowserRouter(

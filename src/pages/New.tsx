@@ -12,6 +12,7 @@ import {
 import { NavLink } from "react-router-dom";
 import { ArrowBackOutlined } from "@mui/icons-material";
 import DraftSideBar from '../components/DraftSideBar'
+import SEO from "../components/SEO";
 
 
 
@@ -21,6 +22,7 @@ const NewArticle = () => {
 
   return (
     <>
+      <SEO title="New Post" description="" name='' type="Post" />
       <Flex minH={"100vh"}>
         <Box
           w={{ base:  isOpen ? '100%' : '0' , md: isOpen ? '300px' : '0' }}

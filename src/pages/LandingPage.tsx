@@ -25,11 +25,13 @@ import Getstarted2 from "../assets/getstarted2.png";
 import Getstarted3 from "../assets/getstarted3.png";
 import { userAuth } from "../context/Firebase";
 import { CreateOutlined } from "@mui/icons-material";
+import SEO from "../components/SEO";
 
 const Header = () => {
   const { isAuth} = userAuth();
   return (
     <>
+       <SEO title="Chatte" description="Chatte is a platform for writers to share their stories and connect with readers." name='' type=""  />
       <Box px={[ 4, 12]} py={4}  >
         <HStack spacing={10} justifyContent={"space-between"}  >
           {/* logo */}

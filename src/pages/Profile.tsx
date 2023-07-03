@@ -5,6 +5,7 @@ import { collection, onSnapshot, query,  DocumentData  } from "firebase/firestor
 import AuthorArticle from "../components/Author/AuthorsArticle";
 import AuthorProfile from "../components/Author/AuthorProfile";
 import { Box, Divider } from "@chakra-ui/react";
+import SEO from "../components/SEO";
 
 export interface Users {
   userId: string;
@@ -64,6 +65,8 @@ const Profile = () => {
   }
 
   return (
+   <>
+    <SEO title={`${user.displayName} - Chatte`} description='' name='' type='' />
     <div>
       <AuthorProfile users={users} currentUser={currentUser}  />
       <Divider pt={4} ></Divider>
@@ -71,6 +74,7 @@ const Profile = () => {
       <Box  h='200px' bg='blue.800'>
       </Box>
     </div>
+   </>
   );
 };
 

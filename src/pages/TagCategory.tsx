@@ -11,6 +11,7 @@ import TagsFeed from "../components/Tags/TagsFeed";
 import { TagsProfile } from "../components/Tags/TagProfile";
 import {Container} from "../components/ArticleContainer";
 import { Tags } from "../utils/helperFunctions";
+import SEO from "../components/SEO";
 
 
 //  TagCategory
@@ -64,6 +65,7 @@ const TagCategory = () => {
 
   return (
     <>
+      <SEO title={`#${tag.hash} - Chatte`} description={tag.hash} name="" type="" />
       <Box
         display={{ base: "block", md: "flex" }}
         // mx={{ base: "0", md: "100px" }}

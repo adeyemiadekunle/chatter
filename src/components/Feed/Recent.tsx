@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ArticleCard from "../ArticleCard";
 import { Box } from "@chakra-ui/react";
+import SEO from "../SEO";
 
 
 
@@ -16,7 +17,6 @@ const Recent = () => {
   const [articles, setArticles] = useState([] as RecentArticles[]);   //  for bookmarking
   const [authorsData, setAuthorsData] = useState({} as Author);
  
-  
 
   //  for Published Articles recently updated
   useEffect(() => {
@@ -65,6 +65,8 @@ const Recent = () => {
 
 
   return (
+    <>
+    <SEO title="Recent posts on Chatte" description=""   name=""  type=""    />
     <Box>
       {articles.map((article) => (
         <ArticleCard
@@ -84,6 +86,7 @@ const Recent = () => {
         />
       ))}
     </Box>
+    </>
   );
 };
 

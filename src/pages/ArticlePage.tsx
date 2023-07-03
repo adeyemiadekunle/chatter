@@ -44,6 +44,7 @@ import StickyMenu from "../utils/StickyMenu";
 import { BookMark } from "../components/Bookmark";
 import { Like } from "../components/Like";
 import ReactGA from "react-ga";
+import SEO from "../components/SEO";
 
 const ArticlePage = () => {
   const [contents, setContents] = useState<Article["content"]>({ blocks: [] });
@@ -188,6 +189,7 @@ const ArticlePage = () => {
 
   return (
     <>
+      <SEO title={headerBlocksArticle?.data} description='' name={authorsData.displayName} type="Post"  />
       {loading ? (
         <div>Loading...</div>
       ) : (

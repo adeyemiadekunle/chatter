@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams} from 'react-router-dom';
 import { fetchAllUsers, RecentArticles, Users, fetchArticles, fetchAllTags, Tags } from '../utils/helperFunctions';
-import { Input, Box, Flex, Link, Text } from '@chakra-ui/react';
+import { Input, Box, Flex, Link, Text, InputGroup, InputLeftAddon } from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
+import SEO from '../components/SEO';
+
 
 const Search = () => {
   const [peoples, setPeoples] = useState<Users[]>([]);
@@ -113,16 +116,21 @@ const Search = () => {
 
   return (
     <>
+    <SEO title="Search" description="Search for posts, users and tags" name="Search" type="Post" />
     <Box bg='primary.white' minH='90vh' >
       <Box maxW={['100%', '800px']} m="0 auto" p={[4, 0]}  >
         <Box pt={10} pb={6} >
-        <Input
-          borderRadius="full"
-          type="text"
-          value={searchTerm}
-          onChange={handleInputChange}
-          placeholder="Search..."
-        />
+          <InputGroup>
+            <InputLeftAddon children={<SearchIcon color="gray.300" />} />
+            <Input
+              type="text"
+              placeholder="Search for articles, users or tags"
+              value={searchTerm}
+              onChange={handleInputChange}
+              bg='gray.100'
+              _focus={{ bg: 'gray.100' }}
+            />
+          </InputGroup>
         </Box>
         <Flex mt={4} gap={6} >
           <Link onClick={handleFilterArticles} fontWeight={filterType === 'articles' ? 'bold' : 'normal'}  
