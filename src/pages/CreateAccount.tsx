@@ -19,13 +19,9 @@ import { fetchUserData, updateUserData, UserData,
 import CreateUserAccount from "../components/CreateUserAccount";
 import ChooseTags from "../components/ChooseTags";
 import { useNavigate } from "react-router-dom";
+import { Tags } from "../utils/helperFunctions";
 
-type TagData = {
-  id: string;
-  name: string;
-  image: string;
-  hash : string; 
-};
+
 
 
 const steps = [
@@ -53,7 +49,7 @@ function CreateAccount() {
   const [userName, setUserName] = useState("");
   const [userBio, setUserBio] = useState("");
   const [userTagLine, setUserTagLine] = useState("");
-  const [techStack, setTechStack] = useState<TagData[]>([]);
+  const [techStack, setTechStack] = useState<Tags[]>([]);
   const [location, setLocation] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [isUserNameAvailable, setIsUserNameAvailable] = useState<boolean | null>(null);
