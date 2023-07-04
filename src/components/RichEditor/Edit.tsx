@@ -14,6 +14,7 @@ import {
   IconButton,
   Tooltip,
   Box,
+  Input,
 } from "@chakra-ui/react";
 import ImageHeader from "./ImageHeader";
 import PublishDrawer from "./PublishDrawer";
@@ -26,10 +27,9 @@ const DEFAULT_INITIAL_DATA = {
   time: new Date().getTime(),
   blocks: [
     {
-      type: "header",
+      type: "paragraph",
       data: {
         text: "",
-        level: 1,
       },
     },
   ],
@@ -58,7 +58,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
   const [imageUrl, setImageUrl] = useState("");
   const [slugUrl, setSlugUrl] = useState("");
   const [contents, setContents] = useState<Block>(DEFAULT_INITIAL_DATA);
- 
+  const [title, setTitle] = useState("");
   const [selectedTags, setSelectedTags] = useState<Tags[]>([]);
   const { draftId } = useParams();
   const navigate = useNavigate();
@@ -76,7 +76,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
     if (editorInstanceRef.current) {
       const outputData = await editorInstanceRef.current.save();
       setContents(outputData);
-      console.log("Current output:", outputData);
+      // console.log("Current output:", outputData);
     }
     
   };
@@ -86,12 +86,14 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
     const debouncedUpdateDraft = debounce(async () => {
       const content = contents;
       const image = imageUrl;
+      const heading = title;
 
        if (!draftId){
         return null
        }
-      updateDraft(draftId, image, content);
+      updateDraft(draftId, image, content, heading);
       localStorage.setItem('image', imageUrl)
+      localStorage.setItem('title', title)
       localStorage.setItem('editor', JSON.stringify(contents))
   
       console.log("Draft saved");
@@ -102,7 +104,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
     return () => {
       debouncedUpdateDraft.cancel();
     };
-  }, [contents, draftId, imageUrl]);
+  }, [contents, draftId, imageUrl, title]);
 
 
   const handlePublish = useCallback(async () => {
@@ -110,31 +112,35 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
     const image = imageUrl;
     const tags = selectedTags;
     const slug = slugUrl;
+    const heading = title;  
 
     if (draftId) {
-      updateDraft(draftId, image, content);
-      publishDraft(draftId, tags, slug);
+      updateDraft(draftId, image, content, heading);
+      publishDraft(draftId, tags, slug, heading);
       navigate("/feed/recent");
+      localStorage.removeItem('image')
+      localStorage.removeItem('title')
+      localStorage.removeItem('editor')
     } else {
       console.log("No draft ID available. Cannot publish.");
     }
-  }, [draftId, contents, imageUrl, selectedTags, navigate, slugUrl]);
+  }, [draftId, contents, imageUrl, selectedTags, navigate, slugUrl, title]);
 
 
   const onSave = async () => {
     const content = contents;
     const image = imageUrl;
+    const heading = title;
     if (draftId) {
-      updateDraft(draftId, image, content);
+      updateDraft(draftId, image, content, heading);
       console.log("Draft saved");
     }
   };
 
 //  fetch data from localstorage
   let contentData = localStorage.getItem('editor')
-  const jsonData = contentData ? JSON.parse(contentData) : null;
+  const jsonData = contentData ? JSON.parse(contentData) : DEFAULT_INITIAL_DATA;
   // console.log( "localstor", jsonData)
-
 
 
   return (
@@ -167,8 +173,19 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
 
         <Box px={{ base: "30px", md: "100px" }} >
           <Flex flexDir={"column"}>
-            <Box bg='white'>
+            <Box bg='white' px={2}>
               <ImageHeader imageUrl={imageUrl} setImageUrl={setImageUrl} />
+               <Box >
+                <Input
+                  placeholder="Let's write Awesome!"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  variant={"unstyled"}
+                  fontSize = 'xl'
+                  fontWeight='700'
+                  py={4}
+                />
+               </Box>
               <Box>
                 <EditorJs
                   data={jsonData}
@@ -179,6 +196,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
                     (editorInstanceRef.current = instance)
                   }
                   tools={EDITOR_JS_TOOLS}
+                 
                 />
               </Box>
             </Box>
@@ -191,7 +209,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
               setSelectedTags={setSelectedTags}
               slug={slugUrl}
               setSlug={setSlugUrl}
-              content={contents}
+              content={title}
             />
           </Flex>
         </Box>
@@ -201,3 +219,5 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
 };
 
 export default EditorComponent;
+
+
