@@ -89,10 +89,14 @@ const theme = extendTheme({
       p: {
         fontSize: 'base',
       },
+      html : {
+        height: "100%",
+      },
      
       body: {
         bg: props.colorMode === "dark" ? "black" : "#F5f5f5",
         color: props.colorMode === "dark" ? "#F5F5F5" : "gray.800", 
+        height: "100%",
       },
       ".selected-div": {
         border: "1px solid",

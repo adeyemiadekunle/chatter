@@ -22,46 +22,46 @@ const AddTagForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   
-    // Check if a tag image is selected
-    if (!tagImage) {
-      console.error("Please select a tag image");
-      return;
+    const storage = getStorage(app);
+  
+    // If a tag image is selected, upload it to Firebase Storage
+    let downloadURL = "";
+    if (tagImage) {
+      const storageRef = ref(storage, `tag_images/${tagImage.name}`);
+      try {
+        await uploadBytes(storageRef, tagImage);
+        console.log("Tag image uploaded successfully");
+  
+        // Get the download URL of the uploaded image from Firebase Storage
+        downloadURL = await getDownloadURL(storageRef);
+        console.log("Image download URL:", downloadURL);
+      } catch (error) {
+        console.error("Error uploading tag image: ", error);
+        return;
+      }
     }
   
-    const storage = getStorage(app);
-    // Upload the tag image to Firebase Storage
-    const storageRef = ref(storage, `tag_images/${tagImage.name}`);
+    // Create the tag document in Firestore
     try {
-      await uploadBytes(storageRef, tagImage);
-      console.log("Tag image uploaded successfully");
+      const tagData = {
+        name: tagName,
+        image: downloadURL,
+        followers: [],
+        hash: tagHash,
+      };
   
-      // Get the download URL of the uploaded image from Firebase Storage
-      const downloadURL = await getDownloadURL(storageRef);
-      console.log("Image download URL:", downloadURL);
+      const docRef = await addDoc(collection(db, "tags"), tagData);
+      console.log("Tag added with ID: ", docRef.id);
   
-      // Create the tag document in Firestore
-      try {
-        const tagData = {
-          name: tagName,
-          image: downloadURL,
-          followers: [],
-          hash: tagHash,
-        };
-  
-        const docRef = await addDoc(collection(db, "tags"), tagData);
-        console.log("Tag added with ID: ", docRef.id);
-  
-        // Reset the form
-        setTagName("");
-        setTagImage(null);
-        setTagHash("");
-      } catch (error) {
-        console.error("Error adding tag: ", error);
-      }
+      // Reset the form
+      setTagName("");
+      setTagImage(null);
+      setTagHash("");
     } catch (error) {
-      console.error("Error uploading tag image: ", error);
+      console.error("Error adding tag: ", error);
     }
   };
+  
   
 
   const handleTagNameChange = (e: ChangeEvent<HTMLInputElement>) => {

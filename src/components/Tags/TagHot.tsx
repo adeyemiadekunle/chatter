@@ -17,6 +17,7 @@ interface TagsArticleProps {
 interface TagsArticles {
   id: string;
   publishAt: string;
+  heading: string;
   headerImage: string;
   tags: { name: string; hash: string }[];
   content: {
@@ -51,6 +52,7 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
             const {
               publishAt,
               headerImage,
+              heading,
               tags,
               content,
               authorId,
@@ -65,6 +67,7 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
                 id: doc.id,
                 publishAt: publishAt || "",
                 headerImage: headerImage || "",
+                heading: heading || "",
                 tags: tags || [],
                 content: content || "",
                 authorId: authorId || "",
@@ -102,15 +105,7 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
     });
   }, [tagArticles]);
 
-  const ArticleHeaderLevel1 = (blocks: any) => {
-    return blocks.find(
-      (block: any) => block.type === "header" && block.data.level === 1
-    );
-  };
-  const headerBlocksArticle = ArticleHeaderLevel1(
-    tagArticles.length > 0 ? tagArticles[0].content.blocks : []
-  );
-
+ 
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
     return firstParagraph;
@@ -127,7 +122,7 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
           <Box key={article.id}>
             <ArticleCard
               key={article.id}
-              Title={headerBlocksArticle.data}
+              Title={article.heading}
               displayName={authorsData?.displayName}
               userTagLine={authorsData?.userTagLine}
               AvatarImage={authorsData?.photoURL}

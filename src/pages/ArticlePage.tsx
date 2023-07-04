@@ -275,10 +275,10 @@ const ArticlePage = () => {
                     </Flex>
                   </Flex>
                 </VStack>
-                <Box w="100%">
+                <Box w="100%" pb={5}>
                   <Image
                     src={imageUrl}
-                    h={{ base: "100%", md: "500px" }}
+                    h={{ base: "100%", md: "100%" }}
                     w="100%"
                     objectFit="cover"
                   />

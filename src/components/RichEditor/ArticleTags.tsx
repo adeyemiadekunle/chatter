@@ -15,6 +15,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { Tags } from "../../utils/helperFunctions";
+import placeholder from '../../assets/placeholder.avif'
 
 
 type PostTagsProps = {
@@ -90,7 +91,7 @@ const PostTags: React.FC<PostTagsProps> = ({
             listStyleType="none"
             border="1px solid gray.50"
             w="100%"
-            h="200px"
+            minH="200px"
             position="absolute"
             zIndex={1}
             bg="white"
@@ -117,7 +118,7 @@ const PostTags: React.FC<PostTagsProps> = ({
                   onClick={() => handleTagSelect(tag)}
                 >
                   <HStack>
-                    <Image src={tag.image} boxSize="30px" />
+                   {tag.image ?  <Image src={tag.image} boxSize="30px" /> : <Image src ={placeholder} boxSize="30px" />}
                     <Text>{tag.name}</Text>
                   </HStack>
                 </ListItem>

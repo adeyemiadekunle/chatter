@@ -12,6 +12,7 @@ import { TagsProfile } from "../components/Tags/TagProfile";
 import {Container} from "../components/ArticleContainer";
 import { Tags } from "../utils/helperFunctions";
 import SEO from "../components/SEO";
+import NoMatch from "./NoMatch";
 
 
 //  TagCategory
@@ -59,7 +60,7 @@ const TagCategory = () => {
   console.log("hash", hash);
 
   if (!tag) {
-    return <Box>Tag not found.</Box>;
+    return <NoMatch />;
   }
 
 

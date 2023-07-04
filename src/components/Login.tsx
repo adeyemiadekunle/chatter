@@ -63,7 +63,7 @@ const Login = () => {
         console.log('user', user);
         if (user?.userName !== '' && user?.userTagLine !== '' && user?.techStack?.length !== undefined && user?.techStack?.length > 0) {
           console.log('User data is complete, navigate to feed');
-          navigate('/feed');
+          navigate('/');
         } 
         else {
           console.log('User data is incomplete, navigate to create-account page');

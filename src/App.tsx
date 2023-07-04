@@ -24,6 +24,7 @@ import Hot from "./components/Tags/Hot";
 import New from "./components/Tags/New";
 import Bookmarks from "./pages/Bookmarks";
 import Search from "./pages/Search";
+import { auth } from "./utils/firebase";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,7 +35,7 @@ const router = createBrowserRouter(
        
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<FeedLayout />}>
-          <Route path="/feed" element={<Feed />}>
+          <Route path="/" element={<Feed />}>
             <Route index element={<Personalize />} />
             <Route path="personalize" element={<Personalize />} />
             <Route path="featured" element={<Featured />} />

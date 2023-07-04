@@ -6,6 +6,7 @@ import AuthorArticle from "../components/Author/AuthorsArticle";
 import AuthorProfile from "../components/Author/AuthorProfile";
 import { Box, Divider } from "@chakra-ui/react";
 import SEO from "../components/SEO";
+import NoMatch from "./NoMatch";
 
 export interface Users {
   userId: string;
@@ -22,6 +23,7 @@ export interface Users {
 const Profile = () => {
   const [users, setUsers] = useState<Users[]>([]);
   const currentUser = auth.currentUser?.uid;
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -52,8 +54,6 @@ const Profile = () => {
     fetchUsers();
   }, []);
 
-
-
   const { username } = useParams();
 
   // Find the user object based on the username parameter
@@ -61,7 +61,7 @@ const Profile = () => {
 
   if (!user) {
     // Handle case when user is not found
-    return <div>User not found.</div>;
+    return <NoMatch />;
   }
 
   return (

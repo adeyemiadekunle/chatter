@@ -53,8 +53,8 @@ const PublishDrawer: React.FC<PublishDrawerProps> = ({
         <DrawerContent>
           <DrawerHeader>
             <HStack>
-              <DrawerCloseButton size="lg" />
-              <Button onClick={onClick} colorScheme="blue">
+              <DrawerCloseButton   fontSize='base' />
+              <Button onClick={onClick} colorScheme="blue" fontSize='base'>
                 Publish
               </Button>
             </HStack>

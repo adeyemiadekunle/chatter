@@ -91,7 +91,7 @@ function CreateAccount() {
         // Add other updated fields
       };
       await updateUserData(updatedUserData);
-      navigate('/feed')
+      navigate('/')
     }
 
   };

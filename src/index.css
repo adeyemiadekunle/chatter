@@ -1,12 +1,14 @@
 
 :root {
-  --font-size-sm: clamp(0.8rem, -0.08vw + 0.82rem, 0.75rem);
-  --font-size-base: clamp(1rem, 0vw + 1rem, 1rem);
-  --font-size-md: clamp(1.25rem, 0.14vw + 1.22rem, 1.30rem);
-  --font-size-lg: clamp(1.56rem, 0.36vw + 1.49rem, 1.78rem);
-  --font-size-xl: clamp(1.95rem, 0.69vw + 1.81rem, 2.37rem);
-  --font-size-xxl: clamp(2.44rem, 1.19vw + 2.2rem, 3.16rem);
-  --font-size-xxxl: clamp(3.05rem, 1.93vw + 2.67rem, 4.21rem);
+  --font-size-sm: clamp(0.73rem, calc(0.70rem + 0.12vw), 0.80rem);
+  --font-size-base: clamp(0.88rem, calc(0.83rem + 0.22vw), 1.00rem);
+  --font-size-xbase: clamp(1.05rem, calc(0.98rem + 0.35vw), 1.25rem);
+  --font-size-md: clamp(1.26rem, calc(1.15rem + 0.53vw), 1.56rem);
+  --font-size-lg: clamp(1.51rem, calc(1.36rem + 0.77vw), 1.95rem);
+  --font-size-xl: clamp(1.81rem, calc(1.60rem + 1.09vw), 2.44rem);
+  --font-size-xxl: clamp(2.18rem, calc(1.87rem + 1.52vw), 3.05rem);
+  --font-size-xxxl: clamp(2.61rem, calc(2.19rem + 2.09vw), 3.82rem);
+  --font-size-xxxxl: clamp(3.14rem, calc(2.57rem + 2.84vw), 4.77rem);
 }
 
 
@@ -20,7 +22,6 @@ body {
   font-size: var(--font-size-base) ;
   font-weight: 400;
   line-height: 27px;
-  min-height: 100vh;
 }
 
  textarea, label {
@@ -78,24 +79,29 @@ a {
 }
 
 .ce-block__content h1 {
-  font-size:var(--font-size-xl);
+  font-size:var(--font-size-lg);
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 .ce-block__content h2 {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
   font-weight: 650;
   line-height: 1.2;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0;
 }
 
 .ce-block__content h3 {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-xbase);
   font-weight: 600;
   line-height: 1.2;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0;
 
 }
 
@@ -120,12 +126,13 @@ a {
   margin-bottom: 0.7rem;
 } */
 
-.ce-paragraph {
+.ce-paragraph.cdx-block {
   font-size: var(--font-size-base);
   font-weight: 400;
   line-height: 1.5;
   margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
+  padding: 0;
+  /* margin-top: 0.5rem; */
 }
 
  .ce-block a {
@@ -177,67 +184,9 @@ a {
   margin-top: 20px;
 }
 
-
   
-
 /* Media Queries */
 @media screen and (max-width: 650px) {
-
-  .ce-block__content h1  {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .ce-block__content h2 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .ce-block__content h3 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .ce-block__content h4 {
-    font-size: 1.25rem;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .ce-block__content h5 {
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .ce-block__content h6 {
-    font-size: 0.75rem;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .ce-block__content p {
-    font-size: 0.75rem;
-    font-weight: 400;
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
-  }
 
   .ce-toolbar__actions{
     margin: 0;

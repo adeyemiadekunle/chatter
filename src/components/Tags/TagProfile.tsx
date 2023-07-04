@@ -117,9 +117,9 @@ export const TagsProfile = ({ tags, user }: TagsProfileProps) => {
     <VStack h="300px" justifyContent="center">
       <VStack spacing={6} w="100%">
         <HStack spacing={3} justifyContent="center">
-          <Box borderRadius={5} p={2} border="1px solid gray">
+         {tag.image  ?  <Box borderRadius={5} p={2} border="1px solid gray">
             <Image src={tag.image} boxSize="50px" />
-          </Box>
+          </Box> : null}
           <Box>
             <Heading as="h3" fontSize="28px">
               {tag.name}{" "}
