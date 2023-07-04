@@ -36,7 +36,7 @@ const ArticleCard = ({
         
       <Box w="350px" >
         <VStack w="100%" spacing={0}>
-          <Box w="100%">
+          <Box w="100%" mb={1}>
             <Link as={NavLink} to={`/${username}/${slug}`} >
             <Image
               src={HeaderImage}

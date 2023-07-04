@@ -7,8 +7,8 @@ import {
   fetchAuthorData,
   Author,
 } from "../utils/helperFunctions";
-import Output from "editorjs-react-renderer";
-import { HeaderOutput } from "editorjs-react-renderer";
+import EditorJs from "@natterstefan/react-editor-js";
+import { EDITOR_JS_TOOLS } from "../components/RichEditor/constant";  
 import {
   VStack,
   Box,
@@ -25,7 +25,6 @@ import {
   Icon,
   LightMode,
 } from "@chakra-ui/react";
-import { styles } from "../components/ArticleStyle";
 import { FormattedDate } from "../utils/FormatDate";
 import {
   BookmarkAddOutlined,
@@ -51,6 +50,7 @@ const ArticlePage = () => {
   const [authorsData, setAuthorsData] = useState({} as Author);
   const [author, setAuthor] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [heading, setHeading] = useState("");
   const [publishDate, setPublishDate] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -58,6 +58,7 @@ const ArticlePage = () => {
   const [isBookmarking, setIsBookmarking] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [viewCount, setViewCount] = useState(0);
   const [articleId, setArticleId] = useState<string | undefined>(undefined);
 
   const { slug } = useParams<{ slug: string }>();
@@ -69,8 +70,9 @@ const ArticlePage = () => {
       const article = await fetchArticle(slug ?? "");
       if (article) {
         const articleId = article.id;
-        const { content, headerImage, tags, authorId, publishAt } = article;
+        const { content, headerImage, tags, authorId, publishAt, heading } = article;
         setContents(content);
+        setHeading(heading);
         setImageUrl(headerImage);
         setSelectedTags(tags);
         setAuthor(authorId);
@@ -121,7 +123,8 @@ const ArticlePage = () => {
 
       fetchAuthor(author);
     }
-  }, [currentUser]);
+  }, [currentUser, author]);
+
 
   // Like
   useEffect(() => {
@@ -148,7 +151,7 @@ const ArticlePage = () => {
       const unsubscribe = onSnapshot(userRef, (doc) => {
         if (doc.exists()) {
           const { bookmarks } = doc.data();
-          setIsBookmarking(bookmarks.includes(articleId));
+          setIsBookmarking(bookmarks?.includes(articleId));
         }
       });
       return () => {
@@ -170,6 +173,7 @@ const ArticlePage = () => {
     }
   };
 
+    //  Follow
   const handleFollow = async () => {
     setIsFollowing(!isFollowing); // Toggle the value of isFollowing
     if (currentUser !== undefined) {
@@ -177,37 +181,48 @@ const ArticlePage = () => {
     }
   };
 
-  const ArticleHeaderLevel1 = (blocks: any) => {
-    return blocks.find(
-      (block: any) => block.type === "header" && block.data.level === 1
-    );
-  };
+  // View Count
+  useEffect(() => {
+    if (currentUser !== undefined && articleId !== undefined) {
+      const articleRef = doc(db, "articles", articleId);
+      const unsubscribe = onSnapshot(articleRef, (doc) => {
+        if (doc.exists()) {
+          const { views } = doc.data();
+          setViewCount(views.length);
+        }
+      });
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [currentUser, articleId]);
 
-  const headerBlocksArticle = ArticleHeaderLevel1(
-    contents.blocks.length > 0 ? contents?.blocks : []
-  );
+
+  // Get the first header block of the article
+ 
 
   return (
     <>
-      <SEO title={headerBlocksArticle?.data} description='' name={authorsData.displayName} type="Post"  />
+      <SEO title={`${heading}`} description='' name={authorsData.displayName} type="Post"  />
       {loading ? (
         <div>Loading...</div>
       ) : (
         <>
-          <Box position="relative">
+          <Box position="relative"  bg='white'>
             <Box>
               <ArticleHeading></ArticleHeading>
             </Box>
-            <Box maxW={{ base: "100%", md: "1000px" }} m="0 auto">
+            <Box maxW={{ base: "100%", md: "1000px" }} m="0 auto" bg='white'>
               <VStack>
                 <HStack>
-                  <Box w={{ base: "100%", md: "90%" }} m="0 auto">
+                  <Box w='100%' m="0 auto">
                     <Heading
                       fontSize={{ base: "34px", md: "48px" }}
                       textAlign="center"
                       mt={12}
+                      whiteSpace='nowrap'
                     >
-                      <HeaderOutput data={headerBlocksArticle?.data} />
+                      {heading}
                     </Heading>
                   </Box>
                 </HStack>
@@ -274,9 +289,15 @@ const ArticlePage = () => {
                   maxW={{ base: "100%", md: "800px" }}
                   m="0 auto"
                 >
-                  <Output data={contents} style={styles} />
+                  <Box >
+                    <EditorJs
+                      tools={EDITOR_JS_TOOLS}
+                      data={contents}
+                      readOnly={true}
+                    />
+                  </Box>
 
-                  <VStack mt={"60px"} w="100%" mb={"60px"}>
+                  <VStack mt={"80px"} w="100%" mb={"60px"}>
                     {/*   */}
                     <StickyMenu>
                       <LightMode>
@@ -338,7 +359,7 @@ const ArticlePage = () => {
                               cursor: "pointer",
                             }}
                           >
-                            <Icon as={AnalyticsOutlined} /> <Text>1</Text>
+                            <Icon as={AnalyticsOutlined} /> <Text>{viewCount}</Text>
                           </Flex>
                           <Flex
                             gap={1}

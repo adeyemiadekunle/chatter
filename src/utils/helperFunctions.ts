@@ -118,10 +118,9 @@ export const fetchAllUsers = async (): Promise<Users[]> => {
 const DEFAULT_INITIAL_DATA = {
   blocks: [
     {
-      type: "header",
+      type: "paragraph",
       data: {
-        text: "Let's write Awesome Articles!",
-        level: 1,
+        text: "",
       },
     },
   ],
@@ -139,7 +138,8 @@ export const createDraft = async (callback: (arg0: string) => void) => {
       DraftAt: new Date().toISOString(),
       authorId: auth.currentUser?.uid,
       headerImage: '',
-      content: DEFAULT_INITIAL_DATA
+      content: DEFAULT_INITIAL_DATA,
+      heading : '',
     });
 
     if ( typeof callback === 'function'){
@@ -164,7 +164,7 @@ type Block = {
 }
 
 // updateDraft
-export const updateDraft = async (draftId: string, headerImage: string, content: Block) => {
+export const updateDraft = async (draftId: string, headerImage: string, content: Block, heading: string) => {
   try {
     const draftRef = doc(db, "drafts", draftId);
     const snapshot = await getDoc(draftRef);
@@ -173,7 +173,8 @@ export const updateDraft = async (draftId: string, headerImage: string, content:
       await setDoc(draftRef, {
         DraftAt: new Date().toISOString(),
         headerImage,
-        content
+        content,
+        heading
       }, { merge: true });
 
       console.log("Draft updated:", draftId);
@@ -189,18 +190,19 @@ export const updateDraft = async (draftId: string, headerImage: string, content:
 
 
 //  publishDraft
-export const publishDraft = async (draftId: string, tags: Tags[], slug: string) => {
+export const publishDraft = async (draftId: string, tags: Tags[], slug: string, _heading: string) => {
   try {
     const draftRef = doc(db, "drafts", draftId);
     const draftDoc = await getDoc(draftRef);
 
     if (draftDoc.exists()) {
-      const { headerImage, content } = draftDoc.data();
+      const { headerImage, content, heading } = draftDoc.data();
 
       const articleRef = await addDoc(collection(db, "articles"), {
       publishAt: new Date().toISOString(),
       authorId: auth.currentUser?.uid,
       headerImage,
+      heading,
       slug,
       tags,
       content,
@@ -236,11 +238,12 @@ export const fetchDraft = async (draftId: string) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists() && docSnap.data()?.authorId === user.uid) {
-      const { headerImage, content } = docSnap.data() as {
+      const { headerImage, content, heading } = docSnap.data() as {
         headerImage: string;
         content: Block;
+        heading: string;
       };
-      return { headerImage, content };
+      return { headerImage, content, heading };
     } else {
       console.log("Draft not found or unauthorized access");
       return null;
@@ -289,7 +292,8 @@ export const fetchUserDrafts = async (): Promise<Drafts[]> => {
     const draftsData: Drafts[] = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       headerImage: doc.data().headerImage || '', // Provide a default value or modify as needed
-      content: doc.data().content || {} // Provide a default value or modify as needed
+      content: doc.data().content || {}, // Provide a default value or modify as needed
+      heading: doc.data().heading || ''
       // ... other properties
     }));
 
@@ -326,7 +330,8 @@ export const fetchUserArticles = async (): Promise<UserArticles[]> => {
     const UserArticleData: UserArticles[] = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       headerImage: doc.data().headerImage || '', // Provide a default value or modify as needed
-      content: doc.data().content || {} // Provide a default value or modify as needed
+      content: doc.data().content || {},
+      heading: doc.data().heading || '' // Provide a default value or modify as needed
       // ... other properties
     }));
     return UserArticleData;
@@ -335,6 +340,8 @@ export const fetchUserArticles = async (): Promise<UserArticles[]> => {
     return [];
   }
 }
+
+
 
 
 //  Fetch a single Author Data for Article Card
@@ -373,6 +380,7 @@ export interface Article {
   id: string;
   publishAt: string; 
   headerImage: string; 
+  heading: string;
   tags: string[];
   content: {
     blocks: {
@@ -398,10 +406,10 @@ export const fetchArticle = async (slug: string) => {
     if (!queryDocs.empty) {
       const docSnapshot = queryDocs.docs[0];
     
-      const { publishAt, headerImage, tags, content, authorId, likes, comments, views, } = docSnapshot.data() as Article;
+      const { publishAt, headerImage, heading, tags, content, authorId, likes, comments, views, } = docSnapshot.data() as Article;
       const id = docSnapshot.id;
       return {
-         id, publishAt, headerImage, tags, content, authorId, likes, comments, views, 
+         id, publishAt, headerImage, heading, tags, content, authorId, likes, comments, views, 
       };
     } else {
       console.log("Article not found");
@@ -459,6 +467,7 @@ export const fetchAuthorArticles = async (authorId: string): Promise<AuthorArtic
 export interface RecentArticles {
   id: string;
   publishAt: string;
+  heading: string;
   headerImage: string;
   tags: { name: string; hash: string }[]
   content: {
@@ -488,6 +497,7 @@ export const fetchArticles = (callback: (articles: RecentArticles[]) => void): U
           id: doc.id,
           publishAt: doc.data().publishAt || "",
           headerImage: doc.data().headerImage || "",
+          heading: doc.data().heading || "",
           tags: doc.data().tags || [],
           content: doc.data().content || {},
           authorId: doc.data().authorId || "",

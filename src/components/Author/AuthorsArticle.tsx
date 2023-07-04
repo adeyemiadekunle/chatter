@@ -12,6 +12,7 @@ interface AuthorArticleProps {
 export interface AuthorArticles {
   id: string;
   publishAt: string;
+  heading: string;
   headerImage: string;
   tags: string[];
   content: {
@@ -45,6 +46,7 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
             const {
               publishAt,
               headerImage,
+              heading,
               tags,
               content,
               authorId,
@@ -59,6 +61,7 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
                 id: doc.id,
                 publishAt: publishAt || "",
                 headerImage: headerImage || "",
+                heading: heading || "",
                 tags: tags || [],
                 content: content || "",
                 authorId: authorId || "",
@@ -101,14 +104,14 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
 
   // console.log(userArticles)
 
-  const ArticleHeaderLevel1 = (blocks: any) => {
-    return blocks.find(
-      (block: any) => block.type === "header" && block.data.level === 1
-    );
-  };
-  const headerBlocksArticle = ArticleHeaderLevel1(
-    userArticles.length > 0 ? userArticles[0].content.blocks : []
-  );
+  // const ArticleHeaderLevel1 = (blocks: any) => {
+  //   return blocks.find(
+  //     (block: any) => block.type === "header" && block.data.level === 1
+  //   );
+  // };
+  // const headerBlocksArticle = ArticleHeaderLevel1(
+  //   userArticles.length > 0 ? userArticles[0].content.blocks : []
+  // );
 
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
@@ -128,7 +131,7 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
             userArticles.length > 0 ? userArticles.map((article) => (
                 <UserArticleCard
                   key={article.id}
-                  Title={headerBlocksArticle.data}
+                  Title={article.heading}
                   Paragraph={paragraphBlocksArticle.data.text}
                   HeaderImage={article.headerImage}
                   PublishDate={article.publishAt}

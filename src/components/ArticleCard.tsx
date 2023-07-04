@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { BookmarkAddOutlined, FavoriteBorderOutlined, AnalyticsOutlined,  ForumOutlined,} from '@mui/icons-material'
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
-import { HeaderOutput } from 'editorjs-react-renderer'
 import { FormattedDate } from '../utils/FormatDate'
 import TextTrimmingWithEllipsis from "../utils/TextTrimming";
 import { NavLink } from "react-router-dom";
@@ -43,6 +42,8 @@ import { doc, onSnapshot } from "firebase/firestore";
 const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarImage, PublishDate, username, slug, articleId }: ArticleCardProps ) => {
   const [isBookmarking, setIsBookmarking] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [viewCount, setViewCount] = useState(0);
+  
   const maxLength = 150;
   const currentUser = auth.currentUser?.uid;
 
@@ -62,7 +63,7 @@ useEffect(() => {
 
 }, [currentUser, articleId]);
 
-
+// Likes count
 useEffect (() => {
    if (currentUser !== undefined) {
     const articleRef = doc(db, "articles", articleId);  
@@ -77,6 +78,23 @@ useEffect (() => {
     };
     }
 }, [currentUser, articleId]);
+
+
+  // View Count
+  useEffect(() => {
+    if (currentUser !== undefined && articleId !== undefined) {
+      const articleRef = doc(db, "articles", articleId);
+      const unsubscribe = onSnapshot(articleRef, (doc) => {
+        if (doc.exists()) {
+          const { views } = doc.data();
+          setViewCount(views.length);
+        }
+      });
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [currentUser, articleId]);
 
 
 
@@ -104,10 +122,10 @@ const handleBookmark = async () => {
         <Box> 
           <Link as={NavLink} to={`/${username}/${slug}`} >
           <Heading as='h3' fontSize='lg' fontWeight={'700'} cursor='pointer'   >
-            <HeaderOutput data={Title} />
+            {Title}
           </Heading>
          </Link>
-        <Text pt={0}  fontSize='base' >
+        <Text pt={0}  fontSize={{base: 'sm', md: 'base'}} >
             <TextTrimmingWithEllipsis text={Paragraph} maxLength={maxLength} /> 
       </Text>
        
@@ -167,7 +185,7 @@ const handleBookmark = async () => {
                       <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                      _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}    
                       >
-                          <Icon as={AnalyticsOutlined}  /> <Text>1</Text>
+                          <Icon as={AnalyticsOutlined}  /> <Text>{viewCount} </Text>
                       </Flex>
                       <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                       _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
@@ -230,7 +248,7 @@ const handleBookmark = async () => {
                     <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                    _hover={{ bg: 'gray.100', color: 'brand.800', cursor: 'pointer' }}       
                     >
-                        <Icon as={AnalyticsOutlined}  /> <Text>1</Text>
+                        <Icon as={AnalyticsOutlined}  /> <Text> {viewCount} </Text>
                     </Flex>
                     <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                     _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     

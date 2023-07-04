@@ -19,26 +19,26 @@ const AddTagForm: React.FC = () => {
   const [tagImage, setTagImage] = useState<File | null>(null);
   const [tagHash, setTagHash] = useState<string>("");
   
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     // Check if a tag image is selected
     if (!tagImage) {
       console.error("Please select a tag image");
       return;
     }
-       const storage = getStorage(app);
+  
+    const storage = getStorage(app);
     // Upload the tag image to Firebase Storage
     const storageRef = ref(storage, `tag_images/${tagImage.name}`);
     try {
       await uploadBytes(storageRef, tagImage);
       console.log("Tag image uploaded successfully");
-
+  
       // Get the download URL of the uploaded image from Firebase Storage
       const downloadURL = await getDownloadURL(storageRef);
       console.log("Image download URL:", downloadURL);
-
+  
       // Create the tag document in Firestore
       try {
         const tagData = {
@@ -47,13 +47,14 @@ const AddTagForm: React.FC = () => {
           followers: [],
           hash: tagHash,
         };
-
+  
         const docRef = await addDoc(collection(db, "tags"), tagData);
         console.log("Tag added with ID: ", docRef.id);
-
+  
         // Reset the form
         setTagName("");
         setTagImage(null);
+        setTagHash("");
       } catch (error) {
         console.error("Error adding tag: ", error);
       }
@@ -61,6 +62,7 @@ const AddTagForm: React.FC = () => {
       console.error("Error uploading tag image: ", error);
     }
   };
+  
 
   const handleTagNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTagName(e.target.value);
@@ -100,9 +102,8 @@ const AddTagForm: React.FC = () => {
                 type="file"
                 accept="image/*"
                 onChange={handleTagImageChange}
-                required
               />
-              <FormLabel>Tag Hash</FormLabel>
+              
                <FormLabel>Tag Hash</FormLabel>
                   <Input
                     type="text"

@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { HeaderOutput } from "editorjs-react-renderer";
 import { useNavigate } from "react-router-dom";
 import { collection, onSnapshot, DocumentData, QueryDocumentSnapshot, where, query } from "firebase/firestore";
 import { db, auth } from "../utils/firebase";
@@ -25,6 +24,7 @@ import { deleteDraft, } from "../utils/helperFunctions";
 export interface Drafts {
   id: string;
   headerImage: string;
+  heading: string;
   content: {
     blocks: {
       type: string;
@@ -37,6 +37,7 @@ export interface Drafts {
 
 export interface UserArticles {
   id: string;
+  heading: string;
   headerImage: string;
   content: {
     blocks: {
@@ -77,15 +78,6 @@ useEffect(() => {
 }, [])
 
 
-  const DraftHeaderLevel1 = (blocks: any) => {
-    return blocks.filter(
-      (block: any) => block.type === "header" && block.data.level === 1
-    );
-  };
-
-  const headerBlocks = DraftHeaderLevel1(
-    drafts.length > 0 ? drafts[0].content.blocks : []
-  );
  const DraftCount = drafts.length;
 
 
@@ -115,16 +107,6 @@ const handleDelete = (id: string) => {
 };
 
 
-
-const ArticleHeaderLevel1 = (blocks: any) => {
-  return blocks.filter(
-    (block: any) => block.type === "header" && block.data.level === 1
-  );
-};
- 
-const headerBlocksArticle = ArticleHeaderLevel1(
-  articles.length > 0 ? articles[0].content.blocks : []
-);
 const ArticleCount = articles.length;
 
 
@@ -145,16 +127,20 @@ const ArticleCount = articles.length;
                     drafts.map((draft) => (
                       <Box key={draft.id}>
                         <Box key={draft.id} >
-                            {headerBlocks.map((headerBlock: any) => (
+                            {drafts.map((draft: any) => (
                              <>
                                <Flex alignItems='center' justifyContent='space-between' key={draft.id} >
-                                  <Text > <HeaderOutput key={headerBlock.id} data={headerBlock.data} />  </Text>
+                                  {draft.heading === "" ? (
+                                    <Text fontSize='sm' >Untitled</Text>
+                                  ) : (
+                                    <Text fontSize='sm' >{draft.heading}</Text>
+                                  )}
                                     <Menu >
                                       <MenuButton  mb={-2}  >
                                         <Icon as={MoreVertIcon} boxSize={4}  />
                                       </MenuButton>
                                       <MenuList  minW='50px' >
-                                        <MenuItem onClick={()=> navigate(`/draft/${draft.id}`)}  >Edit</MenuItem>
+                                        <MenuItem onClick={()=> navigate(`/edit/${draft.id}`)}  >Edit</MenuItem>
                                         <MenuItem onClick={()=> handleDelete(`${draft.id}`) }  >Delete</MenuItem>
                                       </MenuList>             
                                     </Menu>
@@ -185,8 +171,10 @@ const ArticleCount = articles.length;
                     articles.map((article) => (
                       <Box key={article.id}>
                         <Box  key={article.id} cursor={'pointer'}>
-                          {headerBlocksArticle.map((headerBlock: any) => (
-                            <HeaderOutput key={headerBlock.id} data={headerBlock.data} />
+                          {articles.map((article: any) => (
+                            <Text>
+                               {article.heading }
+                            </Text>
                           ))}
                         </Box>
                       </Box>

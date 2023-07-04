@@ -1,22 +1,10 @@
 import { useState, useEffect } from "react";
 import { Input, Text, VStack} from "@chakra-ui/react";
 
-interface ContentBlock {
-  type: string;
-  data: {
-    level: number;
-    text: string;
-    
-  };
-}
-
-interface Content {
-  blocks: ContentBlock[];
-}
 
 interface SlugProps {
   slug: string;
-  content: Content;
+  content: string;
   setSlug: (slug: string) => void;
 }
 
@@ -30,8 +18,6 @@ export function createSlug(title: string): string {
 
   slug = slug.slice(0, 50);
 
-  // Add forward slash at the beginning of the slug
-  slug = "/" + slug;
 
   // Generate a random 4-digit number
   const randomNum = Math.floor(1000 + Math.random() * 9000);
@@ -46,12 +32,12 @@ function Slug({ slug, content, setSlug }: SlugProps) {
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    async function extractHeaderLevel1() {
-      const headerBlock = content?.blocks?.find(
-        (block: ContentBlock) => block.type === "header" && block.data.level === 1
-      );
-      return headerBlock ? headerBlock.data.text : "";
-    }
+    // async function extractHeaderLevel1() {
+    //   const headerBlock = content?.blocks?.find(
+    //     (block: ContentBlock) => block.type === "header" && block.data.level === 1
+    //   );
+    //   return headerBlock ? headerBlock.data.text : "";
+    // }
 
     function generateSlug() {
       const generatedSlug = createSlug(title);
@@ -59,8 +45,7 @@ function Slug({ slug, content, setSlug }: SlugProps) {
     }
 
     const unsubscribe = async () => {
-      const headerTitle = await extractHeaderLevel1();
-      setTitle(headerTitle);
+      setTitle(content);
       const generatedSlug = generateSlug();
       setSlug(generatedSlug);
     };

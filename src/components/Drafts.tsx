@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { collection, onSnapshot, DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { db } from '../utils/firebase';
 import { Link } from "react-router-dom";
-import Output from 'editorjs-react-renderer';
+import { Text } from "@chakra-ui/react";
 
-interface Draft {
+export interface Draft {
   id: string;
+  headerImage: string;
+  heading: string;
   content: {
     blocks: {
       type: string;
       data: {
-        level: number;
+        text: string;
       };
     }[];
   };
@@ -23,8 +25,11 @@ const DraftsList: React.FC = () => {
     const unsubscribe = onSnapshot(collection(db, "drafts"), (snapshot) => {
       const draftsData = snapshot.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => ({
         id: doc.id,
-        ...doc.data()
+        headerImage: doc.data().headerImage || "",
+        heading: doc.data().heading || "",
+        content: doc.data().content || { blocks: [] },
       })) as Draft[];
+
       setDrafts(draftsData);
     });
 
@@ -34,15 +39,17 @@ const DraftsList: React.FC = () => {
     };
   }, []);
 
+  console.log(drafts);
+
   return (
     <div>
       <h2>Drafts List</h2>
       {drafts.map((draft) => {
-        const headingBlock = draft.content.blocks.find(block => block.type === 'header' && block.data.level === 1);
         return (
           <div key={draft.id}>
             <Link to={"/edit/" + draft.id}>
-              {headingBlock && <Output data={headingBlock} />}
+              <Text>{draft.heading}</Text>
+               <Text> {draft.id} </Text>
             </Link>
           </div>
         );

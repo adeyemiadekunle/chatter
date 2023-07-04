@@ -44,14 +44,14 @@ const Recent = () => {
   }, [articles]);
 
   
-  const ArticleHeaderLevel1 = (blocks: any) => {
-    return blocks.find(
-      (block: any) => block.type === "header" && block.data.level === 1
-    );
-  };
-  const headerBlocksArticle = ArticleHeaderLevel1(
-    articles.length > 0 ? articles[0].content.blocks : []
-  );
+  // const ArticleHeaderLevel1 = (blocks: any) => {
+  //   return blocks.find(
+  //     (block: any) => block.type === "header" && block.data.level === 1
+  //   );
+  // };
+  // const headerBlocksArticle = ArticleHeaderLevel1(
+  //   articles.length > 0 ? articles[0].content.blocks : []
+  // );
 
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
@@ -71,7 +71,7 @@ const Recent = () => {
       {articles.map((article) => (
         <ArticleCard
           key={article.id}
-          Title={headerBlocksArticle.data}
+          Title={article.heading}
           displayName={authorsData?.displayName}
           userTagLine={authorsData?.userTagLine}
           AvatarImage={authorsData?.photoURL}
@@ -82,7 +82,6 @@ const Recent = () => {
           username={authorsData?.userName}
           slug={article.slug}
           articleId={article.id}
-         
         />
       ))}
     </Box>
