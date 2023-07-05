@@ -22,27 +22,26 @@ import { NavLink } from "react-router-dom";
 import { BookMark } from "./Bookmark";
 import { auth, db } from "../utils/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
+import { fetchAuthorData, Author  } from "../utils/helperFunctions";
 
 
  type ArticleCardProps = {
-  displayName: string;
   Title: any;
   Paragraph: any;
   tags: { name: string; hash: string }[]
   HeaderImage: string;
-  AvatarImage: string;
   PublishDate: string;
-  userTagLine: string
-  username: string
   slug: string
   articleId: string;
+  authorId: string;
 };
 
 
-const ArticleCard = ({displayName, Title, Paragraph, tags, HeaderImage, AvatarImage, PublishDate, username, slug, articleId }: ArticleCardProps ) => {
+const ArticleCard = ({ Title, Paragraph, tags, HeaderImage, PublishDate, slug, articleId, authorId }: ArticleCardProps ) => {
   const [isBookmarking, setIsBookmarking] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [viewCount, setViewCount] = useState(0);
+  const [author, setAuthor] = useState<Author | null>(null);
   
   const maxLength = 150;
   const currentUser = auth.currentUser?.uid;
@@ -106,22 +105,32 @@ const handleBookmark = async () => {
    
   };
 
+  // fetch Author Data
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      const authorData = await fetchAuthorData(authorId);
+      setAuthor(authorData);
+    };
+
+    fetchAuthor();
+  }, [authorId]);
+
 
   return (
     <Box  m={0} >
       <Box w={{base: '100%', md: '90%'}} p={5}    >
         <Box >
           <HStack spacing={3}>
-            <Avatar src={AvatarImage} name={displayName} size={'md'}></Avatar>
+            <Avatar src={author?.photoURL} name={author?.displayName} size={'md'}></Avatar>
             <Box>
-              <Link as={NavLink} to={`/${username}`} ><Heading fontSize='base' fontWeight={'700'}>{displayName}</Heading></Link>
+              <Link as={NavLink} to={`/${author?.userName}`} ><Heading fontSize='base' fontWeight={'700'}>{author?.displayName}</Heading></Link>
               <Flex gap={4}  pt={1} > <Text  fontSize='sm' >{FormattedDate(PublishDate)} </Text> <Text  fontSize='sm'  >10 Min Read</Text> </Flex>
             </Box>
           </HStack>
         </Box>
         <Box> 
-          <Link as={NavLink} to={`/${username}/${slug}`} >
-          <Heading as='h3' fontSize='lg' fontWeight={'700'} cursor='pointer'   >
+          <Link as={NavLink} to={`/${author?.userName}/${slug}`} >
+          <Heading as='h3' fontSize='md' fontWeight={'700'} cursor='pointer' my={2}   >
             {Title}
           </Heading>
          </Link>
@@ -130,7 +139,7 @@ const handleBookmark = async () => {
       </Text>
        
         </Box>
-        <Link as={NavLink} to={`/${username}/${slug}`} >
+        <Link as={NavLink} to={`/${author?.userName}/${slug}`} >
           <Box mt={2} pb={2}>
               <Image src={HeaderImage}  h={{base:'170px', md: '200px' }} w={'100%'} borderRadius={'5px'}  boxShadow='xs'  rounded='md'  objectFit='cover' />
           </Box>
@@ -169,12 +178,12 @@ const handleBookmark = async () => {
                           <Button variant="outline" borderRadius="15px" color='brand.800' size="sm">
                             + {tags.length - 2} more
                           </Button>
-                        )}
+                        )}  
                 </Flex>
                 </HStack>
                  <LightMode>
                   <HStack >    
-                    <Link as={NavLink} to={`/${username}/${slug}`} >
+                    <Link as={NavLink} to={`/${author?.userName}/${slug}`} >
                       <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                           _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
                          
@@ -235,7 +244,7 @@ const handleBookmark = async () => {
                         </Flex>
                         )
                         }
-                        <Link as={NavLink} to={`/${username}/${slug}`}  >
+                        <Link as={NavLink} to={`/${author?.userName}/${slug}`}  >
                           <Flex gap={1}  w={'60px'} borderRadius={'15px'} p={0.5} justifyContent={'center'} alignItems={'center'}
                             _hover={{ bg: 'gray.100',  color: 'brand.800', cursor: 'pointer' }}     
                             >

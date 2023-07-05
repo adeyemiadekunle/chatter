@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db, auth } from "../utils/firebase";
 import {collection, doc, getDoc, getDocs, DocumentData } from "firebase/firestore";
-import { Author, fetchAuthorData } from "../utils/helperFunctions";
 import {Box,  Text, VStack, Heading} from "@chakra-ui/react";
 import { Container } from "../components/ArticleContainer";
 import ArticleCard from "../components/ArticleCard";
@@ -31,7 +30,6 @@ interface Article {
 
 const Bookmarks: React.FC = () => {
   const [userBookmarks, setUserBookmarks] = useState<Article[]>([]);
-  const [authorsData, setAuthorsData] = useState({} as Author);
   const currentUser = auth.currentUser?.uid;
 
   useEffect(() => {
@@ -93,18 +91,6 @@ const Bookmarks: React.FC = () => {
   
    
   
-  useEffect(() => {
-    const fetchAuthor = async (authorId: string) => {
-      const data = await fetchAuthorData(authorId);
-      if (data !== null) {
-        setAuthorsData(data);
-      }
-    };
-
-  userBookmarks.forEach((article) => {
-      fetchAuthor(article.authorId);
-    });
-  }, [userBookmarks]);
 
   
   const ArticleParagraph = (blocks: any[]) => {
@@ -153,14 +139,11 @@ const Bookmarks: React.FC = () => {
                     <ArticleCard
                     key={article.id}
                     Title={article.heading}
-                    displayName={authorsData?.displayName}
-                    userTagLine={authorsData?.userTagLine}
-                    AvatarImage={authorsData?.photoURL}
                     HeaderImage={article.headerImage}
                     tags={article.tags}
                     PublishDate={article.publishAt}
                     Paragraph={paragraphBlocksArticle.data.text}
-                    username={authorsData?.userName}
+                    authorId={article.authorId}
                     slug={article.slug}
                     articleId={article.id}
                     />

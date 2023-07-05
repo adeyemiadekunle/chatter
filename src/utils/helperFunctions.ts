@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot} from "firebase/firestore";
+import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot, orderBy} from "firebase/firestore";
 import { db, auth } from './firebase';
 
 
@@ -362,7 +362,9 @@ export const fetchAuthorData = async (authorId: string) => {
 
     if (docSnap.exists()) {
       const { displayName, email, photoURL, userTagLine, userName, followers } = docSnap.data() as Author;
+      console.log("Author found:", displayName);
       return { displayName, email, photoURL, userTagLine, userName, followers };
+      
     } else {
       console.log("Author not found");
       return null;
@@ -485,10 +487,20 @@ export interface RecentArticles {
   slug: string;
 }
 
-export const fetchArticles = (callback: (articles: RecentArticles[]) => void): Unsubscribe => {
-  const articlesCollectionRef = collection(db, "articles");
 
-  const unsubscribe = onSnapshot(articlesCollectionRef, (querySnapshot: QuerySnapshot) => {
+export const fetchArticles = (callback: (articles: RecentArticles[]) => void, publishAt?: string): Unsubscribe => {
+  const articlesCollectionRef = collection(db, "articles");
+  let articlesQuery = query(articlesCollectionRef);
+
+  if (publishAt) {
+    // If a publishAt date is provided, filter the articles based on it
+    articlesQuery = query(articlesCollectionRef, orderBy("publishAt", "desc"), where("publishAt", "<=", publishAt));
+  } else {
+    // If no publishAt date is provided, fetch all articles ordered by publishAt date in descending order
+    articlesQuery = query(articlesCollectionRef, orderBy("publishAt", "desc"));
+  }
+
+  const unsubscribe = onSnapshot(articlesQuery, (querySnapshot: QuerySnapshot) => {
     const articlesData: RecentArticles[] = [];
 
     if (!querySnapshot.empty) {
@@ -515,6 +527,8 @@ export const fetchArticles = (callback: (articles: RecentArticles[]) => void): U
 
   return unsubscribe;
 };
+
+
 
 
 

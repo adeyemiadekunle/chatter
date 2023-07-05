@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import ArticleCard from "../ArticleCard";
-import { Author, fetchAuthorData } from "../../utils/helperFunctions";
 import {
   collection,
   query,
@@ -38,7 +37,6 @@ interface TagsArticles {
 //   Tags  List of Articles
 export const TagsHot = ({ hash }: TagsArticleProps) => {
   const [tagArticles, setTagArticles] = useState([] as TagsArticles[]);
-  const [authorsData, setAuthorsData] = useState({} as Author);
 
   useEffect(() => {
     const fetchTagArticle = async () => {
@@ -90,19 +88,6 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
   }, [hash]);
 
 
-  useEffect(() => {
-    const fetchAuthor = async (authorId: string) => {
-      const data = await fetchAuthorData(authorId);
-      if (data !== null) {
-        setAuthorsData(data);
-      }
-    };
-
-    tagArticles.forEach((article) => {
-      fetchAuthor(article.authorId);
-    });
-  }, [tagArticles]);
-
  
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
@@ -121,14 +106,11 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
             <ArticleCard
               key={article.id}
               Title={article.heading}
-              displayName={authorsData?.displayName}
-              userTagLine={authorsData?.userTagLine}
-              AvatarImage={authorsData?.photoURL}
               HeaderImage={article.headerImage}
               tags={article.tags}
               PublishDate={article.publishAt}
               Paragraph={paragraphBlocksArticle.data.text}
-              username={authorsData?.userName}
+              authorId={article.authorId}
               slug={article.slug}
               articleId={article.id}
             />
