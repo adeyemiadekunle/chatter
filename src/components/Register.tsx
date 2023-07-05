@@ -109,24 +109,25 @@ useEffect(() => {
           <Flex gap={2}>
             <Box flex={1} >
               <FormLabel >First name</FormLabel>
-              <Input  type='text' placeholder="John" {...register('firstName', { required: 'First name is required' })} />
+              <Input fontSize='base'   type='text' placeholder="John" {...register('firstName', { required: 'First name is required' })} />
             </Box>
             <Box flex={1}>
               <FormLabel  >Last Name</FormLabel>
-              <Input  type='text' placeholder="Doe" {...register('lastName', { required: 'Last name is required' })} />
+              <Input fontSize='base'  type='text' placeholder="Doe" {...register('lastName', { required: 'Last name is required' })} />
             </Box>
           </Flex>
         </FormControl>
 
         <FormControl isRequired>   
             <FormLabel pt={2}>Email Address</FormLabel>
-            <Input type="email" placeholder="johndoe@gmail.com" {...register('email', { required: 'Email is required' })} />
+            <Input fontSize='base'  type="email" placeholder="johndoe@gmail.com" {...register('email', { required: 'Email is required' })} />
         </FormControl>
 
         <FormControl isInvalid={!!errors.password} isRequired>
           <FormLabel pt={2} htmlFor="password">Password</FormLabel>
           <InputGroup>
             <Input
+             fontSize='base' 
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter Password"
               {...register('password', {
@@ -147,6 +148,7 @@ useEffect(() => {
           <FormLabel pt={2} htmlFor="confirmPassword">Confirm Password</FormLabel>
           <InputGroup>
             <Input
+            fontSize='base' 
               type={showConfirmPassword ? 'text' : 'password'}
               placeholder="Comfirm Password"
               {...register('confirmPassword', {
@@ -164,15 +166,15 @@ useEffect(() => {
         </FormControl>
 
         <Box pt={5}>
-          <Button w={'100%'} color={'white'} bg={'#543EE0'} type='submit' isLoading={isLoading}>
+          <Button fontSize='base'  w={'100%'} color={'white'} bg={'#543EE0'} type='submit' isLoading={isLoading}>
             Create Account
           </Button>
         </Box>
       </form>
 
       <VStack spacing={4} mt={3}>
-        <Button w={'100%'} variant='outline' leftIcon={<Google />}  onClick={handleGoogleSignUp} > Sign up with Google</Button>
-        <Button w={'100%'} bg={'blackAlpha.900'} color={'white'} variant='outline' leftIcon={<GitHub />} onClick={handleGithubSigIn} >Sign up with GitHub</Button>
+        <Button fontSize='base'  w={'100%'} variant='outline' leftIcon={<Google />}  onClick={handleGoogleSignUp} > Sign up with Google</Button>
+        <Button fontSize='base'  w={'100%'} bg={'blackAlpha.900'} color={'white'} variant='outline' leftIcon={<GitHub />} onClick={handleGithubSigIn} >Sign up with GitHub</Button>
       </VStack>
     </>
   );

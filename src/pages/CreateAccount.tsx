@@ -181,7 +181,7 @@ function CreateAccount() {
         >
           {activeStep === 0 && (
             <Button
-            fontSize='base'
+             fontSize='base'
               isDisabled={checkCreateAccount}
               w="100%"
               colorScheme="blue"

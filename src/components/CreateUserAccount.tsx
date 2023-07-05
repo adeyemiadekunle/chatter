@@ -105,6 +105,7 @@ const UserDataForm = ({
                 Full Name
               </FormLabel>
               <Input
+                fontSize='base' 
                 name="displayName"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
@@ -117,6 +118,7 @@ const UserDataForm = ({
                 Pick a username
               </FormLabel>
               <Input
+                fontSize='base' 
                 name="userName"
                 value={userName}
                 onChange={handleUserNameChange}
@@ -144,7 +146,7 @@ const UserDataForm = ({
               <FormLabel fontSize={{ base: "14px", md: "16px" }}>
                 Your email address
               </FormLabel>
-              <Input name="email" value={email} bg="white" />
+              <Input fontSize='base'  name="email" value={email} bg="white" />
             </FormControl>
 
             <FormControl isRequired>
@@ -152,6 +154,7 @@ const UserDataForm = ({
                 Enter your Tagline. Tell us about what you do
               </FormLabel>
               <Input
+                fontSize='base' 
                 name="userTagLine"
                 value={userTagLine}
                 onChange={(e) => setUserTagLine(e.target.value)}

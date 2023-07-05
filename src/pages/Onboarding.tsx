@@ -24,8 +24,8 @@ const Onboarding = () => {
                <Link as={NavLink} to='/' display={'flex'} alignItems={'center'} fontSize={'13px'} mt={3} mb={2}> <Icon fontSize={'md'} as={ArrowBack}/> <Text pl={1}>Back</Text> </Link>
                 <Tabs align='center' isFitted  defaultIndex={1}  >
                   <TabList>
-                    <Tab>Register</Tab>
-                    <Tab>Log In</Tab>
+                    <Tab fontSize='base' >Register</Tab>
+                    <Tab fontSize='base' >Log In</Tab>
                   </TabList>
 
                   <TabPanels>
