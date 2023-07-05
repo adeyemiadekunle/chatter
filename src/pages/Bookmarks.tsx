@@ -1,13 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { db, auth } from "../utils/firebase";
 import {collection, doc, getDoc, getDocs, DocumentData } from "firebase/firestore";
-import { Author, fetchAuthorData, Article } from "../utils/helperFunctions";
+import { Author, fetchAuthorData } from "../utils/helperFunctions";
 import {Box,  Text, VStack, Heading} from "@chakra-ui/react";
 import { Container } from "../components/ArticleContainer";
 import ArticleCard from "../components/ArticleCard";
 import SEO from "../components/SEO";
 
-
+interface Article {
+  id: string;
+  publishAt: string;
+  heading: string;
+  headerImage: string;
+  tags: { name: string; hash: string }[]
+  content: {
+    blocks: {
+      type: string;
+      data: {
+        text: string;
+      };
+    }[];
+  };
+  authorId: string;
+  likes: string[];
+  comments: string[];
+  views: string[];
+  slug: string;
+  // Add any other fields from your articles collection
+}
 
 const Bookmarks: React.FC = () => {
   const [userBookmarks, setUserBookmarks] = useState<Article[]>([]);
