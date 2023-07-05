@@ -89,7 +89,6 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
     fetchTagArticle();
   }, [hash]);
 
-  console.log(tagArticles);
 
   useEffect(() => {
     const fetchAuthor = async (authorId: string) => {
@@ -101,7 +100,6 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
 
     tagArticles.forEach((article) => {
       fetchAuthor(article.authorId);
-      console.log(article.authorId);
     });
   }, [tagArticles]);
 

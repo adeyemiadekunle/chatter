@@ -132,7 +132,7 @@ const Header = () => {
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>
-                  <Link as={NavLink} to='/feed/personalize' ><Button color='brand.800' fontSize='base'>My Feed</Button></Link>
+                  <Link as={NavLink} to='/' ><Button color='brand.800' fontSize='base'>My Feed</Button></Link>
                     <InputGroup >
                         <InputLeftElement w={'30px'} h={'30px'} children={<Icon as={SearchIcon} color={'grey'} boxSize={'15px'} />}  ml={2} mt={1} />
                         <Input placeholder="Search Chatter" fontSize='base' minWidth={'500px'}  variant={'outline'}  focusBorderColor='#543EE0' />

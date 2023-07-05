@@ -30,7 +30,7 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
                         <Box px={0} py={4}>
                             <List spacing={5} pl={3} >
 
-                                <Link as={NavLink} to='/feed' >
+                                <Link as={NavLink} to='/' >
                                     <ListItem display={'flex'}  >
                                         <ListIcon as={HomeOutlined} fontSize={'xlg'}  />
                                         <Text>Home</Text>
@@ -63,13 +63,11 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
                         <Box px={0} py={4} >
                             <Heading as='h3' fontSize={'18px'} pb={3} textAlign={'left'} display={'flex'}> <Text whiteSpace={'nowrap'} >Trending Tags</Text> <Icon as={TrendingUpOutlined} />
                             </Heading>
-                            <VStack  spacing={4} alignItems={'flex-start'} pl={4}>
+                            <VStack  alignItems={'flex-start'} pl={1}>
                                 <TagsRatingComponent />
-                                {/* <Text>Programming</Text>
-                                <Text>Data Science</Text>
-                                <Text>Technology</Text>
-                                <Text>Machine Learning</Text>
-                                <Text>Web Development</Text> */}
+                                <Box>
+                                     <Link as={NavLink}  fontSize={'base'} color={'blue.500'} fontWeight={'bold'} >View All Tags</Link>
+                                </Box>
                             </VStack>  
                         </Box>
                         </VStack>

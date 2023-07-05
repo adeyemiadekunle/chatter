@@ -5,8 +5,13 @@ import {
   PublishOutlined,
   StarOutlineOutlined,
 } from "@mui/icons-material";
+import ToogleBtn from "../ToogleBtn";
 
-const UserFeed = () => {
+type UserFeedProps = {
+  onOpen: () => void;
+};
+
+const UserFeed = ({onOpen}:UserFeedProps) => {
   return (
     <Box>
       <Flex gap={1} overflowX={'auto'} justifyContent={{base: 'space-between', md: 'flex-start'}}  >
@@ -56,7 +61,8 @@ const UserFeed = () => {
         </Link>
       </Flex>
       <Divider />
-
+         {/* Rightbar Toogle */}
+          <ToogleBtn Toogle={onOpen} />
       <Outlet />
     </Box>
   );
@@ -64,7 +70,3 @@ const UserFeed = () => {
 
 export default UserFeed;
 
-
-{/* <Flex onClick={handleCreateDraft} bg='brand.800'  justifyContent='center' alignItems='center'  w='50px' borderRadius='full'  hideFrom= 'md' position='fixed' zIndex='4' right='4' bottom='20'  h={'50px'} >
-                    <Icon color='primary.white' fontSize='xl' as={Add}/>
-              </Flex> */}

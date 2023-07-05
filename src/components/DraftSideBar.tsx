@@ -124,9 +124,7 @@ const ArticleCount = articles.length;
             <Box>
             {
                drafts.length > 0 ? (
-                    drafts.map((draft) => (
-                      <Box key={draft.id}>
-                        <Box key={draft.id} >
+                        <Box >
                             {drafts.map((draft: any) => (
                              <>
                                <Flex alignItems='center' justifyContent='space-between' key={draft.id} >
@@ -148,8 +146,6 @@ const ArticleCount = articles.length;
                              </>
                             ))}
                         </Box>
-                      </Box>
-                    ))
                   ) : (
                     <Text fontSize='sm'>No Saved Draft</Text>
                   )
@@ -168,17 +164,13 @@ const ArticleCount = articles.length;
             <Box>
                 {
                   articles.length > 0 ? (
-                    articles.map((article) => (
-                      <Box key={article.id}>
-                        <Box  key={article.id} cursor={'pointer'}>
+                        <Box  cursor={'pointer'}>
                           {articles.map((article: any) => (
                             <Text>
                                {article.heading }
                             </Text>
                           ))}
                         </Box>
-                      </Box>
-                    ))
                   ) : (
                     <Text fontSize='sm'>No Published Articles</Text>
                   )

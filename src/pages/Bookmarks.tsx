@@ -1,32 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { db, auth } from "../utils/firebase";
 import {collection, doc, getDoc, getDocs, DocumentData } from "firebase/firestore";
-import { Author, fetchAuthorData } from "../utils/helperFunctions";
+import { Author, fetchAuthorData, Article } from "../utils/helperFunctions";
 import {Box,  Text, VStack, Heading} from "@chakra-ui/react";
 import { Container } from "../components/ArticleContainer";
 import ArticleCard from "../components/ArticleCard";
 import SEO from "../components/SEO";
 
-interface Article {
-  id: string;
-  publishAt: string;
-  headerImage: string;
-  tags: { name: string; hash: string }[]
-  content: {
-    blocks: {
-      type: string;
-      data: {
-        text: string;
-      };
-    }[];
-  };
-  authorId: string;
-  likes: string[];
-  comments: string[];
-  views: string[];
-  slug: string;
-  // Add any other fields from your articles collection
-}
+
 
 const Bookmarks: React.FC = () => {
   const [userBookmarks, setUserBookmarks] = useState<Article[]>([]);
@@ -50,6 +31,7 @@ const Bookmarks: React.FC = () => {
               const {
                 publishAt,
                 headerImage,
+                heading,
                 tags,
                 content,
                 authorId,
@@ -63,6 +45,7 @@ const Bookmarks: React.FC = () => {
                 bookmarkedArticles.push({
                   id: articleDoc.id,
                   publishAt: publishAt || "",
+                  heading: heading || "",
                   headerImage: headerImage || "",
                   tags: tags || [],
                   content: content || "",
@@ -104,15 +87,6 @@ const Bookmarks: React.FC = () => {
   }, [userBookmarks]);
 
   
-  const ArticleHeaderLevel1 = (blocks: any) => {
-    return blocks.find(
-      (block: any) => block.type === "header" && block.data.level === 1
-    );
-  };
-  const headerBlocksArticle = ArticleHeaderLevel1(
-    userBookmarks.length > 0 ? userBookmarks[0].content.blocks : []
-  );
-
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
     return firstParagraph;
@@ -158,7 +132,7 @@ const Bookmarks: React.FC = () => {
                   userBookmarks.map((article) => (
                     <ArticleCard
                     key={article.id}
-                    Title={headerBlocksArticle.data}
+                    Title={article.heading}
                     displayName={authorsData?.displayName}
                     userTagLine={authorsData?.userTagLine}
                     AvatarImage={authorsData?.photoURL}

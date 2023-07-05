@@ -1,10 +1,15 @@
 // Note: Header component
 import {useState, useEffect} from 'react'
-import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex, IconButton } from '@chakra-ui/react'
-import { MoonIcon, SunIcon, BellIcon, SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
+import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex, } from '@chakra-ui/react'
+import { SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
 import { useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { userAuth } from '../context/Firebase'
-import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined, Create, Home} from '@mui/icons-material'
+import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined} from '@mui/icons-material'
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { NavLink, useNavigate } from 'react-router-dom'
 import MobileSidebar from './MobileSidebar'
 import { createDraft} from '../utils/helperFunctions'
@@ -122,28 +127,27 @@ const Header = () => {
 
     return (
         <Box px={{base: '3', md: '8'}} py={{base: '3', md: '5'}} bg={bg} color={color}  className='header'  display={'flex'} flexDir={'column'} alignItems={'center'} >
+                
                 {/* Mobile Menu fixed */}
               
               <Flex bg='whiteAlpha.900' color='black'  justifyContent='center' alignItems='center'  w='100%'   hideFrom= 'md' position='fixed' zIndex='4'  bottom='1'  h={'55px'}>
                      <HStack w='100%' justifyContent='space-between' px={5} alignItems='center' h='55px'>
-                         <Link as={NavLink} to='/feed' display='flex'
+                         <Link as={NavLink} to='/' display='flex'
                          _activeLink={{color: 'brand.800'}}
                          >
-                            <Icon fontSize='28px' as={Home}/>
+                            <Icon fontSize='28px' as={HomeOutlinedIcon}/>
                           </Link>
                         <Link as={NavLink} to='/search' display='flex'  _activeLink={{color: 'brand.800'}}>
                             <Icon fontSize='24px' as={SearchIcon} />
                         </Link>
-                        <Link onClick={handleCreateDraft}>
-                             <IconButton  aria-label='create draft' icon={<Create/>} bg='brand.800' borderRadius='full' color='white' />
-                         </Link>
+                       
                         <Link as={NavLink} to='/bookmarks' display='flex' 
                         _activeLink={{color: 'brand.800'}}
                         >
                            <Icon  fontSize='26px' as={CollectionsBookmarkOutlined} ></Icon> 
                         </Link>
                         <Link as={NavLink} to='' display='flex'>
-                          <Icon fontSize='28px' as={BellIcon}></Icon>
+                          <Icon fontSize='28px' as={NotificationsOutlinedIcon}></Icon>
                         </Link>
                      </HStack>
               </Flex>
@@ -157,7 +161,7 @@ const Header = () => {
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>
-                  <Link as={NavLink} to='/feed/personalize' ><Button  fontSize='base'>My Feed</Button></Link>
+                  <Link as={NavLink} to='/' ><Button  fontSize='base'>My Feed</Button></Link>
                     <InputGroup onClick={onOpenSearch}  >
                         <InputLeftElement w={'30px'} h={'30px'} children={<Icon as={SearchIcon} color={'grey'} boxSize={'15px'} />}  ml={2} mt={1} />
                         <Input  placeholder="Search Chatter" fontSize='base' minWidth={'500px'}  variant={'outline'}  focusBorderColor='#543EE0' />
@@ -173,13 +177,18 @@ const Header = () => {
                         <Text pl={2}> Post </Text>
                         </Button>
                     </Link>
+                    <Link onClick={handleCreateDraft}>
+                      <Stack  borderRadius='full' _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'}  hideFrom='md'>
+                            <Icon  as={DriveFileRenameOutlineOutlinedIcon} boxSize='30px' />
+                      </Stack>
+                     </Link>
 
                     <Stack borderRadius={'50px'} _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'} >
-                        <Icon onClick={handleToggleColorMode} as={colorMode === 'light' ? MoonIcon : SunIcon} boxSize={'20px'} />
+                        <Icon onClick={handleToggleColorMode} as={colorMode === 'light' ? DarkModeOutlinedIcon : LightModeOutlinedIcon } boxSize={'30px'} />
                     </Stack>
 
                     <Stack borderRadius={'50px'} _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'} hideBelow='md' >
-                        <Icon as={BellIcon} boxSize={'22px'} />
+                        <Icon as={NotificationsOutlinedIcon} boxSize={'22px'} />
                     </Stack>
                     <Box>
                          <Profile handleCreateDraft={handleCreateDraft} />

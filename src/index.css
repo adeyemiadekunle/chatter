@@ -55,7 +55,7 @@ a {
 
 .codex-editor__redactor {
   min-height: 300px;
-  padding-bottom: 0 !important;
+  padding-bottom: 100px !important;
 }
 
 .css-dak8gs{
@@ -150,6 +150,7 @@ a {
 
 .ce-rawtool__textarea.cdx-input {
   min-height: 100px !important;
+  overflow: hidden;
  }
 
 

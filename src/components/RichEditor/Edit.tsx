@@ -117,7 +117,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
     if (draftId) {
       updateDraft(draftId, image, content, heading);
       publishDraft(draftId, tags, slug, heading);
-      navigate("/feed/recent");
+      navigate("/recent");
       localStorage.removeItem('image')
       localStorage.removeItem('title')
       localStorage.removeItem('editor')

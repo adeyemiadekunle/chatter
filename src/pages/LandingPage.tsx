@@ -49,7 +49,7 @@ const Header = () => {
             { isAuth ? <Link as={NavLink} to='/feed' ><Button color= 'brand.800' fontSize='base' >My Feed</Button></Link> : 
              <Link as={NavLink} to='/onboard' > <Button color= 'brand.800' fontSize='base'  >My Feed</Button></Link> }
             {  isAuth ?  
-            <Link as={NavLink}  to='/feed' hideBelow='md' >
+            <Link as={NavLink}  to='/' hideBelow='md' >
                 <Button  bg= 'brand.800' borderColor='brand.800' color={'white'}
                 _hover={{ bg: 'brand.600'}}
                 transition={'all .3s ease-in-out'}

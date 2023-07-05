@@ -3,10 +3,18 @@ import UserFeed from "../components/Feed/UserFeed";
 import { Box, Image } from "@chakra-ui/react";
 import { Container } from "../components/ArticleContainer";
 import Banner from "../assets/Banner.png";
-
+import {
+  Drawer,
+  DrawerBody,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure
+} from '@chakra-ui/react'
 
 const Home = () => {
 
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <Box
@@ -21,12 +29,12 @@ const Home = () => {
         <Box flex={{ base: "none", md: "1" }}>
           <Box mb={8}>
             <Container height={"200px"} display={"block"}   >
-              <Image src={Banner} h='200px' w='100%' objectFit='cover' borderRadius='8px' alt="banner" />
+              <Image src={Banner} h='200px' w='100%' objectFit='cover' borderRadius='5px' alt="banner" />
             </Container>
           </Box>
           <Box>
             <Container height={"600px"} display={"block"}>
-              <UserFeed />
+              <UserFeed onOpen={onOpen} />
             </Container>
           </Box>
         </Box>
@@ -37,6 +45,28 @@ const Home = () => {
             <h2>Hello</h2>
           </Container>
         </Box>
+
+        {/* Mobile */}
+        <Box hideFrom='md'>
+          <Drawer isOpen={isOpen}
+           size={'full'}
+            placement='right'
+             onClose={onClose}
+             >
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton borderStyle='none' fontSize='md' />
+              <DrawerBody>
+                <Box mt={12}>
+                  <Container height={"300px"} display='block' >
+                    <h2>Hello</h2>
+                  </Container>
+                </Box>
+              </DrawerBody>
+              </DrawerContent>
+          </Drawer>
+        </Box>
+
       </Box>
   );
 };

@@ -5,6 +5,12 @@ import { useParams } from "react-router-dom";
 import {  auth } from '../utils/firebase';
 import {
   Box,
+  Drawer,
+  DrawerBody,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure
 } from "@chakra-ui/react";
 
 import TagsFeed from "../components/Tags/TagsFeed";
@@ -13,12 +19,15 @@ import {Container} from "../components/ArticleContainer";
 import { Tags } from "../utils/helperFunctions";
 import SEO from "../components/SEO";
 import NoMatch from "./NoMatch";
+import ToogleBtn from "../components/ToogleBtn";
+
 
 
 //  TagCategory
 const TagCategory = () => {
   const [tags, setTags] = useState<Tags[]>([]);
   const user = auth.currentUser?.uid;
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
     const fetchAllTags = (): Promise<Tags[]> => {
@@ -57,7 +66,7 @@ const TagCategory = () => {
 
   const { hash } = useParams();
   const tag = tags.find((t) => t.hash === hash);
-  console.log("hash", hash);
+
 
   if (!tag) {
     return <NoMatch />;
@@ -95,6 +104,31 @@ const TagCategory = () => {
             <h2>Hello</h2>
           </Container>
         </Box>
+
+        <ToogleBtn Toogle={onOpen} />
+
+        {/* Mobile */}
+
+        <Box hideFrom='md'>
+          <Drawer isOpen={isOpen}
+           size={'full'}
+            placement='right'
+             onClose={onClose}
+             >
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton borderStyle='none' fontSize='md' />
+              <DrawerBody>
+                <Box mt={12}>
+                  <Container height={"300px"} display='block' >
+                    <h2>Hello</h2>
+                  </Container>
+                </Box>
+              </DrawerBody>
+              </DrawerContent>
+          </Drawer>
+        </Box>
+        
       </Box>
     </>
   );

@@ -556,3 +556,51 @@ export const fetchAllTags = (): Promise<Tags[]> => {
 
 // Trending Tags
 
+
+type Tag = {
+  name: string;
+  image: string;
+  hash: string;
+};
+
+export type TagCount = {
+  tag: Tag;
+  count: number;
+};
+
+export const getTagCounts = async (): Promise<TagCount[]> => {
+  try {
+    // Fetch all articles
+    const articlesCollection = collection(db, 'articles');
+    const articlesQuery = query(articlesCollection);
+    const querySnapshot = await getDocs(articlesQuery);
+
+    const tagCounts: Record<string, TagCount> = {};
+
+    // Iterate through articles and collect tag counts
+    querySnapshot.forEach((doc) => {
+      const { tags } = doc.data();
+      tags.forEach((tag: Tag) => {
+        const { hash } = tag;
+        if (tagCounts[hash]) {
+          tagCounts[hash].count++;
+        } else {
+          tagCounts[hash] = {
+            tag,
+            count: 1,
+          };
+        }
+      });
+    });
+
+    // Convert tag counts to an array and sort by count in descending order
+    const sortedTagCounts = Object.values(tagCounts).sort((a, b) => b.count - a.count);
+
+    return sortedTagCounts;
+  } catch (error) {
+    console.log('Error fetching tag counts:', error);
+    return [];
+  }
+};
+
+
