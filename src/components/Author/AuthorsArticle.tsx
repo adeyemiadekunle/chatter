@@ -3,7 +3,6 @@ import { onSnapshot, collection, query, DocumentData } from "firebase/firestore"
 import { db } from "../../utils/firebase";
 import { Box, Flex} from '@chakra-ui/react'
 import UserArticleCard from '../Author/UserArticleCard'
-import { fetchAuthorData, Author } from "../../utils/helperFunctions";
 
 interface AuthorArticleProps {
   userId: string;
@@ -32,7 +31,6 @@ export interface AuthorArticles {
 
 const AuthorArticle = ({ userId }: AuthorArticleProps) => {
   const [userArticles, setUserArticles] = useState<AuthorArticles[]>([]);
-  const [authorsData, setAuthorsData] = useState({} as Author);
 
   useEffect(() => {
     const fetchAuthorArticles = async () => {
@@ -87,32 +85,6 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
   }, [userId]);  
 
 
-  
-  useEffect(() => {
-    const fetchAuthor = async (authorId: string) => {
-      const data = await fetchAuthorData(authorId);
-      if (data !== null) {
-        setAuthorsData(data);
-      }
-    };
-
-  userArticles.forEach((article) => {
-      fetchAuthor(article.authorId);
-    });
-  }, [userArticles]);
-
-
-  // console.log(userArticles)
-
-  // const ArticleHeaderLevel1 = (blocks: any) => {
-  //   return blocks.find(
-  //     (block: any) => block.type === "header" && block.data.level === 1
-  //   );
-  // };
-  // const headerBlocksArticle = ArticleHeaderLevel1(
-  //   userArticles.length > 0 ? userArticles[0].content.blocks : []
-  // );
-
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
     return firstParagraph;
@@ -136,10 +108,8 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
                   HeaderImage={article.headerImage}
                   PublishDate={article.publishAt}
                   alt={article.id}
-                  AvatarImage={authorsData.photoURL}
-                  displayName={authorsData.displayName}
+                  authorId={article.authorId}
                   slug={article.slug}
-                  username={authorsData.userName}
                 />
             )) : 
             <Box   w='100%'mt={3} > 

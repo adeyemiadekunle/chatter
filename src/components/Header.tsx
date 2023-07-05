@@ -2,7 +2,7 @@
 import {useState, useEffect} from 'react'
 import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex, } from '@chakra-ui/react'
 import { SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
-import { useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { useColorMode, useColorModeValue, Drawer, DrawerContent, DrawerBody, DrawerOverlay } from '@chakra-ui/react'
 import { userAuth } from '../context/Firebase'
 import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined} from '@mui/icons-material'
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
@@ -16,6 +16,7 @@ import { createDraft} from '../utils/helperFunctions'
 import { auth, db } from '../utils/firebase'
 import { onSnapshot, doc } from 'firebase/firestore'
 import Search from './SearchModal'
+import ModalLogin from './ModalLogin'
 
 
 interface HeaderProps {
@@ -34,8 +35,9 @@ interface HeaderProps {
   } ;
 
 const Profile = ({handleCreateDraft}: HeaderProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const { GoogleSignOut } = userAuth();
+    const { GoogleSignOut, isAuth } = userAuth();
     const navigate = useNavigate();
 
     const handleGoogleSignOut = async () => {
@@ -75,9 +77,14 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
 
  
     return (
+       <>
         <Menu>
-            <MenuButton role='profile' as={Avatar} src={userData?.photoURL} name={userData?.displayName} size='sm' cursor={'pointer'}  />
-            <MenuList width={'300px'} p={0} >
+            <MenuButton role='profile' as={Avatar} src={userData?.photoURL} name={userData?.displayName} size='sm' cursor={'pointer'} onClick={onOpen}  hideFrom='md' />
+            <MenuButton role='profile' as={Avatar} src={userData?.photoURL} name={userData?.displayName} size='sm' cursor={'pointer'}  hideBelow='md' />
+            {
+              isAuth ? 
+              (
+                <MenuList width={'300px'} p={0} >
                 <Link  as={NavLink} to={userData?.userName} >
                     <MenuItem  >
                         <HStack py={3} spacing={6}>
@@ -97,8 +104,27 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
                 <MenuDivider m={0} />
                 <MenuItem py={4} onClick={handleGoogleSignOut}> <Icon  as={LogoutOutlined} /> <Text pl={3}>Log Out</Text></MenuItem>
             </MenuList>
+              ):
+              (
+                <>
+                 <MenuList w='300px' hideBelow='md' >
+                   <ModalLogin/>
+                 </MenuList>
+                </>
+              )
+            }
         </Menu>
-
+         <Box >
+          <Drawer isOpen={isOpen} onClose={onClose} placement='bottom' >
+            <DrawerOverlay/>
+            <DrawerContent>
+              <DrawerBody>
+                <ModalLogin/>
+              </DrawerBody>
+            </DrawerContent>
+          </Drawer>
+         </Box>
+       </>
     )
 }
 
@@ -111,6 +137,7 @@ const Header = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen:isOpenSearch, onOpen: onOpenSearch, onClose: onCloseSearch } = useDisclosure()
     const navigate = useNavigate()
+    const {isAuth } = userAuth();
    
 
 
@@ -141,11 +168,27 @@ const Header = () => {
                             <Icon fontSize='24px' as={SearchIcon} />
                         </Link>
                        
-                        <Link as={NavLink} to='/bookmarks' display='flex' 
-                        _activeLink={{color: 'brand.800'}}
-                        >
-                           <Icon  fontSize='26px' as={CollectionsBookmarkOutlined} ></Icon> 
-                        </Link>
+                        {
+                          isAuth ? (
+                            <>
+                              <Link as={NavLink} to='/bookmarks' display='flex' 
+                                _activeLink={{color: 'brand.800'}}
+                                >
+                                  <Icon  fontSize='26px' as={CollectionsBookmarkOutlined} ></Icon> 
+                              </Link>
+                            </>
+                          ):
+                          (
+                            <>
+                              <Link as={NavLink} to='/onboard' display='flex' 
+                              _activeLink={{color: 'brand.800'}}
+                              >
+                                <Icon  fontSize='26px' as={CollectionsBookmarkOutlined} ></Icon> 
+                              </Link>
+                            </>
+                          )
+                        }
+
                         <Link as={NavLink} to='' display='flex'>
                           <Icon fontSize='28px' as={NotificationsOutlinedIcon}></Icon>
                         </Link>
@@ -161,34 +204,64 @@ const Header = () => {
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>
-                  <Link as={NavLink} to='/' ><Button  fontSize='base'>My Feed</Button></Link>
+                { isAuth ? <Link as={NavLink} to='/' ><Button color= 'brand.800' fontSize='base' >My Feed</Button></Link> : 
+               <Link as={NavLink} to='/onboard' > <Button color= 'brand.800' fontSize='base'  >My Feed</Button></Link> }
                     <InputGroup onClick={onOpenSearch}  >
                         <InputLeftElement w={'30px'} h={'30px'} children={<Icon as={SearchIcon} color={'grey'} boxSize={'15px'} />}  ml={2} mt={1} />
                         <Input  placeholder="Search Chatter" fontSize='base' minWidth={'500px'}  variant={'outline'}  focusBorderColor='#543EE0' />
                     </InputGroup>
                 </HStack>
+
                 <HStack spacing={2} >
-                    <Link  onClick={handleCreateDraft} hideBelow='md' >
-                        <Button  bg='brand.800' color={'white'}
-                          _hover={{bg: 'brand.700'}}
+                    {  isAuth ?  
+                      <Link  onClick={handleCreateDraft} hideBelow='md' >
+                          <Button  bg= 'brand.800' borderColor='brand.800' color={'white'}
+                             _hover={{ bg: 'brand.600'}}
+                              transition={'all .3s ease-in-out'}
+                            >
+                          <Icon as={CreateOutlined} ></Icon>
+                              <Text fontSize='base' pl={2}>Post </Text>
+                          </Button>
+                      </Link>
+                        : 
+                      <Link as={NavLink}  to='/onboard' hideBelow='md' >
+                        <Button bg= 'brand.800' borderColor='brand.800'color={'white'}
+                          _hover={{ bg: 'brand.700'}}
                         transition={'all .3s ease-in-out'}
                         >
                         <Icon as={CreateOutlined} ></Icon>
-                        <Text pl={2}> Post </Text>
+                        <Text pl={2}>Post </Text>
                         </Button>
-                    </Link>
-                    <Link onClick={handleCreateDraft}>
-                      <Stack  borderRadius='full' _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'}  hideFrom='md'>
-                            <Icon  as={DriveFileRenameOutlineOutlinedIcon} boxSize='30px' />
-                      </Stack>
+                      </Link> 
+                    }
+
+                   {
+                    isAuth ? (
+                      <>
+                      <Link onClick={handleCreateDraft}>
+                        <Stack  borderRadius='full' _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'}  hideFrom='md'>
+                              <Icon  as={DriveFileRenameOutlineOutlinedIcon} boxSize='30px' />
+                        </Stack>
+                      </Link>
+                      </>
+                    ):
+                    (
+                      <>
+                      <Link as={NavLink} to='/onboard' >
+                        <Stack  borderRadius='full' _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'}  hideFrom='md'>
+                              <Icon  as={DriveFileRenameOutlineOutlinedIcon} boxSize='30px' />
+                        </Stack>
                      </Link>
+                      </>
+                    )
+                   }
 
                     <Stack borderRadius={'50px'} _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'} >
                         <Icon onClick={handleToggleColorMode} as={colorMode === 'light' ? DarkModeOutlinedIcon : LightModeOutlinedIcon } boxSize={'30px'} />
                     </Stack>
 
                     <Stack borderRadius={'50px'} _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'} hideBelow='md' >
-                        <Icon as={NotificationsOutlinedIcon} boxSize={'22px'} />
+                        <Icon as={NotificationsOutlinedIcon} boxSize={'28px'} />
                     </Stack>
                     <Box>
                          <Profile handleCreateDraft={handleCreateDraft} />
@@ -197,7 +270,7 @@ const Header = () => {
             </HStack>
             {/* Mobile Sidebar */}
              <Box hideFrom='md'>
-             <MobileSidebar isOpen={isOpen} onClose={onClose} />
+                 <MobileSidebar isOpen={isOpen} onClose={onClose} />
              </Box>
 
             {/* Desktop  Search */}

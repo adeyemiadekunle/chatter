@@ -5,11 +5,9 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import FeedLayout from "./components/Feed/FeedLayout";
-import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import Onboarding from "./pages/Onboarding";
 import Draft from "./pages/New";
-import LandingPage from "./pages/LandingPage";
 import ArticleDetails from "./pages/ArticlePage";
 import NoMatch from "./pages/NoMatch";
 import Personalize from "./components/Feed/Personalize";
@@ -24,17 +22,17 @@ import Hot from "./components/Tags/Hot";
 import New from "./components/Tags/New";
 import Bookmarks from "./pages/Bookmarks";
 import Search from "./pages/Search";
+import Home from "./pages/Home";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/" element={<LandingPage />} />
       <Route path="/onboard" element={<Onboarding />} />
       <Route path="*" element={<NoMatch />} />
        
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<FeedLayout />}>
-          <Route path="/" element={<Feed />}>
+          <Route path="/" element={<Home />}>
             <Route index element={<Personalize />} />
             <Route path="personalize" element={<Personalize />} />
             <Route path="featured" element={<Featured />} />

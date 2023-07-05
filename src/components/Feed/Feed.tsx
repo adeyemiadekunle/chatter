@@ -1,8 +1,9 @@
 
-import UserFeed from "../components/Feed/UserFeed";
+import UserFeed from "./UserFeed";
 import { Box, Image } from "@chakra-ui/react";
-import { Container } from "../components/ArticleContainer";
-import Banner from "../assets/Banner.png";
+import { Container } from "../ArticleContainer";
+import Banner from "../../assets/Banner.png";
+// import { userAuth } from "../../context/Firebase";
 import {
   Drawer,
   DrawerBody,
@@ -15,6 +16,7 @@ import {
 const Home = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
+  // const {isAuth} = userAuth()
 
   return (
     <Box

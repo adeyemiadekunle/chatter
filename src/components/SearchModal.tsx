@@ -156,6 +156,7 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
               <Box >
                 <Box pt={10} pb={6} px={[4]}>
                   <Input
+                  fontSize='base'
                     borderRadius="full"
                     type="text"
                     value={searchTerm}

@@ -2,7 +2,6 @@ import {
   Box,
   HStack,
   VStack,
-  Icon,
   Text,
   Center,
   Image,
@@ -23,92 +22,14 @@ import Testimonial from "../assets/Testimonial_Image.png";
 import Getstarted1 from "../assets/getstarted1.png";
 import Getstarted2 from "../assets/getstarted2.png";
 import Getstarted3 from "../assets/getstarted3.png";
-import { userAuth } from "../context/Firebase";
-import { CreateOutlined } from "@mui/icons-material";
-import SEO from "../components/SEO";
+import SEO from "./SEO";
+import Header from "./Header";
 
-const Header = () => {
-  const { isAuth} = userAuth();
-  return (
-    <>
-       <SEO title="Chatte" description="Chatte is a platform for writers to share their stories and connect with readers." name='' type=""  />
-      <Box px={[ 4, 12]} py={4}  >
-        <HStack spacing={10} justifyContent={"space-between"}  >
-          {/* logo */}
-          <Box
-            fontSize='md'
-            px={3}
-            py={1}
-            bg='brand.800'
-            fontWeight={700}
-            color='primary.white'
-          >
-            Chatte
-          </Box>
-          <HStack spacing={10}  display={{base: 'none', md: 'block'}}  >
-            { isAuth ? <Link as={NavLink} to='/feed' ><Button color= 'brand.800' fontSize='base' >My Feed</Button></Link> : 
-             <Link as={NavLink} to='/onboard' > <Button color= 'brand.800' fontSize='base'  >My Feed</Button></Link> }
-            {  isAuth ?  
-            <Link as={NavLink}  to='/' hideBelow='md' >
-                <Button  bg= 'brand.800' borderColor='brand.800' color={'white'}
-                _hover={{ bg: 'brand.600'}}
-                transition={'all .3s ease-in-out'}
-                  >
-                <Icon as={CreateOutlined} ></Icon>
-                    <Text fontSize='base' pl={2}>Create Post </Text>
-                </Button>
-            </Link>
-              : 
-            <Link as={NavLink}  to='/onboard' hideBelow='md' >
-              <Button bg= 'brand.800' borderColor='brand.800'color={'white'}
-                 _hover={{ bg: 'brand.700'}}
-              transition={'all .3s ease-in-out'}
-              >
-              <Icon as={CreateOutlined} ></Icon>
-              <Text pl={2}>Create Post </Text>
-              </Button>
-            </Link> }
-          </HStack>
-
-          <HStack spacing={8} justifyContent={"center"} alignItems={"center"} display={{base: 'none', md: 'block'}} >
-            <Link as={NavLink} to="/onboard">
-              <Button
-                fontSize='base'
-                m={0}
-                width={120}
-                 bg='primary.white'
-                 border='1px solid #0057C2'
-                transition={"all .3s ease-in-out"}
-                _hover={{ bg: 'brand.800', color: 'primary.white'}}
-              >
-                Log In
-              </Button>
-            </Link>
-
-            <Link as={NavLink} to="/onboard">
-              <Button
-                fontSize='base'
-                m={0}
-                width={120}
-                color={"white"}
-                 bg='brand.800'
-                 borderColor='brand.800'
-                transition={"all 0.3s ease-in-out"}
-                _hover={{ bg: 'brand.700'}}
-              >
-                Sign Up
-              </Button>
-            </Link>
-          </HStack>
-        </HStack>
-      </Box>
-    </>
-  );
-};
 
 const LandingPage = () => {
   return (
     <>
+     <SEO title="Chatte" description="Chatte is a platform for writers to share their stories and connect with readers." name='' type=""  />
       <Header />
       <Box>
         <Box
