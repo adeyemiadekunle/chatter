@@ -30,6 +30,7 @@ interface Article {
 
 const Bookmarks: React.FC = () => {
   const [userBookmarks, setUserBookmarks] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const currentUser = auth.currentUser?.uid;
 
   useEffect(() => {
@@ -77,6 +78,7 @@ const Bookmarks: React.FC = () => {
             });
   
             setUserBookmarks(bookmarkedArticles);
+            setIsLoading(false);
           } else {
             console.log("No such document!");
           }
@@ -146,6 +148,7 @@ const Bookmarks: React.FC = () => {
                     authorId={article.authorId}
                     slug={article.slug}
                     articleId={article.id}
+                    isLoading={isLoading}
                     />
                   ))
                 ) : (
