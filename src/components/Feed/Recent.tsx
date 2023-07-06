@@ -5,19 +5,18 @@ import SEO from "../SEO";
 
 
 import {
-  fetchArticles,
+  fetchRecents,
   RecentArticles,
-
 } from "../../utils/helperFunctions";
 
 
 const Recent = () => {
-  const [articles, setArticles] = useState([] as RecentArticles[]);   //  for bookmarking
+  const [articles, setArticles] = useState([] as RecentArticles[]);   
  
 
   //  for Published Articles recently updated
   useEffect(() => {
-    const getArticle = fetchArticles((fetchedArticles) => {
+    const getArticle = fetchRecents((fetchedArticles) => {
       setArticles(fetchedArticles);
     });
 

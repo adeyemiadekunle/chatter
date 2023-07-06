@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams} from 'react-router-dom';
-import { fetchAllUsers, RecentArticles, Users, fetchArticles, fetchAllTags, Tags } from '../utils/helperFunctions';
+import { fetchAllUsers, RecentArticles, Users, fetchRecents, fetchAllTags, Tags } from '../utils/helperFunctions';
 import { Input, Box, Flex, Link, Text, InputGroup, InputLeftAddon } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import SEO from '../components/SEO';
@@ -26,7 +26,7 @@ const Search = () => {
 
   // fetch all articles
   useEffect(() => {
-    const getArticle = fetchArticles((fetchedArticles) => {
+    const getArticle = fetchRecents((fetchedArticles) => {
       setArticles(fetchedArticles);
     });
 

@@ -4,7 +4,7 @@ import {
   fetchAllUsers,
   RecentArticles,
   Users,
-  fetchArticles,
+  fetchRecents,
   fetchAllTags,
   Tags,
 } from "../utils/helperFunctions";
@@ -49,7 +49,7 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
 
   // fetch all articles
   useEffect(() => {
-    const getArticle = fetchArticles((fetchedArticles) => {
+    const getArticle = fetchRecents((fetchedArticles) => {
       setArticles(fetchedArticles);
     });
 

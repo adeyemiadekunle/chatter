@@ -488,7 +488,8 @@ export interface RecentArticles {
 }
 
 
-export const fetchArticles = (callback: (articles: RecentArticles[]) => void, publishAt?: string): Unsubscribe => {
+//   Fetch List of Recent Articles List by Publish Date
+export const fetchRecents = (callback: (articles: RecentArticles[]) => void, publishAt?: string): Unsubscribe => {
   const articlesCollectionRef = collection(db, "articles");
   let articlesQuery = query(articlesCollectionRef);
 
@@ -530,6 +531,144 @@ export const fetchArticles = (callback: (articles: RecentArticles[]) => void, pu
 
 
 
+// fetch For You Articles this function prioritizes the articles based on the tags and author followed by the user
+
+export const fetchForYou = (callback: (articles: RecentArticles[]) => void, publishAt?: string): Unsubscribe => {
+  const articlesCollectionRef = collection(db, "articles");
+  let articlesQuery = query(articlesCollectionRef);
+
+  const currentUser = auth.currentUser;
+  const userId = currentUser?.uid;
+
+  if (publishAt) {
+    // If a publishAt date is provided, filter the articles based on it
+    articlesQuery = query(articlesCollectionRef, orderBy("publishAt", "desc"), where("publishAt", "<=", publishAt));
+  } else {
+    // If no publishAt date is provided, fetch all articles ordered by publishAt date in descending order
+    articlesQuery = query(articlesCollectionRef, orderBy("publishAt", "desc"));
+  }
+
+  const unsubscribe = onSnapshot(articlesQuery, async (querySnapshot: QuerySnapshot) => {
+    const articlesData: RecentArticles[] = [];
+
+    if (!querySnapshot.empty) {
+      const followedAuthors: string[] = [];
+      const followedTags: string[] = [];
+
+      if (userId) {
+        // Fetch followed authors and tags by the current user
+        // Replace 'authors' with the collection reference for the authors in your Firestore
+        const followedAuthorsQuery = query(collection(db, "users"), where("followers", "array-contains", userId));
+        const followedTagsQuery = query(collection(db, "tags"), where("followers", "array-contains", userId));
+
+        const followedAuthorsSnapshot = await getDocs(followedAuthorsQuery);
+        const followedTagsSnapshot = await getDocs(followedTagsQuery);
+
+        followedAuthorsSnapshot.forEach((doc) => {
+          followedAuthors.push(doc.id);
+        });
+
+        followedTagsSnapshot.forEach((doc) => {
+          followedTags.push(doc.id);
+        });
+      }
+
+      querySnapshot.forEach((doc) => {
+        const articleData = {
+          id: doc.id,
+          publishAt: doc.data().publishAt || "",
+          headerImage: doc.data().headerImage || "",
+          heading: doc.data().heading || "",
+          tags: doc.data().tags || [],
+          content: doc.data().content || {},
+          authorId: doc.data().authorId || "",
+          likes: doc.data().likes || [],
+          comments: doc.data().comments || [],
+          views: doc.data().views || [],
+          slug: doc.data().slug || "",
+          // ... other properties
+        };
+
+        const { authorId, tags } = articleData;
+        const followsAuthor = followedAuthors.includes(authorId);
+        const followsTags = tags.some((tag: { hash: string }) => followedTags.includes(tag.hash));
+
+        // Add articles where the user follows the author or tags at the beginning of the list
+        if (followsAuthor || followsTags) {
+          articlesData.unshift(articleData);
+        } else {
+          articlesData.push(articleData);
+        }
+      });
+    }
+
+    callback(articlesData);
+  });
+
+  return unsubscribe;
+};
+
+
+// fetch Popular Articles by views and likes
+export const fetchFeatured = (callback: (articles: RecentArticles[]) => void): Unsubscribe => {
+  const articlesCollectionRef = collection(db, "articles");
+
+  const unsubscribe = onSnapshot(articlesCollectionRef, (querySnapshot: QuerySnapshot) => {
+    const articlesData: RecentArticles[] = [];
+
+    if (!querySnapshot.empty) {
+      querySnapshot.forEach((doc) => {
+        articlesData.push({
+          id: doc.id,
+          publishAt: doc.data().publishAt || "",
+          headerImage: doc.data().headerImage || "",
+          heading: doc.data().heading || "",
+          tags: doc.data().tags || [],
+          content: doc.data().content || {},
+          authorId: doc.data().authorId || "",
+          likes: doc.data().likes || [],
+          comments: doc.data().comments || [],
+          views: doc.data().views || [],
+          slug: doc.data().slug || "",
+          // ... other properties
+        });
+      });
+    }
+
+    // Sort the articles array based on views and likes
+    const sortedArticles = articlesData.sort((a, b) => {
+      const aLikes = a.likes.length;
+      const bLikes = b.likes.length;
+      const aViews = a.views.length;
+      const bViews = b.views.length;
+
+      // First, compare the number of likes
+      if (aLikes > bLikes) {
+        return -1;
+      } else if (aLikes < bLikes) {
+        return 1;
+      }
+
+      // If the number of likes is the same, compare the number of views
+      if (aViews > bViews) {
+        return -1;
+      } else if (aViews < bViews) {
+        return 1;
+      }
+
+      // If both likes and views are the same, maintain the original order
+      return 0;
+    });
+
+    callback(sortedArticles);
+  });
+
+  return unsubscribe;
+};
+
+
+
+
 
 
 //  Fetch Tags Categories
@@ -568,8 +707,9 @@ export const fetchAllTags = (): Promise<Tags[]> => {
 };
 
 
-// Trending Tags
 
+
+// Trending Tags
 
 type Tag = {
   name: string;
