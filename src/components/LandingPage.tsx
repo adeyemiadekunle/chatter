@@ -10,10 +10,11 @@ import {
   Heading,
   Button,
   Card,
-  Link
+  Link,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
-import Herobg from "../assets/herobg.png";
+import Logo from '../../public/favicon-32x32.png'
+
 import AboutImage from "../assets/aboutImage.png";
 import Analytics from "../assets/carbon_analytics.png";
 import Social from "../assets/social.png";
@@ -23,60 +24,88 @@ import Getstarted1 from "../assets/getstarted1.png";
 import Getstarted2 from "../assets/getstarted2.png";
 import Getstarted3 from "../assets/getstarted3.png";
 import SEO from "./SEO";
-import Header from "./Header";
+
+
+
+const Header = () => {
+
+  return (
+    <>
+    <Box px={{base: '3', md: '8'}} py={{base: '3', md: '5'}} position='fixed' zIndex='3'  w='100%' top='0' bg='white' >
+      <HStack justifyContent='space-between'>
+         <HStack>
+             <Image src={Logo} /> <Text fontSize='lg' fontWeight='700'>chatte</Text>
+         </HStack>
+         <Box>
+
+          <Link as={NavLink} to='/onboard' >
+            <Button fontSize='base' bg='brand.800' color='white'
+            _hover={{bg: 'brand.700'}}
+            >
+              Create Account
+            </Button>
+          </Link>
+         </Box>
+      </HStack>
+    </Box>
+    
+    </>
+  )
+}
 
 
 const LandingPage = () => {
   return (
     <>
-     <SEO title="Chatte" description="Chatte is a platform for writers to share their stories and connect with readers." name='' type=""  />
+   
+     <SEO title="chatte.space" description="Chatte is a platform for writers to share their stories and connect with readers." name='' type=""  />
       <Header />
-      <Box>
+      <Box  >
         <Box
-          mx={0}
+          mt={10}
           height='600px'
-          bgImage={Herobg}
+          // bgImage={Herobg}
+          bg='brand.800'
           bgSize={"cover"}
           bgRepeat={"no-repeat"}
+          
         >
-          {/* Overlay */}
           <Box
             height='600px'
-            bgColor={"blackAlpha.700"}
+            // bgColor={"blackAlpha.700"}
             display={"flex"}
             justifyContent={"flex-start"}
             alignItems={"center"}
           >
-            <Box ml={{base: '0', md: '150'}} color={"white"} maxW={{base: '100%', md: '80%'}} px={2}>
-
+            <Box ml={{base: '2', md: '150'}} color={"white"} maxW={{base: '100%', md: '80%'}} px={2} >
               <Heading
                 as="h1"
                 pb={"25px"}
                 fontSize='2xl'
                 lineHeight={{base:'50px', md: "72px"}}
                 fontWeight={700}
-                textAlign={{base: 'center', md: 'left'}}
-              
+                textAlign='left'
               >
                 Welcome to Chatter: A Haven for Text Based Content
               </Heading>
-              <Text fontSize='md' textAlign={{base: 'center', md: 'left'}} pb={"25px"} fontWeight={600}>
+              <Text fontSize='md' textAlign='left' pb={"25px"} w={{base: '100%', md: '80%'}} fontWeight={600}>
                 Unleash the Power of Words, Connect with Like-minded Readers
-                <br /> and Writers
+                and Writers
               </Text>
-              <Box  display={{base:' flex', md: 'block'}} justifyContent='center'  >
-               <Link as={NavLink} to='/onboard' >
-               <Button
-                  bg='brand.800'
-                  fontSize='base'
-                  width={150}
-                  p={6}
-                  ml={0}
-                  _hover={{ bg: 'brand.700'}}
-                  transition={"all .3s ease-in-out"}
-                >
-                  Get Started
-                </Button>
+              <Box  display={{base:' flex', md: 'block'}} justifyContent='left'  >
+                <Link as={NavLink} to='/onboard' >
+                <Button
+                    bg='primary.white'
+                    fontSize='base'
+                    width={150}
+                    color={"brand.800"}
+                    p={6}
+                    ml={0}
+                    _hover={{ color: 'brand.700', bg: 'whiteAlpha.900' }}
+                    transition={"all .3s ease-in-out"}
+                  >
+                    Get Started
+                  </Button>
                </Link>
               </Box>
             </Box>
@@ -387,6 +416,7 @@ const LandingPage = () => {
           Footer
         </Box>
       </Box>
+    
     </>
   );
 };

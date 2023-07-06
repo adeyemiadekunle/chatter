@@ -1,9 +1,10 @@
 
-import { Box, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Heading, HStack, Icon, List, ListItem, ListIcon, Text, VStack, Link } from '@chakra-ui/react'
+import { Box, Image, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Heading, HStack, Icon, List, ListItem, ListIcon, Text, VStack, Link } from '@chakra-ui/react'
 import { AnalyticsOutlined, BookmarkAddedOutlined, EditNoteOutlined, HomeOutlined, PublishedWithChangesOutlined, TrendingUpOutlined } from '@mui/icons-material'
 import { CloseIcon } from '@chakra-ui/icons'
 import { NavLink} from 'react-router-dom'
 import TagsRatingComponent from './Tags/TagsRating'
+import Logo from '../../public/favicon-32x32.png'
 
  interface MobileSidebarProps {
     onClose: () => void;
@@ -19,7 +20,9 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
             <DrawerContent>
                 <DrawerHeader>
                    <HStack justifyContent={'space-between'} >  
-                    <Box fontSize={'22px'} px={3} py={1} bg={'#0057C2'} fontWeight={700} color={'white'}> Chatte</Box> 
+                     <HStack>
+                          <Image src={Logo} /> <Text fontSize='lg' fontWeight='700'>chatte</Text>
+                     </HStack>
                     <Box>
                         <CloseIcon onClick={onClose} boxSize={'18px'} />
                     </Box> 

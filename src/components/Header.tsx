@@ -1,8 +1,8 @@
 // Note: Header component
 import {useState, useEffect} from 'react'
-import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex, } from '@chakra-ui/react'
+import { Box, HStack,  Link, Image, Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure, Flex, } from '@chakra-ui/react'
 import { SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
-import { useColorMode, useColorModeValue, Drawer, DrawerContent, DrawerBody, DrawerOverlay } from '@chakra-ui/react'
+import { useColorMode, useColorModeValue} from '@chakra-ui/react'
 import { userAuth } from '../context/Firebase'
 import {CreateOutlined, DescriptionOutlined, CollectionsBookmarkOutlined, Settings, LogoutOutlined, PostAddOutlined} from '@mui/icons-material'
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
@@ -17,6 +17,7 @@ import { auth, db } from '../utils/firebase'
 import { onSnapshot, doc } from 'firebase/firestore'
 import Search from './SearchModal'
 import ModalLogin from './ModalLogin'
+import Logo from '../../public/favicon-32x32.png'
 
 
 interface HeaderProps {
@@ -35,7 +36,6 @@ interface HeaderProps {
   } ;
 
 const Profile = ({handleCreateDraft}: HeaderProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
 
     const { GoogleSignOut, isAuth } = userAuth();
     const navigate = useNavigate();
@@ -79,8 +79,7 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
     return (
        <>
         <Menu>
-            <MenuButton role='profile' as={Avatar} src={userData?.photoURL} name={userData?.displayName} size='sm' cursor={'pointer'} onClick={onOpen}  hideFrom='md' />
-            <MenuButton role='profile' as={Avatar} src={userData?.photoURL} name={userData?.displayName} size='sm' cursor={'pointer'}  hideBelow='md' />
+            <MenuButton role='profile' as={Avatar} src={userData?.photoURL} name={userData?.displayName} size='sm' cursor={'pointer'}   />
             {
               isAuth ? 
               (
@@ -114,16 +113,7 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
               )
             }
         </Menu>
-         <Box >
-          <Drawer isOpen={isOpen} onClose={onClose} placement='bottom' >
-            <DrawerOverlay/>
-            <DrawerContent>
-              <DrawerBody>
-                <ModalLogin/>
-              </DrawerBody>
-            </DrawerContent>
-          </Drawer>
-         </Box>
+        
        </>
     )
 }
@@ -200,7 +190,11 @@ const Header = () => {
                     <VStack hideFrom='md'>
                         <Icon fontSize='md' onClick={onOpen} as={HamburgerIcon}></Icon>
                     </VStack>
-                    <Link as={NavLink} to='/' ><Box fontSize='md' px={3}  bg='brand.800' fontWeight={700} color={'white'}> Chatte </Box></Link>
+                    <Link as={NavLink} to='/' >
+                        <HStack>
+                             <Image src={Logo} /> <Text fontSize='lg' fontWeight='700'  hideBelow='md'>chatte</Text>
+                       </HStack>
+                    </Link>
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>
@@ -257,11 +251,11 @@ const Header = () => {
                    }
 
                     <Stack borderRadius={'50px'} _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'} >
-                        <Icon onClick={handleToggleColorMode} as={colorMode === 'light' ? DarkModeOutlinedIcon : LightModeOutlinedIcon } boxSize={'30px'} />
+                        <Icon onClick={handleToggleColorMode} as={colorMode === 'light' ? DarkModeOutlinedIcon : LightModeOutlinedIcon } boxSize={'26px'} />
                     </Stack>
 
                     <Stack borderRadius={'50px'} _hover={{ backgroundColor: '#E2E8F0', color: 'black' }} padding={2} cursor={'pointer'} hideBelow='md' >
-                        <Icon as={NotificationsOutlinedIcon} boxSize={'28px'} />
+                        <Icon as={NotificationsOutlinedIcon} boxSize={'26px'} />
                     </Stack>
                     <Box>
                          <Profile handleCreateDraft={handleCreateDraft} />
