@@ -8,6 +8,7 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import { db } from "../../utils/firebase";
+import SkeletonCard from "../Skeleton/SkeletonCard";
 
 interface TagsArticleProps {
   hash: any;
@@ -37,6 +38,7 @@ interface TagsArticles {
 //   Tags  List of Articles
 export const TagsHot = ({ hash }: TagsArticleProps) => {
   const [tagArticles, setTagArticles] = useState([] as TagsArticles[]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchTagArticle = async () => {
@@ -77,6 +79,7 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
             }
           });
           setTagArticles(updatedArticles);
+          setIsLoading(false);
         });
         return unsubscribe;
       } catch (error) {
@@ -113,14 +116,16 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
               authorId={article.authorId}
               slug={article.slug}
               articleId={article.id}
+              isLoading={isLoading}
             />
           </Box>
         ))
+      ) : isLoading ? (
+        [...Array(3)].map((_, i) => <SkeletonCard key={i}/>)
       ) : (
-        <Box p={4}>
-          <h1>No Articles Found</h1>
-        </Box>
-      )}
+        <Box>No Articles Found</Box>
+      )
+        }
     </div>
   );
 };

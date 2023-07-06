@@ -18,6 +18,8 @@ import {
   Image,
   Text,
   Heading,
+  Skeleton,
+  SkeletonText,
 } from "@chakra-ui/react";
 import { AddIcon, CheckIcon } from "@chakra-ui/icons";
 import TagCountsComponent from "./TagCount";
@@ -25,11 +27,13 @@ import TagCountsComponent from "./TagCount";
 interface TagsProfileProps {
   tags: any[];
   user?: string;
+  isLoading: boolean;
+
 }
 
 
 
-const followTag = async (tagId: string, isFollowing: boolean, user: string) => {
+const followTag = async (tagId: string, isFollowing: boolean, user: string, ) => {
   try {
     const currentUser = user;
     const tagRef = doc(db, "tags", tagId);
@@ -84,7 +88,7 @@ interface Tags {
 }
 
 // Tags Profile
-export const TagsProfile = ({ tags, user }: TagsProfileProps) => {
+export const TagsProfile = ({ tags, user, isLoading }: TagsProfileProps) => {
   const [tag, setTag] = useState<Tags | null>(null);
   const { hash } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
@@ -108,23 +112,27 @@ export const TagsProfile = ({ tags, user }: TagsProfileProps) => {
     await followTag(tag?.id || "", isFollowing, user || "");
   };
 
-  if (!tag) {
-    return <Box>Tag not found.</Box>;
-  }
+  
 
 
   return (
     <VStack h="300px" justifyContent="center">
       <VStack spacing={6} w="100%">
         <HStack spacing={3} justifyContent="center">
-         {tag.image  ?  <Box borderRadius={5} p={2} border="1px solid gray">
-            <Image src={tag.image} boxSize="50px" />
-          </Box> : null}
+          <Skeleton  borderRadius={5}  isLoaded={!isLoading} >
+            {tag?.image  ?  <Box borderRadius={5} p={2} border="1px solid gray">
+              <Image src={tag?.image} boxSize="50px" />
+            </Box> : null}
+            </Skeleton>
           <Box>
-            <Heading as="h3" fontSize="28px">
-              {tag.name}{" "}
-            </Heading>
-            <Text>#{tag.hash} </Text>
+            <SkeletonText  noOfLines={1} skeletonHeight='4' isLoaded={!isLoading} >
+                <Heading as="h3" fontSize="28px">
+                  {tag?.name}{" "}
+                </Heading>
+            </SkeletonText>
+            <SkeletonText  noOfLines={1} skeletonHeight='2' isLoaded={!isLoading}  mt={2}>
+                 <Text>#{tag?.hash} </Text>
+            </SkeletonText>
           </Box>
         </HStack>
         <HStack spacing={4} justifyContent="center">
@@ -141,7 +149,7 @@ export const TagsProfile = ({ tags, user }: TagsProfileProps) => {
         </HStack>
         <HStack spacing={4} justifyContent="center">
           <Text>{FollowersCount} followers</Text>
-          <TagCountsComponent hash={tag.hash} />
+             { tag &&  <TagCountsComponent hash={tag.hash} />} 
           <Box>Twitter</Box>
           <Box>Share</Box>
         </HStack>

@@ -12,7 +12,10 @@ import {
   Flex,
   VStack,
   Link,
-  LightMode
+  LightMode,
+  Skeleton,
+  SkeletonText,
+  SkeletonCircle,
 } from "@chakra-ui/react";
 import { BookmarkAddOutlined, FavoriteBorderOutlined, AnalyticsOutlined,  ForumOutlined,} from '@mui/icons-material'
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
@@ -34,14 +37,17 @@ import { fetchAuthorData, Author  } from "../utils/helperFunctions";
   slug: string
   articleId: string;
   authorId: string;
+  isLoading: boolean;
+  
 };
 
 
-const ArticleCard = ({ Title, Paragraph, tags, HeaderImage, PublishDate, slug, articleId, authorId }: ArticleCardProps ) => {
+const ArticleCard = ({ Title, Paragraph, tags, HeaderImage, PublishDate, slug, articleId, authorId,  isLoading }: ArticleCardProps ) => {
   const [isBookmarking, setIsBookmarking] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [viewCount, setViewCount] = useState(0);
   const [author, setAuthor] = useState<Author | null>(null);
+  const [AuthorLoading, setAuthorLoading] = useState(true);
   
   const maxLength = 150;
   const currentUser = auth.currentUser?.uid;
@@ -110,10 +116,13 @@ const handleBookmark = async () => {
     const fetchAuthor = async () => {
       const authorData = await fetchAuthorData(authorId);
       setAuthor(authorData);
+      setAuthorLoading(false);
     };
 
     fetchAuthor();
   }, [authorId]);
+
+
 
 
   return (
@@ -121,27 +130,43 @@ const handleBookmark = async () => {
       <Box w={{base: '100%', md: '90%'}} p={5}    >
         <Box >
           <HStack spacing={3}>
-            <Avatar src={author?.photoURL} name={author?.displayName} size={'md'}></Avatar>
+            <SkeletonCircle size='12' isLoaded={!AuthorLoading} >
+               <Avatar src={author?.photoURL} name={author?.displayName} size={'md'}></Avatar>
+            </SkeletonCircle>
             <Box>
-              <Link as={NavLink} to={`/${author?.userName}`} ><Heading fontSize='base' fontWeight={'700'}>{author?.displayName}</Heading></Link>
-              <Flex gap={4}  pt={1} > <Text  fontSize='sm' >{FormattedDate(PublishDate)} </Text> <Text  fontSize='sm'  >10 Min Read</Text> </Flex>
+              <Link as={NavLink} to={`/${author?.userName}`} >
+                <Skeleton isLoaded={!AuthorLoading} >
+                    <Heading fontSize='base' fontWeight={'700'}>{author?.displayName}</Heading>
+                </Skeleton>
+                </Link>
+              <Flex gap={4}  pt={1} >
+                 <Skeleton isLoaded={!isLoading} >
+                    <Text  fontSize='sm' >{FormattedDate(PublishDate)} </Text> 
+                  </Skeleton>
+                 <Text  fontSize='sm'  >10 Min Read</Text> </Flex>
             </Box>
           </HStack>
         </Box>
         <Box> 
           <Link as={NavLink} to={`/${author?.userName}/${slug}`} >
-          <Heading as='h3' fontSize='md' fontWeight={'700'} cursor='pointer' my={2}   >
-            {Title}
-          </Heading>
+            <Skeleton isLoaded={!isLoading} w='70%' >
+              <Heading as='h3' fontSize='md' fontWeight={'700'} cursor='pointer' my={2}   >
+                {Title}
+              </Heading>
+          </Skeleton>
          </Link>
-        <Text pt={0}  fontSize={{base: 'sm', md: 'base'}} >
-            <TextTrimmingWithEllipsis text={Paragraph} maxLength={maxLength} /> 
-      </Text>
+         <SkeletonText isLoaded={!isLoading} noOfLines={3} skeletonHeight='4'  >
+            <Text pt={0}  fontSize={{base: 'sm', md: 'base'}} >
+                <TextTrimmingWithEllipsis text={Paragraph} maxLength={maxLength} /> 
+            </Text>
+          </SkeletonText>
        
         </Box>
         <Link as={NavLink} to={`/${author?.userName}/${slug}`} >
           <Box mt={2} pb={2}>
+            <Skeleton isLoaded={!isLoading} >
               <Image src={HeaderImage}  h={{base:'170px', md: '200px' }} w={'100%'} borderRadius={'5px'}  boxShadow='xs'  rounded='md'  objectFit='cover' />
+            </Skeleton>
           </Box>
         </Link>
         <Box>
@@ -169,9 +194,12 @@ const handleBookmark = async () => {
                   <Flex gap={2} flexShrink='wrap'>
                         {tags.slice(0, 2).map((tag) => (
                           <Link as={NavLink} to={`/t/${tag.hash}`} key={tag.hash}>
-                            <Button variant="outline" borderRadius="15px" color='brand.800' size="sm">
-                              {tag.name}
-                            </Button>
+                            <Skeleton isLoaded={!isLoading} borderRadius="15px"  >
+                              <Button variant="outline" borderRadius="15px" color='brand.800' size="sm">
+                                {tag.name}
+                              </Button>
+                            </Skeleton>
+
                           </Link>
                         ))}
                         {tags.length > 2 && (

@@ -2,16 +2,19 @@ import {useState, useEffect} from "react";
 import {fetchFeatured, RecentArticles} from "../../utils/helperFunctions";
 import ArticleCard from "../ArticleCard";
 import { Box } from "@chakra-ui/react";
+import SkeletonCard from "../Skeleton/SkeletonCard";
 import SEO from "../SEO";
 
 const Featured = () => {
 
   const [articles, setArticles] = useState([] as RecentArticles[]);  
+  const [isLoading, setIsLoading] = useState(true); 
 
     //  for Featured Articles
     useEffect(() => {
       const getArticle = fetchFeatured((fetchedArticles) => {
         setArticles(fetchedArticles);
+        setIsLoading(false);
       });
   
       return () => {
@@ -33,20 +36,27 @@ const Featured = () => {
     <>
     <SEO title="Featured posts on Chatte" description='' name='' type='' />
     <Box>
-    {articles.map((article) => (
-        <ArticleCard
-          key={article.id}
-          Title={article.heading}
-          HeaderImage={article.headerImage}
-          tags={article.tags}
-          PublishDate={article.publishAt}
-          Paragraph={paragraphBlocksArticle.data.text}
-          authorId={article.authorId}
-          slug={article.slug}
-          articleId={article.id}
-        />
-      ))}
-    </Box>
+        {isLoading ? (
+          [...Array(5)].map((_, i) => <SkeletonCard key={i} />) // [1,2,3,4,5]
+        ) : (
+          <>
+            {articles.map((article) => (
+              <ArticleCard
+                key={article.id}
+                Title={article.heading}
+                HeaderImage={article.headerImage}
+                tags={article.tags}
+                PublishDate={article.publishAt}
+                Paragraph={paragraphBlocksArticle.data.text}
+                authorId={article.authorId}
+                slug={article.slug}
+                articleId={article.id}
+                isLoading={isLoading}
+              />
+            ))}
+          </>
+        )}
+      </Box>
     </>
   );
 };

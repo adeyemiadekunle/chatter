@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, HStack, Text, Avatar, VStack, Button } from "@chakra-ui/react";
+import { Box, HStack, Text, Avatar, VStack, Button, Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import {
   doc,
   onSnapshot,
@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { db } from "../../utils/firebase";
 import { AddIcon, CheckIcon } from "@chakra-ui/icons";
 import { followAuthor } from "../FollowingAuthor";
+import SkeletonPage from "../Skeleton/SkeletonPage";
 
 interface UserProfileProps {
   users: any[];
@@ -17,9 +18,10 @@ interface UserProfileProps {
 interface UserProfileProps {
   users: any[];
   currentUser: any;
+  isLoading: boolean;
 }
 
-const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
+const AuthorProfile = ({ users, currentUser, isLoading }: UserProfileProps) => {
   const [user, setUser] = useState<any>(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [FollowingCount, setFollowingCount] = useState(0);
@@ -35,8 +37,8 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
       if (doc.exists()) {
         const { followers, following } = doc.data();
         setIsFollowing(followers.includes(currentUser));
-        setFollowersCount(followers.length);
-        setFollowingCount(following.length);
+        setFollowersCount(followers?.length);
+        setFollowingCount(following?.length);
       }
     });
 
@@ -51,7 +53,7 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
 
   if (!user) {
     // Handle case when user is not found
-    return <div>User not found.</div>;
+    return <SkeletonPage />;
   }
 
   // Render the user profile using the user object
@@ -69,14 +71,26 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
           className="selected-div"
           boxShadow="xs"
         >
-          <VStack hideFrom="md" spacing={2} w="100%">
+          <VStack hideFrom="md" spacing={2} w="100%" >
             <Box>
-              <Avatar size="xl" name={user.displayName} src={user.photoURL} />
+               <SkeletonCircle size="24" isLoaded={!isLoading} >
+                  <Avatar size="xl" name={user.displayName} src={user.photoURL} />
+               </SkeletonCircle>
             </Box>
-            <Text fontSize="24px" fontWeight="700">
-              {user.displayName}
-            </Text>
-            <Text fontWeight="500">{user.userTagLine} </Text>
+            <Box>
+            <SkeletonText  noOfLines={1}  skeletonHeight='5'   isLoaded={!isLoading}  >
+                  <Text fontSize="32px" fontWeight="700" whiteSpace='nowrap'>
+                    {user.displayName}
+                  </Text>
+            </SkeletonText>
+            </Box>
+
+           <Box>
+              <SkeletonText  noOfLines={1}  skeletonHeight='3'  isLoaded={!isLoading}  >
+                    <Text fontWeight="500">{user.userTagLine} </Text>
+              </SkeletonText>
+           </Box>
+           
             <Box>
               <HStack>
                 {isFollowing ? (
@@ -122,17 +136,27 @@ const AuthorProfile = ({ users, currentUser }: UserProfileProps) => {
           >
             <HStack justifyContent="space-between" spacing={5}>
               <Box>
+                <Skeleton size='12' borderRadius='full'  isLoaded={!isLoading} >
                 <Avatar
                   size="2xl"
                   name={user.displayName}
                   src={user.photoURL}
                 />
+                </Skeleton>
               </Box>
               <VStack alignItems="flex-start">
-                <Text fontSize="32px" fontWeight="700">
-                  {user.displayName}
-                </Text>
-                <Text fontWeight="500">{user.userTagLine} </Text>
+               <Box>
+                  <SkeletonText  noOfLines={1}  skeletonHeight='6'  isLoaded={!isLoading}  >
+                      <Text fontSize="32px" fontWeight="700">
+                        {user.displayName}
+                      </Text>
+                    </SkeletonText>
+               </Box>
+                <Box>
+                  <SkeletonText  noOfLines={1}  skeletonHeight='3'   isLoaded={!isLoading} >
+                    <Text fontWeight="500">{user.userTagLine} </Text>
+                  </SkeletonText>
+                </Box>
                 <HStack>
                   <Text fontWeight="500">{FollowersCount} Followers</Text>
                   <Text fontWeight="500"> {FollowingCount} Following </Text>

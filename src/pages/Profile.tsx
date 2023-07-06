@@ -6,7 +6,7 @@ import AuthorArticle from "../components/Author/AuthorsArticle";
 import AuthorProfile from "../components/Author/AuthorProfile";
 import { Box, Divider } from "@chakra-ui/react";
 import SEO from "../components/SEO";
-import NoMatch from "./NoMatch";
+import SkeletonPage from "../components/Skeleton/SkeletonPage";
 
 export interface Users {
   userId: string;
@@ -22,6 +22,7 @@ export interface Users {
 
 const Profile = () => {
   const [users, setUsers] = useState<Users[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const currentUser = auth.currentUser?.uid;
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const Profile = () => {
           });
 
           setUsers(updatedUsers);
+          setIsLoading(false);
         });
 
         return () => unsubscribe();
@@ -61,14 +63,14 @@ const Profile = () => {
 
   if (!user) {
     // Handle case when user is not found
-    return <NoMatch />;
+    return <SkeletonPage/>;
   }
 
   return (
    <>
     <SEO title={`${user.displayName} - Chatte`} description='' name='' type='' />
     <div>
-      <AuthorProfile users={users} currentUser={currentUser}  />
+      <AuthorProfile users={users} currentUser={currentUser} isLoading={isLoading}  />
       <Divider pt={4} ></Divider>
       <AuthorArticle userId={user.userId} />
       <Box  h='200px' bg='blue.800'>

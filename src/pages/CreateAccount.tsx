@@ -11,36 +11,40 @@ import {
   Text,
   Flex,
   Button,
-  StepTitle
+  StepTitle,
+  Image
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { fetchUserData, updateUserData, UserData,
+import {
+  fetchUserData,
+  updateUserData,
+  UserData,
 } from "../utils/helperFunctions";
 import CreateUserAccount from "../components/CreateUserAccount";
 import ChooseTags from "../components/ChooseTags";
 import { useNavigate } from "react-router-dom";
 import { Tags } from "../utils/helperFunctions";
 import SEO from "../components/SEO";
+import Logo from '../../public/favicon-32x32.png'
 
-
-
-
-const steps = [
-  {title: 'First'},
-   {title: 'Final'},];
+const steps = [{ title: "First" }, { title: "Final" }];
 
 const StepHeading = [
-  <Flex gap={{ base: "3", md: "8" }} alignItems='center'  whiteSpace="nowrap">
-    <Text fontWeight="bold"  fontSize="20px"> Step 1</Text>
+  <Flex gap={{ base: "3", md: "8" }} alignItems="center" whiteSpace="nowrap">
+    <Text fontWeight="bold" fontSize="20px">
+      {" "}
+      Step 1
+    </Text>
     <Text> Create your Account</Text>
   </Flex>,
-  <Flex gap={{ base: "3", md: "8" }} alignItems='center' whiteSpace="nowrap">
-    <Text fontWeight="bold"  fontSize="20px" > Final Step</Text>
+  <Flex gap={{ base: "3", md: "8" }} alignItems="center" whiteSpace="nowrap">
+    <Text fontWeight="bold" fontSize="20px">
+      {" "}
+      Final Step
+    </Text>
     <Text> Choose your tags</Text>
   </Flex>,
 ];
-
-
 
 function CreateAccount() {
   //  User Data
@@ -53,8 +57,10 @@ function CreateAccount() {
   const [techStack, setTechStack] = useState<Tags[]>([]);
   const [location, setLocation] = useState("");
   const [photoURL, setPhotoURL] = useState("");
-  const [isUserNameAvailable, setIsUserNameAvailable] = useState<boolean | null>(null);
-  const navigate = useNavigate()
+  const [isUserNameAvailable, setIsUserNameAvailable] = useState<
+    boolean | null
+  >(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -74,7 +80,7 @@ function CreateAccount() {
     fetchUser();
   }, []);
 
-  console.log(techStack)
+  console.log(techStack);
 
   const handleUpdate = async () => {
     if (userData) {
@@ -91,12 +97,11 @@ function CreateAccount() {
         // Add other updated fields
       };
       await updateUserData(updatedUserData);
-      navigate('/')
+      navigate("/");
     }
-
   };
 
-  console.log(userTagLine)
+  console.log(userTagLine);
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -114,92 +119,93 @@ function CreateAccount() {
       isUserNameAvailable={isUserNameAvailable}
       setIsUserNameAvailable={setIsUserNameAvailable}
     />,
-    <ChooseTags selectedTags={techStack} setSelectedTags={setTechStack}  />,
+    <ChooseTags selectedTags={techStack} setSelectedTags={setTechStack} />,
   ];
 
   const handleNextStep = () => {
     setActiveStep((prevStep) => prevStep + 1);
   };
 
-
   // checking if the user has entered the required fields in the first step and check if the username is available
-  const checkCreateAccount = userName.length < 4 || userTagLine === "" || isUserNameAvailable === false;
+  const checkCreateAccount =
+    userName.length < 4 || userTagLine === "" || isUserNameAvailable === false;
 
-  const checkChoosetTags = techStack.length < 3
+  const checkChoosetTags = techStack.length < 3;
 
   return (
-   <>
-    <SEO title='Create Account' description="" name="" type="" />
-    <Box px={6}>
-      <Box
-        minH="100vh"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        mb={{ base: "40px", md: "30px" }}
-      >
-        <VStack w="100%">
-          <HStack bg="white" p={4} w="100%" mb="30px" justifyContent="center">
-            <Box
-              fontSize={{ base: "28px", md: "30px" }}
-              px={3}
-              bg={"#543EE0"}
-              fontWeight={700}
-              color={"white"}
-            >
-              Chatter
-            </Box>
+    <>
+      <SEO title="Create Account" description="" name="" type="" />
+      <Box >
+        <HStack bg="white" p={4} w="100%" mb="30px" justifyContent="center">
+          <HStack>
+            <Image src={Logo} /> <Text fontSize='lg' fontWeight='700'>chatte</Text>
           </HStack>
-          <Box w={{ base: "100%", md: "50%" }} mb="50px">
-            <Box mb={3}>{StepHeading[activeStep]}</Box>
-            <Stepper size="md" colorScheme="blue" index={activeStep}>
-              {steps.map((step, index) => (
-                <Step key={index}>
-                  <StepIndicator w={"80px"} h={4}>
-                    <StepStatus complete={<StepIcon />} />
-                  </StepIndicator>
-                  <Box display='none'>
-                    <StepTitle>{step.title}</StepTitle>
-                  </Box>
-                  <StepSeparator />
-                </Step>
-              ))}
-            </Stepper>
-          </Box>
-
-          <Box w={{ base: "100%", md: "50%" }}>
-            <Box>{stepContent[activeStep]}</Box>
-          </Box>
-        </VStack>
-
-        <Flex
-          py={5}
-          justifyContent="space-between"
-          w={{ base: "100%", md: "50%" }}
+        </HStack>
+        <Box
+          minH="100vh"
+          display="flex"
+          flexDirection="column"
           alignItems="center"
+          justifyContent="center"
+          mb={{ base: "40px", md: "30px" }}
+          px={6}
         >
-          {activeStep === 0 && (
-            <Button
-             fontSize='base'
-              isDisabled={checkCreateAccount}
-              w="100%"
-              colorScheme="blue"
-              onClick={handleNextStep}
-            >
-              Continue
-            </Button>
-          )}
+          <VStack w="100%">
+            <Box w={{ base: "100%", md: "50%" }} mb="50px">
+              <Box mb={3}>{StepHeading[activeStep]}</Box>
+              <Stepper size="md" colorScheme="blue" index={activeStep}>
+                {steps.map((step, index) => (
+                  <Step key={index}>
+                    <StepIndicator w={"80px"} h={4}>
+                      <StepStatus complete={<StepIcon />} />
+                    </StepIndicator>
+                    <Box display="none">
+                      <StepTitle>{step.title}</StepTitle>
+                    </Box>
+                    <StepSeparator />
+                  </Step>
+                ))}
+              </Stepper>
+            </Box>
 
-          {activeStep === 1 && (
-            <Button  fontSize='base' isDisabled={checkChoosetTags} colorScheme="blue" w="100%" onClick={handleUpdate}>
-              Finish{" "}
-            </Button>
-          )}
-        </Flex>
+            <Box w={{ base: "100%", md: "50%" }}>
+              <Box>{stepContent[activeStep]}</Box>
+            </Box>
+          </VStack>
+
+          <Flex
+            py={5}
+            justifyContent="space-between"
+            w={{ base: "100%", md: "50%" }}
+            alignItems="center"
+          >
+            {activeStep === 0 && (
+              <Button
+                fontSize="base"
+                isDisabled={checkCreateAccount}
+                w="100%"
+                colorScheme="blue"
+                onClick={handleNextStep}
+              >
+                Continue
+              </Button>
+            )}
+
+            {activeStep === 1 && (
+              <Button
+                fontSize="base"
+                isDisabled={checkChoosetTags}
+                colorScheme="blue"
+                w="100%"
+                onClick={handleUpdate}
+              >
+                Finish{" "}
+              </Button>
+            )}
+          </Flex>
+        </Box>
       </Box>
-    </Box>
-   </>
+    </>
   );
 }
 

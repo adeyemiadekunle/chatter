@@ -362,7 +362,6 @@ export const fetchAuthorData = async (authorId: string) => {
 
     if (docSnap.exists()) {
       const { displayName, email, photoURL, userTagLine, userName, followers } = docSnap.data() as Author;
-      console.log("Author found:", displayName);
       return { displayName, email, photoURL, userTagLine, userName, followers };
       
     } else {

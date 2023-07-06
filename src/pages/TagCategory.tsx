@@ -18,9 +18,8 @@ import { TagsProfile } from "../components/Tags/TagProfile";
 import {Container} from "../components/ArticleContainer";
 import { Tags } from "../utils/helperFunctions";
 import SEO from "../components/SEO";
-import NoMatch from "./NoMatch";
 import ToogleBtn from "../components/ToogleBtn";
-
+import SkeletonPage from "../components/Skeleton/SkeletonPage";
 
 
 //  TagCategory
@@ -28,6 +27,7 @@ const TagCategory = () => {
   const [tags, setTags] = useState<Tags[]>([]);
   const user = auth.currentUser?.uid;
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAllTags = (): Promise<Tags[]> => {
@@ -58,18 +58,25 @@ const TagCategory = () => {
     };
 
     fetchAllTags()
-      .then((tags) => setTags(tags))
+      .then(
+        (tags) => {
+         
+          setTags(tags);
+          setIsLoading(false);
+        }
+        )
       .catch((error) => console.error("Error fetching tags:", error));
   }, []);
-
 
 
   const { hash } = useParams();
   const tag = tags.find((t) => t.hash === hash);
 
+  console.log("tag", tag);
+
 
   if (!tag) {
-    return <NoMatch />;
+    return <SkeletonPage />;
   }
 
 
@@ -88,7 +95,7 @@ const TagCategory = () => {
         <Box flex={{ base: "none", md: "1" }}>
           <Box mb={8}>
             <Container height={"300px"} display={"block"}>
-              <TagsProfile tags={tags} user={user}  />
+              <TagsProfile tags={tags} user={user} isLoading={isLoading} />
             </Container>
           </Box>
           <Box>
