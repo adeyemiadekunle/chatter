@@ -42,7 +42,6 @@ export const FirebaseProvider = ({ children }: { children: React.ReactNode }) =>
            
             if (user !== null) {
                 setIsAuth(true);
-                setIsLoading(true)
                 // Create user document in Firestore with uid as document ID
                 const usersCollection = collection(db, 'users'); // Replace 'users' with your desired collection name
                 const userDocRef = doc(usersCollection, user.uid);

@@ -80,7 +80,7 @@ const Login = () => {
 
   return (
     <>
-      <SEO title='Login/Register to Chatter' description='' name='' type='' />
+      <SEO title='Welcome back to Chatter' description='' name='' type='' />
       <Heading fontSize='md' py={5}>Welcome Back</Heading>
       <form onSubmit={handleSubmit(onSubmit)} >
         <FormControl isRequired >
