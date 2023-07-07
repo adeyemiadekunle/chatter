@@ -1,6 +1,6 @@
 import {Box, useColorModeValue} from '@chakra-ui/react'
 import {VStack, Heading, Text, List, ListIcon, ListItem, Icon, Divider, Link} from '@chakra-ui/react'
-import { TrendingUpOutlined, EditNoteOutlined, BookmarkAddedOutlined, PublishedWithChangesOutlined, AnalyticsOutlined, PermIdentityOutlined, NotificationsNoneOutlined, Settings, LogoutOutlined } from '@mui/icons-material'
+import { TrendingUpOutlined, EditNoteOutlined, BookmarkAddedOutlined, PublishedWithChangesOutlined, AnalyticsOutlined } from '@mui/icons-material'
 import { NavLink } from 'react-router-dom'
 import TagsRatingComponent from './Tags/SideBar/TrendingTags'
 
