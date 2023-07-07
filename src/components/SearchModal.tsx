@@ -19,6 +19,7 @@ import {
   ModalContent,
   ModalOverlay,
 } from "@chakra-ui/react";
+import PostCard from "./Search/PostCard";
 
 interface SearchProps {
   isOpen: boolean;
@@ -251,20 +252,15 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
                               )
                               .map((item) => (
                                 <Box key={(item as RecentArticles).id}>
-                                  <Link
-                                    href={`/userName/${
-                                      (item as RecentArticles).id
-                                    }`}
-                                  >
-                                    <Flex>
-                                      <Text>
-                                        {(item as RecentArticles).slug}
-                                      </Text>
-                                      <Text>
-                                        {(item as RecentArticles).authorId}
-                                      </Text>
-                                    </Flex>
-                                  </Link>
+                                          
+                                    <PostCard
+                                    authorId={(item as RecentArticles).authorId}
+                                    PublishDate={(item as RecentArticles).publishAt}
+                                    HeaderImage={(item as RecentArticles).headerImage}
+                                      slug={(item as RecentArticles).slug}
+                                      Title={(item as RecentArticles).heading}
+                                      isLoading={false}
+                                    />
                                 </Box>
                               ))}
                           </Box>

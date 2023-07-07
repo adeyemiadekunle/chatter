@@ -30,11 +30,11 @@ import {NavLink} from 'react-router-dom'
       <>
         <Box>
            <Link as={NavLink} to={`/${author?.userName}/${slug}`}  >
-            <Text fontSize='base' fontWeight='700' >
+            <Text fontSize={{base: '18px', md: '20px'}} fontWeight='700' >
               {heading}
             </Text>
            </Link>
-          <HStack mt={4}>
+          <HStack mt={1}>
             <Skeleton isLoaded={!authorLoading} >
               <Link  as={NavLink} to={`/${author?.userName}`} >
                  <Text color="gray.500" >{author?.displayName}</Text>

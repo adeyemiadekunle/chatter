@@ -113,7 +113,7 @@ const Bookmarks: React.FC = () => {
             >
               <DrawerOverlay />
               <DrawerContent>
-                <DrawerCloseButton borderStyle="none" fontSize="md" mr={2} />
+                <DrawerCloseButton borderStyle="none" fontSize="md" mr={2}  />
                 <DrawerBody>
                   <Box mt={"60px"}>
                     <Rightbar />

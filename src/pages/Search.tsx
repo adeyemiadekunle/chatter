@@ -4,6 +4,7 @@ import { fetchAllUsers, RecentArticles, Users, fetchRecents, fetchAllTags, Tags 
 import { Input, Box, Flex, Link, Text, InputGroup, InputLeftAddon } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import SEO from '../components/SEO';
+import PostCard from '../components/Search/PostCard';
 
 
 const Search = () => {
@@ -187,12 +188,24 @@ const Search = () => {
                     .sort((a, b) => (a as RecentArticles).slug.localeCompare((b as RecentArticles).slug))
                     .map((item) => (
                       <Box key={(item as RecentArticles).id}>
-                        <Link href={`/userName/${(item as RecentArticles).id}`}>
+
+                        <PostCard
+                         authorId={(item as RecentArticles).authorId}
+                         PublishDate={(item as RecentArticles).publishAt}
+                         HeaderImage={(item as RecentArticles).headerImage}
+                          slug={(item as RecentArticles).slug}
+                          Title={(item as RecentArticles).heading}
+                          isLoading={false}
+                        />
+                         
+
+
+                        {/* <Link href={`/userName/${(item as RecentArticles).id}`}>
                           <Flex>
                             <Text>{(item as RecentArticles).slug}</Text>
                             <Text>{(item as RecentArticles).authorId}</Text>
                           </Flex>
-                        </Link>
+                        </Link> */}
                       </Box>
                     ))}
                 </Box>
