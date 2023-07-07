@@ -17,7 +17,7 @@ import { auth, db } from '../utils/firebase'
 import { onSnapshot, doc } from 'firebase/firestore'
 import Search from './SearchModal'
 import ModalLogin from './ModalLogin'
-import Logo from '../../public/favicon-32x32.png'
+import Logo from '../assets/logo.png'
 
 
 interface HeaderProps {
@@ -96,12 +96,12 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
                     </MenuItem>
                 </Link>
                 <MenuDivider m={0} />
-                <MenuItem py={4} hideFrom='md' onClick={handleCreateDraft}  > <Icon as={PostAddOutlined} /><Text pl={2}>New Draft</Text></MenuItem>
-                <MenuItem py={4}> <Icon as={DescriptionOutlined} /><Text pl={2}>My Drafts</Text></MenuItem>
+                <MenuItem  cursor='pointer' py={4} hideFrom='md' onClick={handleCreateDraft}  > <Icon as={PostAddOutlined} /><Text pl={2}>New Draft</Text></MenuItem>
+                <MenuItem  cursor='pointer' py={4}> <Icon as={DescriptionOutlined} /><Text pl={2}>My Drafts</Text></MenuItem>
                 <Link as={NavLink} to='/bookmarks' ><MenuItem py={4}><Icon as={CollectionsBookmarkOutlined} /> <Text pl={2}>My Bookmarks</Text></MenuItem></Link>
-                <MenuItem py={4}><Icon as={Settings} /><Text pl={2}>Account Settings</Text></MenuItem>
+                <MenuItem  py={4}><Icon as={Settings} /><Text pl={2}>Account Settings</Text></MenuItem>
                 <MenuDivider m={0} />
-                <MenuItem py={4} onClick={handleGoogleSignOut}> <Icon  as={LogoutOutlined} /> <Text pl={3}>Log Out</Text></MenuItem>
+                <MenuItem cursor='pointer'  py={4} onClick={handleGoogleSignOut}> <Icon  as={LogoutOutlined} /> <Text pl={3}>Log Out</Text></MenuItem>
             </MenuList>
               ):
               (

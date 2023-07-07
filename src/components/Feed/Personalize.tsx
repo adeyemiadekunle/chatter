@@ -1,40 +1,42 @@
-import { useState, useEffect } from "react";
-import { fetchForYou, RecentArticles } from "../../utils/helperFunctions";
+import {useState, useEffect} from "react";
+import { fetchPersonalize, RecentArticles} from "../../utils/helperFunctions";
 import ArticleCard from "../ArticleCard";
-import SkeletonCard from "../Skeleton/SkeletonCard";
 import { Box } from "@chakra-ui/react";
+import SkeletonCard from "../Skeleton/SkeletonCard";
 import SEO from "../SEO";
 
+
 const Personalize = () => {
-  const [articles, setArticles] = useState([] as RecentArticles[]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  //  for Published Articles for user for follow tags and author
-  useEffect(() => {
-    const getArticle = fetchForYou((fetchedArticles) => {
-      setArticles(fetchedArticles);
-      setIsLoading(false);
-    });
+  const [articles, setArticles] = useState([] as RecentArticles[]);  
+  const [isLoading, setIsLoading] = useState(true); 
 
-    return () => {
-      getArticle();
+    //  for Featured Articles
+    useEffect(() => {
+      const getArticle = fetchPersonalize((fetchedArticles) => {
+        setArticles(fetchedArticles);
+        setIsLoading(false);
+      });
+  
+      return () => {
+        getArticle();
+      };
+    }, []);
+
+    const ArticleParagraph = (blocks: any[]) => {
+      const firstParagraph = blocks.find((block) => block.type === "paragraph");
+      return firstParagraph;
     };
-  }, []);
-
-  const ArticleParagraph = (blocks: any[]) => {
-    const firstParagraph = blocks.find((block) => block.type === "paragraph");
-    return firstParagraph;
-  };
-
-  const paragraphBlocksArticle = ArticleParagraph(
-    articles.length > 0 ? articles[0].content.blocks : []
-  );
-
-
+  
+    const paragraphBlocksArticle = ArticleParagraph(
+      articles.length > 0 ? articles[0].content.blocks : []
+    );
+  
+  
   return (
     <>
-      <SEO title="For You posts Chatte" description="" name="" type="" />
-      <Box>
+    <SEO title="Featured posts on Chatte" description='' name='' type='' />
+    <Box>
         {isLoading ? (
           [...Array(5)].map((_, i) => <SkeletonCard key={i} />) // [1,2,3,4,5]
         ) : (
@@ -60,4 +62,4 @@ const Personalize = () => {
   );
 };
 
-export default Personalize;
+export default Personalize ;

@@ -44,14 +44,14 @@ const TagCountsComponent: React.FC<TagCountsComponentProps> = ({ hash }) => {
   }, [hash]);
 
   return (
-    <Box>
-    {Object.entries(tagCounts).length > 0 ? (
+        <Box>
+      {Object.entries(tagCounts).length > 0 ? (
       Object.entries(tagCounts).map(([tagHash, count]) => (
-        <Text key={tagHash}>{count} Article</Text>
-      ))
-    ) : (
-      <Text>0 Articles</Text>
-    )}
+        <Text key={tagHash}>{count} {count === 1 ? 'Article' : 'Articles'}</Text>
+          ))
+        ) : (
+          <Text>0 Articles</Text>
+        )}
   </Box>
   
   );

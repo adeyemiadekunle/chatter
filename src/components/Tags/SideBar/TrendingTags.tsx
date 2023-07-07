@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TagCount, getTagCounts } from '../../utils/helperFunctions';
+import { TagCount, getTagCounts } from '../../../utils/helperFunctions';
 import {Box, Text, List, ListItem, Link} from "@chakra-ui/react";
 import { NavLink } from 'react-router-dom';
 

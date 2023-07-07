@@ -2,13 +2,15 @@ import {Box, useColorModeValue} from '@chakra-ui/react'
 import {VStack, Heading, Text, List, ListIcon, ListItem, Icon, Divider, Link} from '@chakra-ui/react'
 import { TrendingUpOutlined, EditNoteOutlined, BookmarkAddedOutlined, PublishedWithChangesOutlined, AnalyticsOutlined, PermIdentityOutlined, NotificationsNoneOutlined, Settings, LogoutOutlined } from '@mui/icons-material'
 import { NavLink } from 'react-router-dom'
-import TagsRatingComponent from './Tags/TagsRating'
+import TagsRatingComponent from './Tags/SideBar/TrendingTags'
+
 
 const Sidebar = () => {
     const bg = useColorModeValue('white', '#0F172A')
     const color = useColorModeValue('#0F172A', 'white')
+
   return (
-    <Box bg={bg} color={color} minH={'100vh'} mt={5} ml={4} borderRadius={'5px'}  className='selected-div'>
+    <Box bg={bg} color={color} minH={'80vh'} mt={5} ml={4} borderRadius={'5px'}  className='selected-div'>
       <VStack mt={4} mb={4} >
         <Box px={12} py={4}>
           <List spacing={5} pl={3}>
@@ -48,28 +50,6 @@ const Sidebar = () => {
               <Link as={NavLink}  fontSize={'base'} color={'blue.500'} fontWeight={'bold'} >View All Tags</Link>
             </Box>
           </VStack>  
-        </Box>
-          <Divider />
-        <Box  px={12} py={4} >
-          <Heading as='h3' fontSize='md' pb={5} textAlign={'left'} >Personal</Heading>
-          <List spacing={5} pl={3}>
-            <ListItem display={'flex'}>
-              <ListIcon as={PermIdentityOutlined} fontSize={'xlg'}  />
-             <Text>Account</Text>
-            </ListItem>
-            <ListItem display={'flex'} >
-              <ListIcon as={NotificationsNoneOutlined} fontSize={'xlg'} />
-             <Text>Notification</Text>
-            </ListItem>
-            <ListItem display={'flex'}>
-              <ListIcon as={Settings} fontSize={'xlg'} />
-             <Text> Settings</Text>
-            </ListItem >
-            <ListItem display={'flex'} color={'red'}>
-              <ListIcon as={LogoutOutlined} fontSize={'xlg'} />
-             <Text> Log Out</Text>
-            </ListItem>
-          </List>
         </Box>
 
       </VStack>

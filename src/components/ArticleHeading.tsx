@@ -1,6 +1,6 @@
 // Note: Header component
 import {useState, useEffect} from 'react'
-import { Box, HStack,  Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure } from '@chakra-ui/react'
+import { Box, HStack, Image, Link,  Icon, Stack, InputGroup, InputLeftElement, Input, Text, Avatar, MenuButton, Menu, MenuList, MenuItem, MenuDivider, VStack, Button, useDisclosure } from '@chakra-ui/react'
 import { MoonIcon, SunIcon, BellIcon, SearchIcon, HamburgerIcon,  } from '@chakra-ui/icons'
 import { useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { userAuth } from '../context/Firebase'
@@ -10,6 +10,7 @@ import MobileSidebar from './MobileSidebar'
 import { createDraft} from '../utils/helperFunctions'
 import { auth, db } from '../utils/firebase'
 import { onSnapshot, doc } from 'firebase/firestore'
+import Logo from '../assets/logo.png'
 
 
 interface HeaderProps {
@@ -128,7 +129,11 @@ const Header = () => {
                     <VStack hideFrom='md'>
                         <HamburgerIcon onClick={onOpen} boxSize={'32px'} />
                     </VStack>
-                    <Link as={NavLink} to='/' ><Box fontSize='md' px={3}  bg='brand.800' fontWeight={700} color={'white'}> Chatter</Box></Link>
+                    <Link as={NavLink} to='/' >
+                        <HStack>
+                             <Image src={Logo} /> <Text fontSize='lg' fontWeight='700'  hideBelow='md'>chatte</Text>
+                       </HStack>
+                    </Link>
                 </HStack>
                 
                 <HStack spacing={8} hideBelow='md'>

@@ -3,8 +3,8 @@ import { Box, Image, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHead
 import { AnalyticsOutlined, BookmarkAddedOutlined, EditNoteOutlined, HomeOutlined, PublishedWithChangesOutlined, TrendingUpOutlined } from '@mui/icons-material'
 import { CloseIcon } from '@chakra-ui/icons'
 import { NavLink} from 'react-router-dom'
-import TagsRatingComponent from './Tags/TagsRating'
-import Logo from '../../public/favicon-32x32.png'
+import TagsRatingComponent from './Tags/SideBar/TrendingTags'
+import Logo from '../assets/logo.png'
 
  interface MobileSidebarProps {
     onClose: () => void;

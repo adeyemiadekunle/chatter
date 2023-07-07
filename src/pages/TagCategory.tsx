@@ -20,6 +20,7 @@ import { Tags } from "../utils/helperFunctions";
 import SEO from "../components/SEO";
 import ToogleBtn from "../components/ToogleBtn";
 import SkeletonPage from "../components/Skeleton/SkeletonPage";
+import Rightbar from "../components/Rightbar";
 
 
 //  TagCategory
@@ -106,12 +107,12 @@ const TagCategory = () => {
         </Box>
 
         {/* RightBar */}
-        <Box w={{ base: "none", md: "300px" }}>
-          <Container height={"300px"} display={{ base: "none", md: "block" }}>
-            <h2>Hello</h2>
-          </Container>
+        <Box w='300px' hideBelow='md'>
+          <Rightbar />
         </Box>
 
+
+            {/* Toogle Btn */}
         <ToogleBtn Toogle={onOpen} />
 
         {/* Mobile */}
@@ -124,12 +125,10 @@ const TagCategory = () => {
              >
             <DrawerOverlay />
             <DrawerContent>
-              <DrawerCloseButton borderStyle='none' fontSize='md' />
+              <DrawerCloseButton borderStyle='none' fontSize='md' mr={2} />
               <DrawerBody>
-                <Box mt={12}>
-                  <Container height={"300px"} display='block' >
-                    <h2>Hello</h2>
-                  </Container>
+                <Box mt={'60px'}>
+                   <Rightbar />
                 </Box>
               </DrawerBody>
               </DrawerContent>

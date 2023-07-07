@@ -1,6 +1,6 @@
 
 import UserFeed from "./UserFeed";
-import { Box, Image } from "@chakra-ui/react";
+import { Box, Image} from "@chakra-ui/react";
 import { Container } from "../ArticleContainer";
 import Banner from "../../assets/Banner.png";
 // import { userAuth } from "../../context/Firebase";
@@ -13,8 +13,10 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 
-const Home = () => {
+import Rightbar from "../Rightbar";
 
+
+const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   // const {isAuth} = userAuth()
 
@@ -41,12 +43,10 @@ const Home = () => {
           </Box>
         </Box>
 
-        {/* RightBar */}
-        <Box w={{ base: "none", md: "300px" }}>
-          <Container height={"300px"} display={{ base: "none", md: "block" }}>
-            <h2>Hello</h2>
-          </Container>
-        </Box>
+        {/* RightBar Desktop */}
+         <Box w='300px' hideBelow='md'>
+          <Rightbar />  
+         </Box>
 
         {/* Mobile */}
         <Box hideFrom='md'>
@@ -57,12 +57,10 @@ const Home = () => {
              >
             <DrawerOverlay />
             <DrawerContent>
-              <DrawerCloseButton borderStyle='none' fontSize='md' />
+              <DrawerCloseButton borderStyle='none' fontSize='md' mr={2} />
               <DrawerBody>
-                <Box mt={12}>
-                  <Container height={"300px"} display='block' >
-                    <h2>Hello</h2>
-                  </Container>
+                <Box mt={'60px'}>
+                   <Rightbar />
                 </Box>
               </DrawerBody>
               </DrawerContent>

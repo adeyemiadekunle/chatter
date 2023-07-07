@@ -1,14 +1,6 @@
-import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot, orderBy} from "firebase/firestore";
+import { collection, doc, setDoc, addDoc, getDoc, deleteDoc, query, getDocs, where, QuerySnapshot, Unsubscribe, onSnapshot, orderBy, DocumentData} from "firebase/firestore";
 import { db, auth } from './firebase';
 
-
-export interface Tags {
-  id: string;
-  name: string;
-  image: string;
-  hash: string;
-  followers: string[];
-}
 
 
 // Fetch Login User Data
@@ -396,6 +388,7 @@ export interface Article {
   likes: string[];
   comments: string[];
   views: string[];
+  slug: string;
 }
 
 export const fetchArticle = async (slug: string) => {
@@ -532,7 +525,7 @@ export const fetchRecents = (callback: (articles: RecentArticles[]) => void, pub
 
 // fetch For You Articles this function prioritizes the articles based on the tags and author followed by the user
 
-export const fetchForYou = (callback: (articles: RecentArticles[]) => void, publishAt?: string): Unsubscribe => {
+export const fetchFeatured = (callback: (articles: RecentArticles[]) => void, publishAt?: string): Unsubscribe => {
   const articlesCollectionRef = collection(db, "articles");
   let articlesQuery = query(articlesCollectionRef);
 
@@ -609,7 +602,7 @@ export const fetchForYou = (callback: (articles: RecentArticles[]) => void, publ
 
 
 // fetch Popular Articles by views and likes
-export const fetchFeatured = (callback: (articles: RecentArticles[]) => void): Unsubscribe => {
+export const fetchPersonalize = (callback: (articles: RecentArticles[]) => void): Unsubscribe => {
   const articlesCollectionRef = collection(db, "articles");
 
   const unsubscribe = onSnapshot(articlesCollectionRef, (querySnapshot: QuerySnapshot) => {
@@ -667,9 +660,6 @@ export const fetchFeatured = (callback: (articles: RecentArticles[]) => void): U
 
 
 
-
-
-
 //  Fetch Tags Categories
 export interface Tags {
   id: string;
@@ -707,9 +697,7 @@ export const fetchAllTags = (): Promise<Tags[]> => {
 
 
 
-
 // Trending Tags
-
 type Tag = {
   name: string;
   image: string;
@@ -757,3 +745,59 @@ export const getTagCounts = async (): Promise<TagCount[]> => {
 };
 
 
+
+
+//  Fetch BooKmarks
+
+export const fetchBookmarkData = async ({currentUser}) => {
+  if (currentUser) {
+    try {
+      const userDocRef = doc(collection(db, "users"), currentUser);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const { bookmarks } = userDoc.data() as DocumentData;
+        const articlesCollectionRef = collection(db, "articles");
+        const querySnapshot = await getDocs(articlesCollectionRef);
+        const bookmarkedArticles: RecentArticles[] = [];
+
+        querySnapshot.forEach((articleDoc) => {
+          const {
+            publishAt,
+            headerImage,
+            heading,
+            tags,
+            content,
+            authorId,
+            likes,
+            comments,
+            views,
+            slug,
+          } = articleDoc.data() as DocumentData;
+
+          if (bookmarks?.includes(articleDoc.id)) {
+            bookmarkedArticles.push({
+              id: articleDoc.id,
+              publishAt: publishAt || "",
+              heading: heading || "",
+              headerImage: headerImage || "",
+              tags: tags || [],
+              content: content || "",
+              authorId: authorId || "",
+              likes: likes || [],
+              comments: comments || [],
+              views: views || [],
+              slug: slug || "",
+            });
+          }
+        });
+
+        return bookmarkedArticles;
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.log("Error retrieving user document:", error);
+    }
+  }
+};

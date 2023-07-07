@@ -1,41 +1,40 @@
-import {useState, useEffect} from "react";
-import {fetchFeatured, RecentArticles} from "../../utils/helperFunctions";
+import { useState, useEffect } from "react";
+import { fetchFeatured, RecentArticles } from "../../utils/helperFunctions";
 import ArticleCard from "../ArticleCard";
-import { Box } from "@chakra-ui/react";
 import SkeletonCard from "../Skeleton/SkeletonCard";
+import { Box } from "@chakra-ui/react";
 import SEO from "../SEO";
 
 const Featured = () => {
+  const [articles, setArticles] = useState([] as RecentArticles[]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [articles, setArticles] = useState([] as RecentArticles[]);  
-  const [isLoading, setIsLoading] = useState(true); 
+  //  for Published Articles for user for follow tags and author
+  useEffect(() => {
+    const getArticle = fetchFeatured((fetchedArticles) => {
+      setArticles(fetchedArticles);
+      setIsLoading(false);
+    });
 
-    //  for Featured Articles
-    useEffect(() => {
-      const getArticle = fetchFeatured((fetchedArticles) => {
-        setArticles(fetchedArticles);
-        setIsLoading(false);
-      });
-  
-      return () => {
-        getArticle();
-      };
-    }, []);
-
-    const ArticleParagraph = (blocks: any[]) => {
-      const firstParagraph = blocks.find((block) => block.type === "paragraph");
-      return firstParagraph;
+    return () => {
+      getArticle();
     };
-  
-    const paragraphBlocksArticle = ArticleParagraph(
-      articles.length > 0 ? articles[0].content.blocks : []
-    );
-  
-  
+  }, []);
+
+  const ArticleParagraph = (blocks: any[]) => {
+    const firstParagraph = blocks.find((block) => block.type === "paragraph");
+    return firstParagraph;
+  };
+
+  const paragraphBlocksArticle = ArticleParagraph(
+    articles.length > 0 ? articles[0].content.blocks : []
+  );
+
+
   return (
     <>
-    <SEO title="Featured posts on Chatte" description='' name='' type='' />
-    <Box>
+      <SEO title="chatte.space" description="" name="" type="" />
+      <Box>
         {isLoading ? (
           [...Array(5)].map((_, i) => <SkeletonCard key={i} />) // [1,2,3,4,5]
         ) : (
@@ -61,4 +60,4 @@ const Featured = () => {
   );
 };
 
-export default Featured;
+export default Featured ;
