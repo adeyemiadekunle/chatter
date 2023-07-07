@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { onSnapshot, collection, query, DocumentData } from "firebase/firestore";
 import { db } from "../../utils/firebase";
-import { Box, Flex, HStack} from '@chakra-ui/react'
+import { Box, HStack} from '@chakra-ui/react'
 import UserArticleCard from '../Author/UserArticleCard'
 
 interface AuthorArticleProps {

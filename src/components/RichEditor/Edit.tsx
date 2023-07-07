@@ -81,7 +81,6 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
     
   };
   
-
   useEffect(() => {
     const debouncedUpdateDraft = debounce(async () => {
       const content = contents;

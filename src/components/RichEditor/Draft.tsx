@@ -120,7 +120,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
       navigate("/recent");
       localStorage.removeItem('image')
       localStorage.removeItem('title')
-      localStorage.removeItem('editor')
+      localStorage.removeItem('myeditor')
     } else {
       console.log("No draft ID available. Cannot publish.");
     }
@@ -138,9 +138,11 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
   };
 
 //  fetch data from localstorage
-  let contentData = localStorage.getItem('editor')
+  let contentData = localStorage.getItem('myeditor')
   const jsonData = contentData ? JSON.parse(contentData) : DEFAULT_INITIAL_DATA;
   // console.log( "localstor", jsonData)
+
+
 
 
   return (
