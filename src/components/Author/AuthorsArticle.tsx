@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { onSnapshot, collection, query, DocumentData } from "firebase/firestore";
 import { db } from "../../utils/firebase";
-import { Box, Flex} from '@chakra-ui/react'
+import { Box, Flex, HStack} from '@chakra-ui/react'
 import UserArticleCard from '../Author/UserArticleCard'
 
 interface AuthorArticleProps {
@@ -98,7 +98,7 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
 
   return (
        <>
-       <Flex minH='400px' pt={4} gap={5}  maxW={{base: '100%', md: '1280px'}} m ='0 auto' flexDir={{base: 'column', md: 'row'}} alignItems={{base: 'center', md: 'flex-start'}}  >
+       <HStack minH='400px' pt={4} spacing={12}  maxW={{base: '100%', md: '1200px'}} m ='0 auto' flexDir={{base: 'column', md: 'row'}}  alignItems={{base: 'center', md: 'flex-start'}}  >
           {
             userArticles.length > 0 ? userArticles.map((article) => (
                 <UserArticleCard
@@ -116,7 +116,7 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
                  No Articles Publish yet
             </Box>
           }
-       </Flex>
+       </HStack>
      </>
   );
 };

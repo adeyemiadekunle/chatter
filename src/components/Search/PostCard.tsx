@@ -27,7 +27,7 @@ const PostCard = ({authorId, PublishDate, isLoading, HeaderImage, Title, slug}) 
     <>
       <Link as={NavLink} to={`/${author?.userName}/${slug}`}  >
             
-        <HStack  justifyContent='space-between' p={{base: '1', md: '6'}} h={{base: '150px', md: '180px'}} _hover={{bg: 'gray.100'}} >
+        <HStack  justifyContent='space-between' p={{base: '1', md: '6'}} h={{base: '150px', md: '180px'}} _hover={{bg: 'gray.100'}} borderBottom='1px solid white' >
               <Box w='65%' >
                   <Box w='100%' >
                       <HStack>

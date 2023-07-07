@@ -20,6 +20,8 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import PostCard from "./Search/PostCard";
+import UserCard from "./Search/UserCard";
+import TagCard from "./Search/TagCard";
 
 interface SearchProps {
   isOpen: boolean;
@@ -31,12 +33,9 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
   const [articles, setArticles] = useState<RecentArticles[]>([]);
   const [tags, setTags] = useState<Tags[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [filteredData, setFilteredData] = useState<
-    (Users | RecentArticles | Tags)[]
-  >([]);
-  const [filterType, setFilterType] = useState<"users" | "articles" | "tags">(
-    "articles"
-  );
+  const [filteredData, setFilteredData] = useState< (Users | RecentArticles | Tags)[]>([]);
+  const [filterType, setFilterType] = useState<"users" | "articles" | "tags">("articles");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const searchTerm = searchParams.get("q") || "";
 
   // fetch all users
@@ -44,6 +43,7 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
     const fetchUsers = async () => {
       const users = await fetchAllUsers();
       setPeoples(users);
+      setIsLoading(false);
     };
     fetchUsers();
   }, []);
@@ -64,6 +64,7 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
     const fetchTags = async () => {
       const tags = await fetchAllTags();
       setTags(tags);
+      setIsLoading(false);
     };
     fetchTags();
   }, []);
@@ -97,7 +98,7 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
   ) => {
     if (type === "articles") {
       const filteredArticles = articles.filter((article) =>
-        article.content.blocks[0].data.text
+        article.heading
           .toLowerCase()
           .includes(searchTerm.toLowerCase())
       );
@@ -229,11 +230,14 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
                               )
                               .map((item) => (
                                 <Box key={(item as Users).userId}>
-                                  <Link href={`/${(item as Users).userName}`}>
-                                    <Flex>
-                                      <Text>{(item as Users).displayName}</Text>
-                                    </Flex>
-                                  </Link>
+
+                                  <UserCard
+                                  photoURL={(item as Users).photoURL}
+                                  displayName={(item as Users).displayName}
+                                  userName={(item as Users).userName}
+                                  tagLine={(item as Users).userTagLine}
+                                  isLoading={isLoading} 
+                                  />
                                 </Box>
                               ))}
                           </Box>
@@ -251,12 +255,11 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
                                 )
                               )
                               .map((item) => (
-                                <Box key={(item as RecentArticles).id}>
-                                          
+                                <Box key={(item as RecentArticles).id}>         
                                     <PostCard
-                                    authorId={(item as RecentArticles).authorId}
-                                    PublishDate={(item as RecentArticles).publishAt}
-                                    HeaderImage={(item as RecentArticles).headerImage}
+                                      authorId={(item as RecentArticles).authorId}
+                                      PublishDate={(item as RecentArticles).publishAt}
+                                      HeaderImage={(item as RecentArticles).headerImage}
                                       slug={(item as RecentArticles).slug}
                                       Title={(item as RecentArticles).heading}
                                       isLoading={false}
@@ -276,11 +279,19 @@ const Search = ({ isOpen, onClose }: SearchProps) => {
                               )
                               .map((item) => (
                                 <Box key={(item as Tags).id}>
-                                  <Link href={`/tags/${(item as Tags).id}`}>
+
+                                  <TagCard
+                                  hash={(item as Tags).hash}
+                                  image={(item as Tags).image}
+                                  tagCount={(item as Tags).hash}
+                                  followers={(item as Tags).followers.length}
+                                  isLoading={isLoading}
+                                  />
+                                  {/* <Link href={`/tags/${(item as Tags).id}`}>
                                     <Flex>
                                       <Text>{(item as Tags).name}</Text>
                                     </Flex>
-                                  </Link>
+                                  </Link> */}
                                 </Box>
                               ))}
                           </Box>

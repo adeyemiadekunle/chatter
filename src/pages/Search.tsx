@@ -5,6 +5,8 @@ import { Input, Box, Flex, Link, Text, InputGroup, InputLeftAddon } from '@chakr
 import { SearchIcon } from '@chakra-ui/icons';
 import SEO from '../components/SEO';
 import PostCard from '../components/Search/PostCard';
+import UserCard from '../components/Search/UserCard';
+import TagCard from '../components/Search/TagCard';
 
 
 const Search = () => {
@@ -12,6 +14,7 @@ const Search = () => {
   const [articles, setArticles] = useState<RecentArticles[]>([]);
   const [tags, setTags] = useState<Tags[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [filteredData, setFilteredData] = useState<(Users | RecentArticles | Tags)[]>([]);
   const [filterType, setFilterType] = useState<'users' | 'articles' | 'tags'>('articles');
   const searchTerm = searchParams.get('q') || '';
@@ -21,6 +24,7 @@ const Search = () => {
     const fetchUsers = async () => {
       const users = await fetchAllUsers();
       setPeoples(users);
+      setIsLoading(false);
     };
     fetchUsers();
   }, []);
@@ -41,6 +45,7 @@ const Search = () => {
     const fetchTags = async () => {
       const tags = await fetchAllTags();
       setTags(tags);
+      setIsLoading(false);
     };
     fetchTags();
   }, []);
@@ -69,7 +74,7 @@ const Search = () => {
   const filterData = (searchTerm: string, type: 'users' | 'articles' | 'tags') => {
     if (type === 'articles') {
       const filteredArticles = articles.filter((article) =>
-        article.content.blocks[0].data.text.toLowerCase().includes(searchTerm.toLowerCase())
+        article.heading.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredData(filteredArticles.map((article) => ({ ...article, type: 'articles' })));
     } else if (type === 'users') {
@@ -172,11 +177,13 @@ const Search = () => {
                     .sort((a, b) => (a as Users).displayName.localeCompare((b as Users).displayName))
                     .map((item) => (
                       <Box key={(item as Users).userId}>
-                        <Link href={`/${(item as Users).userName}`}>
-                          <Flex>
-                            <Text>{(item as Users).displayName}</Text>
-                          </Flex>
-                        </Link>
+                         <UserCard
+                                  photoURL={(item as Users).photoURL}
+                                  displayName={(item as Users).displayName}
+                                  userName={(item as Users).userName}
+                                  tagLine={(item as Users).userTagLine}
+                                  isLoading={isLoading} 
+                            />
                       </Box>
                     ))}
                 </Box>
@@ -188,24 +195,14 @@ const Search = () => {
                     .sort((a, b) => (a as RecentArticles).slug.localeCompare((b as RecentArticles).slug))
                     .map((item) => (
                       <Box key={(item as RecentArticles).id}>
-
                         <PostCard
-                         authorId={(item as RecentArticles).authorId}
-                         PublishDate={(item as RecentArticles).publishAt}
-                         HeaderImage={(item as RecentArticles).headerImage}
+                          authorId={(item as RecentArticles).authorId}
+                          PublishDate={(item as RecentArticles).publishAt}
+                           HeaderImage={(item as RecentArticles).headerImage}
                           slug={(item as RecentArticles).slug}
                           Title={(item as RecentArticles).heading}
                           isLoading={false}
                         />
-                         
-
-
-                        {/* <Link href={`/userName/${(item as RecentArticles).id}`}>
-                          <Flex>
-                            <Text>{(item as RecentArticles).slug}</Text>
-                            <Text>{(item as RecentArticles).authorId}</Text>
-                          </Flex>
-                        </Link> */}
                       </Box>
                     ))}
                 </Box>
@@ -217,11 +214,13 @@ const Search = () => {
                     .sort((a, b) => (a as Tags).name.localeCompare((b as Tags).name))
                     .map((item) => (
                       <Box key={(item as Tags).id}>
-                        <Link href={`/tags/${(item as Tags).id}`}>
-                          <Flex>
-                            <Text>{(item as Tags).name}</Text>
-                          </Flex>
-                        </Link>
+                          <TagCard
+                               hash={(item as Tags).hash}
+                               image={(item as Tags).image}
+                               tagCount={(item as Tags).hash}
+                               followers={(item as Tags).followers.length}
+                               isLoading={isLoading}
+                           />
                       </Box>
                     ))}
                 </Box>

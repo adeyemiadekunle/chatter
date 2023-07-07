@@ -69,6 +69,7 @@ const Profile = () => {
   return (
    <>
     <SEO title={`${user.displayName} - Chatte`} description='' name='' type='' />
+    
     <div>
       <AuthorProfile users={users} currentUser={currentUser} isLoading={isLoading}  />
       <Divider pt={4} ></Divider>

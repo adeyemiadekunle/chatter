@@ -24,6 +24,9 @@ import {
   Divider,
   Icon,
   LightMode,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
 } from "@chakra-ui/react";
 import { FormattedDate } from "../utils/FormatDate";
 import {
@@ -44,6 +47,7 @@ import { BookMark } from "../components/Bookmark";
 import { Like } from "../components/Like";
 import ReactGA from "react-ga";
 import SEO from "../components/SEO";
+import SkeletonPostPage from "../components/Skeleton/SkeletonPostPage";
 
 const ArticlePage = () => {
   const [contents, setContents] = useState<Article["content"]>({ blocks: [] });
@@ -205,25 +209,27 @@ const ArticlePage = () => {
     <>
       <SEO title={`${heading}`} description='' name={authorsData.displayName} type="Post"  />
       {loading ? (
-        <div>Loading...</div>
+        <SkeletonPostPage />
       ) : (
         <>
           <Box position="relative"  bg='white'>
             <Box>
-              <ArticleHeading></ArticleHeading>
+              <ArticleHeading/>
             </Box>
             <Box maxW={{ base: "100%", md: "1000px" }} m="0 auto" bg='white'>
               <VStack>
                 <HStack>
                   <Box w='100%' m="0 auto">
-                    <Heading
-                      fontSize={{ base: "34px", md: "48px" }}
-                      textAlign="center"
-                      mt={12}
-                      whiteSpace='nowrap'
-                    >
-                      {heading}
-                    </Heading>
+                    <Skeleton  isLoaded={!loading} >
+                      <Heading
+                        fontSize={{ base: "34px", md: "48px" }}
+                        textAlign="center"
+                        mt={12}
+                        whiteSpace='nowrap'
+                      >
+                        {heading}
+                      </Heading>
+                    </Skeleton>
                   </Box>
                 </HStack>
                 <VStack
@@ -235,18 +241,22 @@ const ArticlePage = () => {
                 >
                   <Flex alignItems="center" gap={3}>
                     <Flex gap={2} alignItems="center">
-                      <Box pb={{ base: "3", md: "0" }}>
-                        <Avatar
-                          size="lg"
-                          src={authorsData.photoURL}
-                          name={authorsData.displayName}
-                        />
-                      </Box>
+                        <SkeletonCircle  size='64px' isLoaded={!loading} >
+                          <Box pb={{ base: "3", md: "0" }} >
+                          <Avatar
+                            size="lg"
+                            src={authorsData.photoURL}
+                            name={authorsData.displayName}
+                          />
+                        </Box>
+                        </SkeletonCircle>
                       <VStack fontSize="14px" alignItems="flex-start">
                         <HStack>
-                          <Text fontWeight="600">
-                            {authorsData.displayName}
-                          </Text>
+                           <Skeleton isLoaded={!loading} >
+                              <Text fontWeight="600">
+                                {authorsData.displayName}
+                              </Text>
+                           </Skeleton>
                           <Text>·</Text>
                           {isFollowing ? (
                             <Text
@@ -276,12 +286,14 @@ const ArticlePage = () => {
                   </Flex>
                 </VStack>
                 <Box w="100%" pb={5}>
-                  <Image
-                    src={imageUrl}
-                    h={{ base: "100%", md: "100%" }}
-                    w="100%"
-                    objectFit="cover"
-                  />
+                   <Skeleton isLoaded={!loading} >
+                      <Image
+                        src={imageUrl}
+                        h={{ base: "100%", md: "100%" }}
+                        w="100%"
+                        objectFit="cover"
+                      />
+                   </Skeleton>
                 </Box>
 
                 <Box
@@ -290,11 +302,13 @@ const ArticlePage = () => {
                   m="0 auto"
                 >
                   <Box >
-                    <EditorJs
-                      tools={EDITOR_JS_TOOLS}
-                      data={contents}
-                      readOnly={true}
-                    />
+                     <SkeletonText isLoaded={!loading} noOfLines={30} skeletonHeight={5} spacing={5}>
+                        <EditorJs
+                          tools={EDITOR_JS_TOOLS}
+                          data={contents}
+                          readOnly={true}
+                        />
+                     </SkeletonText>
                   </Box>
 
                   <VStack mt={"80px"} w="100%" mb={"60px"}>
