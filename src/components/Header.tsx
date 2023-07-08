@@ -18,7 +18,7 @@ import { onSnapshot, doc } from 'firebase/firestore'
 import Search from './SearchModal'
 import ModalLogin from './ModalLogin'
 import Logo from '../assets/logo.png'
-import StickyMenu from '../utils/StickyMenu'
+
 
 
 interface HeaderProps {
