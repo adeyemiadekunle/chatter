@@ -4,8 +4,9 @@ import {
   updateDraft,
   publishDraft,
   Tags,
+  fetchDraft,
 } from "../../utils/helperFunctions";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate,  } from "react-router-dom";
 import {
   Button,
   useDisclosure,
@@ -66,12 +67,41 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const editorInstanceRef = useRef<any>(null);
-  const location = useLocation();
+ 
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+   
+      try {
+        if (!draftId) {
+          console.log('Draft ID is undefined');
+          return;
+        }
+        const draftData = await fetchDraft(draftId);
+
+        if (draftData) {
+          setImageUrl(draftData.headerImage);
+          setContents(draftData.content);
+          setTitle(draftData.heading);
+          // Process the fetched draft data
+        } else {
+          // Handle case where draft is not found or unauthorized access
+          console.log('Draft not found or unauthorized access');
+        }
+      } catch (error) {
+        // Handle error that occurred during fetching
+        console.error('Error fetching draft:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
 
   const onReady = () => {
     const editor = editorInstanceRef.current;
-        new Undo({ editor });
+        new Undo({ editor }); 
     console.log("Editor.js is ready to work!");
   };
    
@@ -80,12 +110,12 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
     if (editorInstanceRef.current) {
       const outputData = await editorInstanceRef.current.save();
       setContents(outputData);
-      // console.log("Current output:", outputData);
     }
     
   };
-  
 
+
+//  debounce(onChange, 1000)
   useEffect(() => {
     const debouncedUpdateDraft = debounce(async () => {
       const content = contents;
@@ -96,12 +126,9 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
         return null
        }
       updateDraft(draftId, image, content, heading);
-      localStorage.setItem('image', imageUrl)
-      localStorage.setItem('title', title)
       localStorage.setItem('myeditor', JSON.stringify(contents))
-  
       console.log("Draft saved");
-    }, 10000);
+    }, 5000);
 
     debouncedUpdateDraft();
 
@@ -111,36 +138,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
   }, [contents, draftId, imageUrl, title]);
 
 
-  
-//  fetch data from localstorage
-
-let titleDataJson: string | null ;
-let contentDataJson: Block | undefined ;
-let imageDataJson: string | null ;
-
-useEffect(() => {
-  const titleData = localStorage.getItem('title');
-  const imageData = localStorage.getItem('image');
-  let contentData = localStorage.getItem('myeditor')
-
-  if (titleData) {
-    titleDataJson =(titleData);
-    setTitle(titleDataJson);
-  }
-
-  if (imageData) {
-    imageDataJson =(imageData);
-    setImageUrl(imageDataJson);
-  } 
-
-  if (contentData) {
-    contentDataJson = JSON.parse(contentData)
-  } 
-
-}, []);
-
-
-
+//  handle publish
   const handlePublish = useCallback(async () => {
     const content = contents;
     const image = imageUrl;
@@ -152,15 +150,13 @@ useEffect(() => {
       updateDraft(draftId, image, content, heading);
       publishDraft(draftId, tags, slug, heading);
       navigate("/recent");
-      localStorage.removeItem('image')
-      localStorage.removeItem('title')
       localStorage.removeItem('myeditor')
     } else {
       console.log("No draft ID available. Cannot publish.");
     }
   }, [draftId, contents, imageUrl, selectedTags, navigate, slugUrl, title]);
 
-
+// handle save
   const onSave = async () => {
     const content = contents;
     const image = imageUrl;
@@ -171,14 +167,12 @@ useEffect(() => {
     }
   };
 
-
-  useEffect(() => {
-    console.log("Location path changed:", location.pathname);
-    localStorage.removeItem('image')
-    localStorage.removeItem('title')
-    localStorage.removeItem('myeditor')
-    // Do something here when the location path changes
-  }, [location.pathname]);
+ //  fetch data from localstorage
+  let contentDataJson: Block | undefined ;
+  const contentData = localStorage.getItem('myeditor')
+  if (contentData) {
+    contentDataJson = JSON.parse(contentData)
+  } 
 
 
 

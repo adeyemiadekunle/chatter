@@ -83,7 +83,7 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
               isAuth ? 
               (
                 <MenuList width={'300px'} p={0} >
-                <Link  as={NavLink} to={userData?.userName} >
+                <Link  as={NavLink} to={`/u/${userData?.userName}`} >
                     <MenuItem  >
                         <HStack py={3} spacing={6}>
                             <Avatar src={userData?.photoURL} name={userData?.displayName}  />

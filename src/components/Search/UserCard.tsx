@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 const SearchCard = ({photoURL, displayName, isLoading, userName, tagLine}) => {
   return (
     <>
-     <Link as={NavLink} to={`/${userName}`}  >
+     <Link as={NavLink} to={`/u/${userName}`}  >
       <Box p={5} borderBottom='1px solid white' _hover={{bg: 'gray.100'}} >
           <HStack spacing={3}>
           <SkeletonCircle size='12' isLoaded={!isLoading} >

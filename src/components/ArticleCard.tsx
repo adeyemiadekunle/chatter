@@ -134,7 +134,7 @@ const handleBookmark = async () => {
                <Avatar src={author?.photoURL} name={author?.displayName} size={'md'}></Avatar>
             </SkeletonCircle>
             <Box>
-              <Link as={NavLink} to={`/${author?.userName}`} >
+              <Link as={NavLink} to={`/u/${author?.userName}`} >
                 <Skeleton isLoaded={!AuthorLoading} >
                     <Heading fontSize='base' fontWeight={'700'}>{author?.displayName}</Heading>
                 </Skeleton>
