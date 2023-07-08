@@ -74,7 +74,7 @@ const Profile = () => {
       <AuthorProfile users={users} currentUser={currentUser} isLoading={isLoading}  />
       <Divider pt={4} ></Divider>
       <AuthorArticle userId={user.userId} />
-      <Box  h='200px' bg='blue.800'>
+       <Box  h='200px' bg='blue.800'>
       </Box>
     </div>
    </>

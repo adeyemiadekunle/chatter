@@ -7,7 +7,7 @@ import {
 
 const TagsFeed = () => {
   return (
-    <Box>
+    <Box mb='100px'>
       <Flex gap={2} overflowX={"auto"}>
         <Link
           as={NavLink}

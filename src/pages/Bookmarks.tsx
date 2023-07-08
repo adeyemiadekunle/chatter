@@ -49,7 +49,7 @@ const Bookmarks: React.FC = () => {
   return (
     <>
       <SEO title=" Bookmarks - Chatte" description="" name="" type="" />
-      <Box>
+      <Box mb='100px'>
         <Box
           display={{ base: "block", md: "flex" }}
           // mx={{ base: "0", md: "100px" }}

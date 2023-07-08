@@ -13,7 +13,7 @@ type UserFeedProps = {
 
 const UserFeed = ({onOpen}:UserFeedProps) => {
   return (
-    <Box>
+    <Box  mb={'100px'}>
       <Flex gap={1} overflowX={'auto'} justifyContent={{base: 'space-between', md: 'flex-start'}}  >
         <Link
           as={NavLink}

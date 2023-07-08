@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { onSnapshot, collection, query, DocumentData } from "firebase/firestore";
 import { db } from "../../utils/firebase";
-import { Box, HStack} from '@chakra-ui/react'
+import { Box, HStack, VStack} from '@chakra-ui/react'
 import UserArticleCard from '../Author/UserArticleCard'
 
 interface AuthorArticleProps {
@@ -98,7 +98,7 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
 
   return (
        <>
-       <HStack minH='400px' pt={4} spacing={12}  maxW={{base: '100%', md: '1200px'}} m ='0 auto' flexDir={{base: 'column', md: 'row'}}  alignItems={{base: 'center', md: 'flex-start'}}  >
+       <HStack minH='400px' pt={4} spacing={12}   maxW= '1200px' m ='0 auto'  alignItems={{base: 'center', md: 'flex-start'}} hideBelow='md' >
           {
             userArticles.length > 0 ? userArticles.map((article) => (
                 <UserArticleCard
@@ -117,6 +117,29 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
             </Box>
           }
        </HStack>
+       <VStack minH='400px' pt={4} spacing={10}  maxW={'100%'} m ='0 auto'  hideFrom='md'  >
+          {
+            userArticles.length > 0 ? userArticles.map((article) => (
+                <UserArticleCard
+                  key={article.id}
+                  Title={article.heading}
+                  Paragraph={paragraphBlocksArticle.data.text}
+                  HeaderImage={article.headerImage}
+                  PublishDate={article.publishAt}
+                  alt={article.id}
+                  authorId={article.authorId}
+                  slug={article.slug}
+                />
+            )) : 
+            <Box   w='100%'mt={3} > 
+                 No Articles Publish yet
+            </Box>
+          }
+       </VStack>
+
+
+
+
      </>
   );
 };

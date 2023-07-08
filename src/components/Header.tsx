@@ -18,6 +18,7 @@ import { onSnapshot, doc } from 'firebase/firestore'
 import Search from './SearchModal'
 import ModalLogin from './ModalLogin'
 import Logo from '../assets/logo.png'
+import StickyMenu from '../utils/StickyMenu'
 
 
 interface HeaderProps {
@@ -146,7 +147,7 @@ const Header = () => {
         <Box px={{base: '3', md: '8'}} py={{base: '3', md: '5'}} bg={bg} color={color}  className='header'  display={'flex'} flexDir={'column'} alignItems={'center'} >
                 
                 {/* Mobile Menu fixed */}
-              
+           
               <Flex bg='whiteAlpha.900' color='black'  justifyContent='center' alignItems='center'  w='100%'   hideFrom= 'md' position='fixed' zIndex='4'  bottom='1'  h={'55px'}>
                      <HStack w='100%' justifyContent='space-between' px={5} alignItems='center' h='55px'>
                          <Link as={NavLink} to='/' display='flex'
@@ -184,6 +185,7 @@ const Header = () => {
                         </Link>
                      </HStack>
               </Flex>
+            
 
             <HStack spacing={10} justify={'space-between'} bg={bg} maxW={'1280px'} w={'100%'} >
                 <HStack spacing={4}  >
