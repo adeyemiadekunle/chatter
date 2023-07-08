@@ -127,7 +127,7 @@ const ArticleCount = articles.length;
                         <Box >
                             {drafts.map((draft: any) => (
                              <>
-                               <Flex alignItems='center' justifyContent='space-between' key={draft.id} >
+                               <Flex alignItems='center' justifyContent='space-between' key={draft.id} mt={3}>
                                   {draft.heading === "" ? (
                                     <Text fontSize='sm' >Untitled</Text>
                                   ) : (
@@ -166,7 +166,7 @@ const ArticleCount = articles.length;
                   articles.length > 0 ? (
                         <Box  cursor={'pointer'}>
                           {articles.map((article: any) => (
-                            <Text>
+                            <Text mt={3}>
                                {article.heading }
                             </Text>
                           ))}

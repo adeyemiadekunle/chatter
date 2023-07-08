@@ -5,7 +5,7 @@ import {
   publishDraft,
   Tags,
 } from "../../utils/helperFunctions";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
   useDisclosure,
@@ -21,6 +21,7 @@ import PublishDrawer from "./PublishDrawer";
 import { ViewSidebarOutlined } from "@mui/icons-material";
 import { debounce } from "lodash";
 import { EDITOR_JS_TOOLS } from "./constant";
+import {Undo} from 'editorjs-undo'
 
 
 const DEFAULT_INITIAL_DATA = {
@@ -65,9 +66,12 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const editorInstanceRef = useRef<any>(null);
+  const location = useLocation();
 
 
   const onReady = () => {
+    const editor = editorInstanceRef.current;
+        new Undo({ editor });
     console.log("Editor.js is ready to work!");
   };
    
@@ -81,6 +85,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
     
   };
   
+
   useEffect(() => {
     const debouncedUpdateDraft = debounce(async () => {
       const content = contents;
@@ -93,7 +98,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
       updateDraft(draftId, image, content, heading);
       localStorage.setItem('image', imageUrl)
       localStorage.setItem('title', title)
-      localStorage.setItem('editor', JSON.stringify(contents))
+      localStorage.setItem('myeditor', JSON.stringify(contents))
   
       console.log("Draft saved");
     }, 10000);
@@ -104,6 +109,36 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
       debouncedUpdateDraft.cancel();
     };
   }, [contents, draftId, imageUrl, title]);
+
+
+  
+//  fetch data from localstorage
+
+let titleDataJson: string | null ;
+let contentDataJson: Block | undefined ;
+let imageDataJson: string | null ;
+
+useEffect(() => {
+  const titleData = localStorage.getItem('title');
+  const imageData = localStorage.getItem('image');
+  let contentData = localStorage.getItem('myeditor')
+
+  if (titleData) {
+    titleDataJson =(titleData);
+    setTitle(titleDataJson);
+  }
+
+  if (imageData) {
+    imageDataJson =(imageData);
+    setImageUrl(imageDataJson);
+  } 
+
+  if (contentData) {
+    contentDataJson = JSON.parse(contentData)
+  } 
+
+}, []);
+
 
 
   const handlePublish = useCallback(async () => {
@@ -119,7 +154,7 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
       navigate("/recent");
       localStorage.removeItem('image')
       localStorage.removeItem('title')
-      localStorage.removeItem('editor')
+      localStorage.removeItem('myeditor')
     } else {
       console.log("No draft ID available. Cannot publish.");
     }
@@ -136,10 +171,15 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
     }
   };
 
-//  fetch data from localstorage
-  let contentData = localStorage.getItem('editor')
-  const jsonData = contentData ? JSON.parse(contentData) : DEFAULT_INITIAL_DATA;
-  // console.log( "localstor", jsonData)
+
+  useEffect(() => {
+    console.log("Location path changed:", location.pathname);
+    localStorage.removeItem('image')
+    localStorage.removeItem('title')
+    localStorage.removeItem('myeditor')
+    // Do something here when the location path changes
+  }, [location.pathname]);
+
 
 
   return (
@@ -187,15 +227,16 @@ const EditorComponent: React.FC<EditorComponentProps> = ({
                </Box>
               <Box>
                 <EditorJs
-                  data={jsonData}
+                  data={contentDataJson}
                   holder="editorjs"
                   onReady={onReady}
                   onChange={onChange}
+                  autofocus={true}
                   editorInstance={(instance) =>
                     (editorInstanceRef.current = instance)
                   }
-                  tools={EDITOR_JS_TOOLS}
-                 
+                  tools={EDITOR_JS_TOOLS} 
+                  placeholder="Let continue writing..."
                 />
               </Box>
             </Box>

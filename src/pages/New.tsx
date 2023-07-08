@@ -35,7 +35,7 @@ const NewArticle = () => {
             <Box px={3} py={3}>      
                 <HStack  justifyContent='space-between' >
                       <Box >
-                        <Link as={NavLink} to='/feed/personalize' px={3} >
+                        <Link as={NavLink} to='/' px={3} >
                           <IconButton
                             aria-label="Go Back"
                             icon={<ArrowBackOutlined />}

@@ -66,7 +66,7 @@ const Rightbar = () => {
     fetchBookmarks();
   }, []);
 
-  console.log( "bookmarks",  bookmarks, "isLoading", isLoading)
+
 
   return (
     <>

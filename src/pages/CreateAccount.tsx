@@ -25,7 +25,7 @@ import ChooseTags from "../components/ChooseTags";
 import { useNavigate } from "react-router-dom";
 import { Tags } from "../utils/helperFunctions";
 import SEO from "../components/SEO";
-import Logo from '../../public/favicon-32x32.png'
+import Logo from '../assets/logo.png'
 
 const steps = [{ title: "First" }, { title: "Final" }];
 
