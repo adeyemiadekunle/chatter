@@ -1,5 +1,5 @@
 import {Box, useColorModeValue} from '@chakra-ui/react'
-import {VStack, Heading, Text, List, ListIcon, ListItem, Icon, Divider, Link} from '@chakra-ui/react'
+import {VStack, Heading, Text, List, ListIcon, ListItem, Icon, Divider, Link, useDisclosure} from '@chakra-ui/react'
 import { TrendingUpOutlined, EditNoteOutlined, BookmarkAddedOutlined, PublishedWithChangesOutlined, AnalyticsOutlined } from '@mui/icons-material'
 import { NavLink } from 'react-router-dom'
 import TagsRatingComponent from './Tags/SideBar/TrendingTags'
@@ -8,6 +8,7 @@ import TagsRatingComponent from './Tags/SideBar/TrendingTags'
 const Sidebar = () => {
     const bg = useColorModeValue('white', '#0F172A')
     const color = useColorModeValue('#0F172A', 'white')
+    const { onClose} = useDisclosure()
 
   return (
     <Box bg={bg} color={color} minH={'80vh'} mt={5} ml={4} borderRadius={'5px'}  className='selected-div'>
@@ -45,7 +46,7 @@ const Sidebar = () => {
           <Heading as='h3' fontSize='md' pb={3} textAlign={'left'} display={'flex'}> <Text whiteSpace={'nowrap'} >Trending Tags</Text> <Icon as={TrendingUpOutlined} />
            </Heading>
           <VStack alignItems={'flex-start'} pl={1}>
-            <TagsRatingComponent />
+            <TagsRatingComponent onClose={onClose} />
             <Box>
               <Link as={NavLink}  fontSize={'base'} color={'blue.500'} fontWeight={'bold'} >View All Tags</Link>
             </Box>
