@@ -22,6 +22,7 @@ const theme = extendTheme({
     fontSizes: {
       sm: `var(--font-size-sm)`,
       base: `var(--font-size-base)`,
+      xbase: `var(--font-size-xbase)`,
       md: `var(--font-size-md)`,
       lg: `var(--font-size-lg)`,
       xl: `var(--font-size-xl)`,

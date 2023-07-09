@@ -10,7 +10,12 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  useDisclosure
+  useDisclosure, 
+  Text,
+  VStack,
+  HStack,
+  Image,
+
 } from "@chakra-ui/react";
 
 import TagsFeed from "../components/Tags/TagsFeed";
@@ -21,6 +26,7 @@ import SEO from "../components/SEO";
 import ToogleBtn from "../components/ToogleBtn";
 import SkeletonPage from "../components/Skeleton/SkeletonPage";
 import Rightbar from "../components/Rightbar";
+import Logo from "../assets/logo.png";
 
 
 //  TagCategory
@@ -136,6 +142,17 @@ const TagCategory = () => {
         </Box>
         
       </Box>
+       <Box  h='200px' bg='blue.800'  mt='100px'>
+          <VStack  h='inherit' justifyContent='center' >
+                  <HStack>
+                        <Image src={Logo} boxSize='40px' />
+                        <Text fontSize='md' fontWeight='600' color='white'>chatte</Text>   
+                  </HStack>
+                      <Text color='white'>
+                              Made with love by Adekunle Adeyemi 
+                      </Text>
+              </VStack>
+         </Box>
     </>
   );
 };

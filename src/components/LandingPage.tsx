@@ -31,8 +31,8 @@ const Header = () => {
 
   return (
     <>
-    <Box px={{base: '3', md: '8'}} py={{base: '3', md: '5'}} position='fixed' zIndex='3'  w='100%' top='0' bg='white' >
-      <HStack justifyContent='space-between'>
+    <Box  px={{base: '3', md: '8'}} py={{base: '3', md: '5'}} position='fixed' zIndex='3'  w='100%' top='0' bg='white' >
+      <HStack justifyContent='space-between'  maxW={'1280px'} m='0 auto' >
          <HStack>
              <Image src={Logo} /> <Text fontSize='lg' fontWeight='700'>chatte</Text>
          </HStack>
@@ -412,8 +412,16 @@ const LandingPage = () => {
           </Box>
         </VStack>
 
-        <Box h={"300px"} bg={"#FFEDCC80"}>
-          Footer
+        <Box h={"200px"} bg={"#FFEDCC80"}>
+          <VStack  h='inherit' justifyContent='center' >
+               <HStack>
+                    <Image src={Logo} boxSize='40px' />
+                     <Text fontSize='md' fontWeight='600'>chatte</Text>   
+               </HStack>
+                   <Text>
+                          Made with love by Adekunle Adeyemi 
+                  </Text>
+          </VStack>
         </Box>
       </Box>
     

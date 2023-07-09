@@ -3,7 +3,7 @@ import { Box, Image, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHead
 import { AnalyticsOutlined, BookmarkAddedOutlined, EditNoteOutlined, HomeOutlined, PublishedWithChangesOutlined, TrendingUpOutlined } from '@mui/icons-material'
 import { CloseIcon } from '@chakra-ui/icons'
 import { NavLink} from 'react-router-dom'
-import TagsRatingComponent from './Tags/SideBar/TrendingTags'
+import TrendingTags from './Tags/SideBar/TrendingTags'
 import Logo from '../assets/logo.png'
 
  interface MobileSidebarProps {
@@ -51,7 +51,7 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
                                  
                                 <ListItem display={'flex'}>
                                     <ListIcon as={EditNoteOutlined} fontSize={'28px'} />
-                                    <Text> Drafts</Text>
+                                    <Text>Drafts</Text>
                                 </ListItem >
                                 <ListItem display={'flex'}>
                                 <ListIcon as={PublishedWithChangesOutlined} fontSize={'xlg'} />
@@ -67,7 +67,7 @@ const MobileSidebar = ({onClose, isOpen}: MobileSidebarProps) => {
                             <Heading as='h3' fontSize={'18px'} pb={3} textAlign={'left'} display={'flex'}> <Text whiteSpace={'nowrap'} >Trending Tags</Text> <Icon as={TrendingUpOutlined} />
                             </Heading>
                             <VStack  alignItems={'flex-start'} pl={1}>
-                                <TagsRatingComponent />
+                                <TrendingTags onClose={onClose} />
                                 <Box>
                                      <Link as={NavLink}  fontSize={'base'} color={'blue.500'} fontWeight={'bold'} >View All Tags</Link>
                                 </Box>

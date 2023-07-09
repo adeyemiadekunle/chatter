@@ -95,32 +95,35 @@ export const TagsHot = ({ hash }: TagsArticleProps) => {
  
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
-    return firstParagraph;
+    return firstParagraph?.data?.text;
   };
 
-  const paragraphBlocksArticle = ArticleParagraph(
-    tagArticles.length > 0 ? tagArticles[0].content.blocks : []
-  );
+ 
 
   return (
     <div>
       {tagArticles.length > 0 ? (
-        tagArticles.map((article) => (
-          <Box key={article.id}>
-            <ArticleCard
-              key={article.id}
-              Title={article.heading}
-              HeaderImage={article.headerImage}
-              tags={article.tags}
-              PublishDate={article.publishAt}
-              Paragraph={paragraphBlocksArticle.data.text}
-              authorId={article.authorId}
-              slug={article.slug}
-              articleId={article.id}
-              isLoading={isLoading}
-            />
-          </Box>
-        ))
+        tagArticles.map((article) => {
+          const paragraphBlocksArticle = ArticleParagraph(
+            article.content.blocks
+          );
+          return (
+            <Box key={article.id}>
+              <ArticleCard
+                key={article.id}
+                Title={article.heading}
+                HeaderImage={article.headerImage}
+                tags={article.tags}
+                PublishDate={article.publishAt}
+                Paragraph={paragraphBlocksArticle}
+                authorId={article.authorId}
+                slug={article.slug}
+                articleId={article.id}
+                isLoading={isLoading}
+              />
+            </Box>
+          );
+        })
       ) : isLoading ? (
         [...Array(3)].map((_, i) => <SkeletonCard key={i}/>)
       ) : (

@@ -4,9 +4,10 @@ import { db, auth } from "../utils/firebase";
 import { collection, onSnapshot, query,  DocumentData  } from "firebase/firestore";
 import AuthorArticle from "../components/Author/AuthorsArticle";
 import AuthorProfile from "../components/Author/AuthorProfile";
-import { Box, Divider } from "@chakra-ui/react";
+import { Box, Divider, VStack, HStack, Text, Image } from "@chakra-ui/react";
 import SEO from "../components/SEO";
 import SkeletonPage from "../components/Skeleton/SkeletonPage";
+import Logo from '../assets/logo.png';
 
 export interface Users {
   userId: string;
@@ -75,6 +76,15 @@ const Profile = () => {
       <Divider pt={4} ></Divider>
       <AuthorArticle userId={user.userId} />
        <Box  h='200px' bg='blue.800'>
+       <VStack  h='inherit' justifyContent='center' >
+               <HStack>
+                    <Image src={Logo} boxSize='40px' />
+                     <Text fontSize='md' fontWeight='600' color='white'>chatte</Text>   
+               </HStack>
+                   <Text color='white'>
+                          Made with love by Adekunle Adeyemi 
+                  </Text>
+          </VStack>
       </Box>
     </div>
    </>

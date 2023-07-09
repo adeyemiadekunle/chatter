@@ -1,6 +1,6 @@
 import { useState, useRef, ChangeEvent, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
-import { db } from "../../utils/firebase";
+import { db } from "./../utils/firebase";
 import {
   Tag,
   TagLabel,
@@ -14,16 +14,13 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
-import { Tags } from "../../utils/helperFunctions";
-import placeholder from '../../assets/placeholder.avif'
-
+import { Tags } from "./../utils/helperFunctions";
+import placeholder from "./../assets/placeholder.avif";
 
 type PostTagsProps = {
   selectedTags: Tags[];
   setSelectedTags: (tags: Tags[]) => void;
 };
-
-
 
 const PostTags: React.FC<PostTagsProps> = ({
   selectedTags,
@@ -62,7 +59,6 @@ const PostTags: React.FC<PostTagsProps> = ({
       setSelectedTags(newTags);
     }
   };
-  
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(e.target.value);
@@ -70,15 +66,11 @@ const PostTags: React.FC<PostTagsProps> = ({
 
 
   return (
-    <VStack align="flex-start" minH="200px" mt="40px" mb="50px" position="relative">
-      <Text fontWeight="600" color="gray.500">
-        SELECT TAGS
-      </Text>
-
+    <VStack align="flex-start" minH="200px" position="relative">
       <Box style={{ position: "relative" }} w="100%">
         <Input
           ref={inputRef}
-          placeholder="Start typing to search..."
+          placeholder="search for more technologies, and more topics..."
           fontSize="14px"
           value={searchValue}
           onChange={handleInputChange}
@@ -117,7 +109,11 @@ const PostTags: React.FC<PostTagsProps> = ({
                   onClick={() => handleTagSelect(tag)}
                 >
                   <HStack>
-                   {tag.image ?  <Image src={tag.image} boxSize="30px" /> : <Image src ={placeholder} boxSize="30px" />}
+                    {tag.image ? (
+                      <Image src={tag.image} boxSize="30px" />
+                    ) : (
+                      <Image src={placeholder} boxSize="30px" />
+                    )}
                     <Text>{tag.name}</Text>
                   </HStack>
                 </ListItem>
@@ -126,10 +122,17 @@ const PostTags: React.FC<PostTagsProps> = ({
         )}
       </Box>
 
-      <HStack flexWrap="wrap" gap={4} p={2}>
+      <HStack flexWrap="wrap" gap={2} p={1}>
         {selectedTags.map((tag) => (
           <Tag key={tag.id} size="lg" variant="solid" colorScheme="teal">
-            <TagLabel fontSize='sm' display='flex' alignItems='center' color="whiteAlpha.900"><Image boxSize='20px' mr={2} src={tag.image}/> {tag.name}</TagLabel>
+            <TagLabel
+              fontSize="sm"
+              display="flex"
+              alignItems="center"
+              color="whiteAlpha.900"
+            >
+              <Image boxSize="20px" mr={2} src={tag.image} /> {tag.name}
+            </TagLabel>
             <TagCloseButton onClick={() => handleTagDeselect(tag.hash)} />
           </Tag>
         ))}

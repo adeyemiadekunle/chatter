@@ -24,11 +24,15 @@ body {
   line-height: 27px;
 }
 
- textarea, label {
+ textarea{
   font-family: inherit;
   font-size: var(--font-size-base) !important;
   font-weight: inherit;
   line-height: inherit;
+}
+
+label {
+  font-size: var(--font-size-sm) !important;
 }
 
 

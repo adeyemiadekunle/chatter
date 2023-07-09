@@ -4,6 +4,7 @@ import { db } from "../../utils/firebase";
 import { Box, HStack, VStack} from '@chakra-ui/react'
 import UserArticleCard from '../Author/UserArticleCard'
 
+
 interface AuthorArticleProps {
   userId: string;
 }
@@ -87,50 +88,53 @@ const AuthorArticle = ({ userId }: AuthorArticleProps) => {
 
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
-    return firstParagraph;
+    return firstParagraph.data.text;
   };
 
-  const paragraphBlocksArticle = ArticleParagraph(
-    userArticles.length > 0 ? userArticles[0].content.blocks : []
-  );
-
+  
 
 
   return (
        <>
        <HStack minH='400px' pt={4} spacing={12}   maxW= '1200px' m ='0 auto'  alignItems={{base: 'center', md: 'flex-start'}} hideBelow='md' >
           {
-            userArticles.length > 0 ? userArticles.map((article) => (
+            userArticles.length > 0 ? userArticles.map((article) => {
+              const paragraphBlocksArticle = ArticleParagraph(article.content.blocks);
+              return (
                 <UserArticleCard
                   key={article.id}
                   Title={article.heading}
-                  Paragraph={paragraphBlocksArticle.data.text}
+                  Paragraph={paragraphBlocksArticle}
                   HeaderImage={article.headerImage}
                   PublishDate={article.publishAt}
                   alt={article.id}
                   authorId={article.authorId}
                   slug={article.slug}
                 />
-            )) : 
+              );
+            }):
             <Box   w='100%'mt={3} > 
                  No Articles Publish yet
             </Box>
           }
        </HStack>
        <VStack minH='400px' pt={4} spacing={10}  maxW={'100%'} m ='0 auto'  hideFrom='md'  >
-          {
-            userArticles.length > 0 ? userArticles.map((article) => (
+       {
+            userArticles.length > 0 ? userArticles.map((article) => {
+              const paragraphBlocksArticle = ArticleParagraph(article.content.blocks);
+              return (
                 <UserArticleCard
                   key={article.id}
                   Title={article.heading}
-                  Paragraph={paragraphBlocksArticle.data.text}
+                  Paragraph={paragraphBlocksArticle}
                   HeaderImage={article.headerImage}
                   PublishDate={article.publishAt}
                   alt={article.id}
                   authorId={article.authorId}
                   slug={article.slug}
                 />
-            )) : 
+              );
+            }):
             <Box   w='100%'mt={3} > 
                  No Articles Publish yet
             </Box>

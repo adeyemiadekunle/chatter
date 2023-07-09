@@ -36,7 +36,7 @@ interface HeaderProps {
     location: string;
   } ;
 
-const Profile = ({handleCreateDraft}: HeaderProps) => {
+export const Profile = ({handleCreateDraft}: HeaderProps) => {
 
     const { GoogleSignOut, isAuth } = userAuth();
     const navigate = useNavigate();
@@ -100,7 +100,7 @@ const Profile = ({handleCreateDraft}: HeaderProps) => {
                 <MenuItem  cursor='pointer' py={4} hideFrom='md' onClick={handleCreateDraft}  > <Icon as={PostAddOutlined} /><Text pl={2}>New Draft</Text></MenuItem>
                 <MenuItem  cursor='pointer' py={4}> <Icon as={DescriptionOutlined} /><Text pl={2}>My Drafts</Text></MenuItem>
                 <Link as={NavLink} to='/bookmarks' ><MenuItem py={4}><Icon as={CollectionsBookmarkOutlined} /> <Text pl={2}>My Bookmarks</Text></MenuItem></Link>
-                <MenuItem  py={4}><Icon as={Settings} /><Text pl={2}>Account Settings</Text></MenuItem>
+                <Link as={NavLink} to='/settings' ><MenuItem  py={4}><Icon as={Settings} /><Text pl={2}>Account Settings</Text></MenuItem></Link>
                 <MenuDivider m={0} />
                 <MenuItem cursor='pointer'  py={4} onClick={handleGoogleSignOut}> <Icon  as={LogoutOutlined} /> <Text pl={3}>Log Out</Text></MenuItem>
             </MenuList>

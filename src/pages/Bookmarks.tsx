@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../utils/firebase";
-import { Box, Text, VStack, Heading } from "@chakra-ui/react";
+import { Box, Text, VStack, Heading, Image, HStack } from "@chakra-ui/react";
 import { Container } from "../components/ArticleContainer";
 import ArticleCard from "../components/ArticleCard";
 import SEO from "../components/SEO";
@@ -16,8 +16,7 @@ import {
   DrawerOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-
-
+import Logo from "../assets/logo.png";
 
 const Bookmarks: React.FC = () => {
   const [userBookmarks, setUserBookmarks] = useState<RecentArticles[]>([]);
@@ -39,17 +38,13 @@ const Bookmarks: React.FC = () => {
 
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
-    return firstParagraph;
+    return firstParagraph?.data?.text || "";
   };
-
-  const paragraphBlocksArticle = ArticleParagraph(
-    userBookmarks.length > 0 ? userBookmarks[0].content.blocks : []
-  );
 
   return (
     <>
       <SEO title=" Bookmarks - Chatte" description="" name="" type="" />
-      <Box mb='100px'>
+      <Box>
         <Box
           display={{ base: "block", md: "flex" }}
           // mx={{ base: "0", md: "100px" }}
@@ -70,27 +65,43 @@ const Bookmarks: React.FC = () => {
             </Box>
             <Box>
               <Container height={"400px"} display={"block"}>
-                {userBookmarks.length > 0 ? (
-                  userBookmarks.map((article) => (
-                    <ArticleCard
-                      key={article.id}
-                      Title={article.heading}
-                      HeaderImage={article.headerImage}
-                      tags={article.tags}
-                      PublishDate={article.publishAt}
-                      Paragraph={paragraphBlocksArticle.data.text}
-                      authorId={article.authorId}
-                      slug={article.slug}
-                      articleId={article.id}
-                      isLoading={isLoading}
-                    />
-                  ))
-                ) : isLoading ? (
+                {isLoading ? (
                   [...Array(3)].map((_, i) => <SkeletonCard key={i} />)
                 ) : (
-                  <Box>
-                    <Text>No Bookmarks Yet</Text>
-                  </Box>
+                  <>
+                    {userBookmarks.length > 0 ? (
+                      userBookmarks.map((article) => {
+                        const paragraphBlocksArticle = ArticleParagraph(
+                          article.content.blocks
+                        );
+                        return (
+                          <ArticleCard
+                            key={article.id}
+                            Title={article.heading}
+                            HeaderImage={article.headerImage}
+                            tags={article.tags}
+                            PublishDate={article.publishAt}
+                            Paragraph={paragraphBlocksArticle}
+                            authorId={article.authorId}
+                            slug={article.slug}
+                            articleId={article.id}
+                            isLoading={isLoading}
+                          />
+                        );
+                      })
+                    ) : (
+                      <Box>
+                        <Text
+                          fontSize="md"
+                          fontWeight="600"
+                          color="gray.500"
+                          textAlign="center"
+                        >
+                          You currently have no bookmarks
+                        </Text>
+                      </Box>
+                    )}
+                  </>
                 )}
               </Container>
             </Box>
@@ -115,7 +126,7 @@ const Bookmarks: React.FC = () => {
             >
               <DrawerOverlay />
               <DrawerContent>
-                <DrawerCloseButton borderStyle="none" fontSize="md" mr={2}  />
+                <DrawerCloseButton borderStyle="none" fontSize="md" mr={2} />
                 <DrawerBody>
                   <Box mt={"60px"}>
                     <Rightbar />
@@ -124,6 +135,17 @@ const Bookmarks: React.FC = () => {
               </DrawerContent>
             </Drawer>
           </Box>
+        </Box>
+        <Box h="200px" bg="blue.800" mt="100px">
+          <VStack h="inherit" justifyContent="center">
+            <HStack>
+              <Image src={Logo} boxSize="40px" />
+              <Text fontSize="md" fontWeight="600" color="white">
+                chatte
+              </Text>
+            </HStack>
+            <Text color="white">Made with love by Adekunle Adeyemi</Text>
+          </VStack>
         </Box>
       </Box>
     </>

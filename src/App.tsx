@@ -23,6 +23,7 @@ import New from "./components/Tags/New";
 import Bookmarks from "./pages/Bookmarks";
 import Search from "./pages/Search";
 import Home from "./pages/Home";
+import Settings from "./pages/Settings";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -64,6 +65,7 @@ const router = createBrowserRouter(
         <Route path="/:username/:slug" element={<ArticleDetails />} />
         <Route path="/draft/:draftId" element={<Draft />} />
         <Route path="/onboard/create-account" element={<CreateAccount />} />
+        <Route path="/settings" element={<Settings />} />
       </Route>
     </Route>
   )

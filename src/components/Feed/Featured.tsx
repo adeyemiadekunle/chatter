@@ -23,12 +23,10 @@ const Featured = () => {
 
   const ArticleParagraph = (blocks: any[]) => {
     const firstParagraph = blocks.find((block) => block.type === "paragraph");
-    return firstParagraph;
+    return firstParagraph?.data?.text || "";
   };
 
-  const paragraphBlocksArticle = ArticleParagraph(
-    articles.length > 0 ? articles[0].content.blocks : []
-  );
+ 
 
 
   return (
@@ -39,20 +37,26 @@ const Featured = () => {
           [...Array(5)].map((_, i) => <SkeletonCard key={i} />) // [1,2,3,4,5]
         ) : (
           <>
-            {articles.map((article) => (
-              <ArticleCard
-                key={article.id}
-                Title={article.heading}
-                HeaderImage={article.headerImage}
-                tags={article.tags}
-                PublishDate={article.publishAt}
-                Paragraph={paragraphBlocksArticle.data.text}
-                authorId={article.authorId}
-                slug={article.slug}
-                articleId={article.id}
-                isLoading={isLoading}
-              />
-            ))}
+             {articles.map((article) => {
+              const paragraphBlocksArticle = ArticleParagraph(
+                article.content.blocks
+              );
+
+              return (
+                <ArticleCard
+                  key={article.id}
+                  Title={article.heading}
+                  HeaderImage={article.headerImage}
+                  tags={article.tags}
+                  PublishDate={article.publishAt}
+                  Paragraph={paragraphBlocksArticle}
+                  authorId={article.authorId}
+                  slug={article.slug}
+                  articleId={article.id}
+                  isLoading={isLoading}
+                />
+              );
+            })}
           </>
         )}
       </Box>

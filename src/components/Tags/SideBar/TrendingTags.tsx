@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { TagCount, getTagCounts } from '../../../utils/helperFunctions';
-import {Box, Text, List, ListItem, Link} from "@chakra-ui/react";
+import { Text, List, ListItem, Link, Box} from "@chakra-ui/react";
 import { NavLink } from 'react-router-dom';
 
-const TagCountsComponent: React.FC = () => {
+
+interface Props {
+  onClose: () => void;
+}
+
+const TagCountsComponent: React.FC<Props> = ({ onClose }) => {
   const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
 
   useEffect(() => {
@@ -21,7 +26,7 @@ const TagCountsComponent: React.FC = () => {
       {tagCounts.length > 0 ? (
         <List>
           {tagCounts.slice(0, 5).map((tagCount) => (
-            <Link as={NavLink} to={`/t/${tagCount.tag.hash}`} key={tagCount.tag.hash} cursor='pointer'>
+            <Link as={NavLink} to={`/t/${tagCount.tag.hash}`} key={tagCount.tag.hash} cursor='pointer' onClick={onClose} >
               <ListItem key={tagCount.tag.hash} pb={2}>
                 <Text fontSize='base' whiteSpace='nowrap' >{tagCount.tag.name}</Text>
                 {/* <Flex gap={2} alignItems='center'>
