@@ -53,7 +53,7 @@ Chatter provides detailed analytics that allow users to track their content's pe
   
 ***Note the Analytics Page features is yet to implemented***
 
-## Technology Use to implement the Project  8
+## Technology Use to implement the Project  
 * React vite
 * Typescript
 * Chakra - UI for styling
